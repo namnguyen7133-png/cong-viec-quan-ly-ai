@@ -3,267 +3,209 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Danh sách trang HTML</title>
+  <title>04_CONG_VIEC_QUAN_LY_AI — Mục lục HTML</title>
+  <style>
+    :root {
+      --bg: #f4f7f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 24px 16px 48px;
+    }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .header {
+      background: linear-gradient(135deg, #0f766e, #115e59);
+      color: #fff;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(15, 118, 110, 0.18);
+      margin-bottom: 18px;
+    }
+    .header h1 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .header p {
+      font-size: 0.92rem;
+      opacity: 0.92;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card);
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .search-box {
+      flex: 1 1 280px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .search-box input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
+    }
+    .badge {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+    .warn {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      margin-bottom: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 12px;
+    }
+    .item {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    .item:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    }
+    .item-title {
+      font-weight: 600;
+      font-size: 0.98rem;
+      color: #0f172a;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+    .item-file {
+      font-size: 0.8rem;
+      color: var(--muted);
+      word-break: break-all;
+      margin-bottom: 10px;
+    }
+    .item-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .empty {
+      text-align: center;
+      padding: 36px 16px;
+      color: var(--muted);
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px dashed #cbd5e1;
+    }
+  </style>
 </head>
 <body>
-  <h1>Danh sách tệp HTML</h1>
-  <ul>
-    <li><a href="afliate-hub.html">000- afliate-hub</a></li>
-    <li><a href="cong-cu-ban-hang.html">000-cong-cu-ban-hang</a></li>
-    <li><a href="0003 dangbai.html">0003 dangbai</a></li>
-    <li><a href="đường_dẫn_đưa_vào_facebook_zalo.html">0004 đường dẫn đưa vào facebook zalo</a></li>
-    <li><a href="QUAN_LY_CONG_VIEC.html">0007 QUAN_LY_CONG_VIEC</a></li>
-    <li><a href="kho-hang.html">001-kho-hang</a></li>
-    <li><a href="huong-dan-lam-tiep-thi.html">002-huong-dan-lam-tiep-thi</a></li>
-    <li><a href="ket-hop-ai-grok.html">002-ket-hop-ai-grok</a></li>
-    <li><a href="shopee_chon_theo_SO_LUONG_SP.html">003 shopee chon theo SO LUONG SP</a></li>
-    <li><a href="lam-affliate-chuyen-nghiep.html">003-lam-affliate-chuyen-nghiep</a></li>
-    <li><a href="thoi-gian-bieu-gio-dang.html">003-thoi-gian-bieu-gio-dang</a></li>
-    <li><a href="hoa-hong_shope.html">004-hoa-hong shope</a></li>
-    <li><a href="hoa-hong-extra.html">005-hoa-hong-extra</a></li>
-    <li><a href="lam-affliate-gemini.html">007-lam-affliate-gemini</a></li>
-    <li><a href="hai-ben-cung-thang.html">009-hai-ben-cung-thang</a></li>
-    <li><a href="luu-ten-duong-dan.html">009-luu-ten-duong-dan</a></li>
-    <li><a href="theo-doi-ban-nang-cao.html">010-theo-doi-ban-nang-cao</a></li>
-    <li><a href="theo-doi-ban-hang-nang-cao-2.html">011-theo-doi-ban-hang-nang-cao-2</a></li>
-    <li><a href="Quan-ly-link.html">012-Quan-ly-link</a></li>
-    <li><a href="Quan-ly-Kim-tu-do.html">013-Quan-ly-Kim-tu-do</a></li>
-    <li><a href="ban-do-tac-chien.html">015-ban-do-tac-chien</a></li>
-    <li><a href="shope_affliate_Grok_TIM_GIA_HOA_HONG_CAO.html">015. shope affliate Grok TIM GIA HOA HONG CAO</a></li>
-    <li><a href="shopee_afliate_chat_gpt_TIM_GIA_HOA_HONG_CAO.html">016 shopee afliate chat gpt TIM GIA HOA HONG CAO</a></li>
-    <li><a href="shopee_affliate_gemini_TIM_GIA_HOA_HONG_CAO.html">017 shopee affliate gemini TIM GIA HOA HONG CAO</a></li>
-    <li><a href="lam-nguoi-grok.html">017-lam-nguoi-grok</a></li>
-    <li><a href="Shopee_lay_san_pham.html">018 Shopee lay  san pham</a></li>
-    <li><a href="shoppe_tim_san_pham_theo_chu_chat.html">020 shoppe tim san pham theo chu chat</a></li>
-    <li><a href="phân_loại_sản_phẩm_theo_ký_tự.html">021 phân loại sản phẩm theo ký tự</a></li>
-    <li><a href="tu-dong-lam.html">022-tu-dong-lam</a></li>
-    <li><a href="SÁCH_GIÁO_KHOA_Cach_lam_tiep_thi.html">023 SÁCH GIÁO KHOA Cach lam tiep thi</a></li>
-    <li><a href="kinh-doanh-4-ai.html">023-kinh-doanh-4-ai</a></li>
-    <li><a href="gioi-thieu-chat-gpt.html">027-gioi-thieu-chat-gpt</a></li>
-    <li><a href="che-o-an-it-benh-tat.html">038-che-o-an-it-benh-tat</a></li>
-    <li><a href="xem-nha-cua.html">040-xem-nha-cua</a></li>
-    <li><a href="huong-dan-chon-sp.html">041-huong-dan-chon-sp</a></li>
-    <li><a href="bangsinhtraigai.html">042-bangsinhtraigai</a></li>
-    <li><a href="gioi-thieu-ve-grok.html">045-gioi-thieu-ve-grok</a></li>
-    <li><a href="canh-bao-rui-ro.html">046-canh-bao-rui-ro</a></li>
-    <li><a href="tinh-trung-tang.html">047-tinh-trung-tang</a></li>
-    <li><a href="lay-link-shoppe.html">049-lay-link-shoppe</a></li>
-    <li><a href="chon-mat-hang-tiep-thi.html">050-chon-mat-hang-tiep-thi</a></li>
-    <li><a href="quan-ly-chi-tieu-gia-inh.html">051-quan-ly-chi-tieu-gia-inh</a></li>
-    <li><a href="xem-ngay-gio-viec.html">052-xem-ngay-gio-viec</a></li>
-    <li><a href="tu-duy-ky-su.html">053-tu-duy-ky-su</a></li>
-    <li><a href="tim-cac-so-lien-quan.html">055-tim-cac-so-lien-quan</a></li>
-    <li><a href="xem-noi-o-cua-ban.html">056-xem-noi-o-cua-ban</a></li>
-    <li><a href="060-mac-qa-nhiet-o.html">060-mac-qa-nhiet-o</a></li>
-    <li><a href="tinh-ngay-ac-biet.html">062-tinh-ngay-ac-biet</a></li>
-    <li><a href="tim-so-oi.html">065-tim-so-oi</a></li>
-    <li><a href="083-dung-ien-thoai-lam.html">083-dung-ien-thoai-lam</a></li>
-    <li><a href="lam-affliate.html">084-lam-affliate</a></li>
-    <li><a href="xem-can-gio-thu.html">087-xem-can-gio-thu</a></li>
-    <li><a href="oc-so-tien.html">091-oc-so-tien</a></li>
-    <li><a href="xem-so-thanh-chu.html">094-xem-so-thanh-chu</a></li>
-    <li><a href="kinh-nghiem-buon-ban.html">095-kinh-nghiem-buon-ban</a></li>
-    <li><a href="lam-viec-nhom.html">096-lam-viec-nhom</a></li>
-    <li><a href="tim-gio-theo-so-nhap-vao.html">097-tim-gio-theo-so-nhap-vao</a></li>
-    <li><a href="xem-nghe-theo-can.html">098-xem-nghe-theo-can</a></li>
-    <li><a href="tu-ong-ang-bai.html">100-tu-ong-ang-bai</a></li>
-    <li><a href="xem-ngay-gio-sinh.html">102-xem-ngay-gio-sinh</a></li>
-    <li><a href="qui-trinh-4ai.html">112-qui-trinh-4ai</a></li>
-    <li><a href="lam-tiep-thi.html">114-lam-tiep-thi</a></li>
-    <li><a href="huong-dan-lam-affliate-shoppe.html">116-huong-dan-lam-affliate-shoppe</a></li>
-    <li><a href="121-tu-trang-phuc.html">121-tu-trang-phuc</a></li>
-    <li><a href="gio-i-xe-boi-bay-em.html">127-gio-i-xe-boi-bay-em</a></li>
-    <li><a href="gio-i-xe-boi-bay-trua.html">129-gio-i-xe-boi-bay-trua</a></li>
-    <li><a href="gio-i-xe-boi-bay-chieu.html">130-gio-i-xe-boi-bay-chieu</a></li>
-    <li><a href="gio-i-xe-boi-bay-sang.html">131-gio-i-xe-boi-bay-sang</a></li>
-    <li><a href="cam-xuc-1.html">143-cam-xuc-1</a></li>
-    <li><a href="tim-phuong-tien-cong-so.html">152-tim-phuong-tien-cong-so</a></li>
-    <li><a href="tim-o-dung-deep.html">159-tim-o-dung-deep</a></li>
-    <li><a href="tinh-ngay-ram-1.html">181-tinh-ngay-ram-1</a></li>
-    <li><a href="185-lam-affliate.html">185-lam-affliate</a></li>
-    <li><a href="cach-lam-affliate.html">186-cach-lam-affliate</a></li>
-    <li><a href="a-nhap-benh-theo-ngay-gio.html">290-a-nhap-benh-theo-ngay-gio</a></li>
-    <li><a href="nhap-benh-theo-gio.html">290-nhap-benh-theo-gio</a></li>
-    <li><a href="ban-co.html">292-ban-co</a></li>
-    <li><a href="mac-qa-nhiet-o.html">301-mac-qa-nhiet-o</a></li>
-    <li><a href="tra-mau-quan-ao-ma.html">303-tra-mau-quan-ao-ma</a></li>
-    <li><a href="tra-mau-theo-ma.html">304-tra-mau-theo-ma</a></li>
-    <li><a href="mau-sac-101-150.html">307-mau-sac-101-150</a></li>
-    <li><a href="mau-sac-151-200.html">308-mau-sac-151-200</a></li>
-    <li><a href="mau-sac-201-255.html">309-mau-sac-201-255</a></li>
-    <li><a href="mau-sac-trang-phuc.html">310-mau-sac-trang-phuc</a></li>
-    <li><a href="mau-quang-cao.html">311-mau-quang-cao</a></li>
-    <li><a href="mau-phong-canh.html">312-mau-phong-canh</a></li>
-    <li><a href="mau-sac-qa.html">314-mau-sac-qa</a></li>
-    <li><a href="tu-trang-phuc.html">320-tu-trang-phuc</a></li>
-    <li><a href="tu-trang-phuc-tuan.html">321-tu-trang-phuc-tuan</a></li>
-    <li><a href="tu-qa-brg.html">322-tu-qa-brg</a></li>
-    <li><a href="tra-bang-25.html">617-tra-bang-25</a></li>
-    <li><a href="xem-kd-theo-gpt.html">691-xem-kd-theo-gpt</a></li>
-    <li><a href="xem-kd-theo-90.html">692-xem-kd-theo-90</a></li>
-    <li><a href="thuong-luong.html">693-64-thuong-luong</a></li>
-    <li><a href="xem-gio-kd-hd.html">694-xem-gio-kd-hd</a></li>
-    <li><a href="xem-ngay-kinh-doanh-hd.html">695-xem-ngay-kinh-doanh-hd</a></li>
-    <li><a href="xem-thang-kd-hd.html">696-xem-thang-kd-hd</a></li>
-    <li><a href="xem-do-thi-nam.html">700-xem-do-thi-nam</a></li>
-    <li><a href="xem-ngay-kinh-doanh-cc.html">701-xem-ngay-kinh-doanh-cc</a></li>
-    <li><a href="xem-thang-kinh-doanh.html">704-xem-thang-kinh-doanh</a></li>
-    <li><a href="xem-tuoi-kinh-doanh.html">706-xem-tuoi-kinh-doanh</a></li>
-    <li><a href="tinh-thu-theo-dl.html">709-tinh-thu-theo-dl</a></li>
-    <li><a href="xem-ngay-gio-xau.html">710-xem-ngay-gio-xau</a></li>
-    <li><a href="xem-do-thi-thang.html">712-xem-do-thi-thang</a></li>
-    <li><a href="tinh-kinh-doanh.html">714-tinh-kinh-doanh</a></li>
-    <li><a href="xem-do-thi-tuan.html">715-xem-do-thi-tuan</a></li>
-    <li><a href="ke-hoach-thang.html">716-ke-hoach-thang</a></li>
-    <li><a href="tinh-ngay-gio-chan-le.html">717-tinh-ngay-gio-chan-le</a></li>
-    <li><a href="xem-ngay-sinh-chan-le.html">718-xem-ngay-sinh-chan-le</a></li>
-    <li><a href="gio-xe-1-5-em.html">750-gio-xe-1-5-em</a></li>
-    <li><a href="xem-vi-tri-nha.html">801-xem-vi-tri-nha</a></li>
-    <li><a href="uong-i-kinh-doanh.html">900-uong-i-kinh-doanh</a></li>
-    <li><a href="affiliate_marketing.html">affiliate_marketing</a></li>
-    <li><a href="AP_DUNG_BAI_TOAN_DEM_NGUOI_LAM_NHA.html">AP DUNG BAI TOAN DEM NGUOI LAM NHA</a></li>
-    <li><a href="BANG_DU_SINH_TRAI_GAI.html">BANG DU SINH TRAI GAI</a></li>
-    <li><a href="CAC_AI_MANH_ME_CHO_CONG_VIEC.html">CAC AI MANH ME CHO CONG VIEC</a></li>
-    <li><a href="CACH BINH PHUONG SO # CHU SO.html">CACH BINH PHUONG SO # CHU SO</a></li>
-    <li><a href="CACH_TINH_CHO_BAN_SHOPPE_KHONG_LO.html">CACH TINH CHO BAN SHOPPE KHONG LO</a></li>
-    <li><a href="CACH_TINH_GIA_BAN_BANH.html">CACH TINH GIA BAN BANH</a></li>
-    <li><a href="CACH_TINH_GIA_BAN_TAP_HOA.html">CACH TINH GIA BAN TAP HOA </a></li>
-    <li><a href="CACH_TINH_HOA_VON_NHIEU_MAT_HANG.html">CACH TINH HOA VON NHIEU MAT HANG</a></li>
-    <li><a href="CACH_TINH_NGOAI_CHO.html">CACH TINH NGOAI CHO</a></li>
-    <li><a href="CACH_TINH_NHAM_NHANH.html">CACH TINH NHAM NHANH</a></li>
-    <li><a href="cach-lam-affliate.html">cach-lam-affliate</a></li>
-    <li><a href="CAUHOITRUOCKHIXAYNHA.html">CAUHOITRUOCKHIXAYNHA</a></li>
-    <li><a href="CAUHOITRUOCKHIXAYNHAGEMINI.html">CAUHOITRUOCKHIXAYNHAGEMINI</a></li>
-    <li><a href="CAUHOITRUOCKHIXAYNHAGEMINI_2.html">CAUHOITRUOCKHIXAYNHAGEMINI_2</a></li>
-    <li><a href="CAUHOITRUOCKHIXAYNHAGROK.html">CAUHOITRUOCKHIXAYNHAGROK</a></li>
-    <li><a href="CAUHOITRUOCKHIXAYNHAGROK_2.html">CAUHOITRUOCKHIXAYNHAGROK_2</a></li>
-    <li><a href="checklist.html">checklist</a></li>
-    <li><a href="chon-mat-hang-tiep-thi.html">chon-mat-hang-tiep-thi</a></li>
-    <li><a href="CO_HUM.html">CO HUM</a></li>
-    <li><a href="CO_QUAN_SU.html">CO QUAN SU</a></li>
-    <li><a href="CO_TU_LENH.html">CO TU LENH</a></li>
-    <li><a href="COTUONG.html">COTUONG</a></li>
-    <li><a href="dang_bai.html">dang_bai</a></li>
-    <li><a href="dangbai.html">dangbai</a></li>
-    <li><a href="DO_THI_CUOC_DOI_THANG.html">DO THI CUOC DOI THANG</a></li>
-    <li><a href="dung-ien-thoai-lam.html">dung-ien-thoai-lam</a></li>
-    <li><a href="GAME_TREX.html">GAME TREX</a></li>
-    <li><a href="Gemini_Control.html">Gemini_Control</a></li>
-    <li><a href="ghep_chu_nang_cao.html">ghep chu nang cao</a></li>
-    <li><a href="GIO_LAM_VIEC_GEMINI_AI.html">GIO LAM VIEC GEMINI AI</a></li>
-    <li><a href="GIO_VANG_DANG_BÀI_CHAT.html">GIO VANG DANG BÀI CHAT</a></li>
-    <li><a href="GIO_VANG_DANG_BÀI_DEEPSEEK.html">GIO VANG DANG BÀI DEEPSEEK</a></li>
-    <li><a href="GIO_VANG_DANG_BÀI_GEMINI.html">GIO VANG DANG BÀI GEMINI</a></li>
-    <li><a href="GIO_VANG_DANG_BÀI_GROK.html">GIO VANG DANG BÀI GROK</a></li>
-    <li><a href="gioi-thieu-chat-gpt.html">gioi-thieu-chat-gpt</a></li>
-    <li><a href="gioi-thieu-ve-grok.html">gioi-thieu-ve-grok</a></li>
-    <li><a href="GOI_Y_MAU_YUONG_PHAN.html">GOI Y MAU YUONG PHAN</a></li>
-    <li><a href="goi_y_tra_loi.html">goi_y_tra_loi</a></li>
-    <li><a href="grok-nhac-nho.html">grok-nhac-nho</a></li>
-    <li><a href="HAN_TRINH_AI_deepseek.html">HAN TRINH AI deepseek</a></li>
-    <li><a href="HUONG_DAN_CHAT_GPT_GAME.html">HUONG DAN CHAT GPT GAME </a></li>
-    <li><a href="HUONG_DAN_DEEPSEEK.html">HUONG DAN DEEPSEEK</a></li>
-    <li><a href="HUONG_DAN_GEMINI.html">HUONG DAN GEMINI</a></li>
-    <li><a href="HUONG_DAN_GROK.html">HUONG DAN GROK</a></li>
-    <li><a href="huong-dan-chon-sp.html">huong-dan-chon-sp</a></li>
-    <li><a href="huong_dan_chat_gpt_game.html">huong_dan_chat_gpt_game</a></li>
-    <li><a href="huong_dan_gemini.html">huong_dan_gemini</a></li>
-    <li><a href="huong_dan_grok.html">huong_dan_grok</a></li>
-    <li><a href="kb2_tro-giang-gemini.html">kb2_tro-giang-gemini</a></li>
-    <li><a href="kb2chatgpt_tro-giang-kb2.html">kb2chatgpt_tro-giang-kb2</a></li>
-    <li><a href="kb4chatgpt_tro-giang-kb4.html">kb4chatgpt_tro-giang-kb4</a></li>
-    <li><a href="ket-hop-ai-grok.html">ket-hop-ai-grok</a></li>
-    <li><a href="kinh-doanh-4-ai.html">kinh-doanh-4-ai</a></li>
-    <li><a href="lam-affliate-gemini.html">lam-affliate-gemini</a></li>
-    <li><a href="lam-affliate.html">lam-affliate</a></li>
-    <li><a href="lam-nguoi-grok.html">lam-nguoi-grok</a></li>
-    <li><a href="lam-tiep-thi.html">lam-tiep-thi</a></li>
-    <li><a href="LAM_KENH_PHIM_Chatgpt.html">LAM_KENH_PHIM_Chatgpt</a></li>
-    <li><a href="lam_video_AU_MY_GEMINI.html">lam_video_AU_MY_GEMINI</a></li>
-    <li><a href="lam_video_vientuong_GROK.html">lam_video_vientuong_GROK</a></li>
-    <li><a href="link_github_dang_facbook_zalo.html">link_github_dang_facbook_zalo</a></li>
-    <li><a href="Lưu_link_Github.html">Lưu link Github </a></li>
-    <li><a href="minmangthuocngam_-_Affiliate.html">minmangthuocngam - Affiliate</a></li>
-    <li><a href="minmangthuocngam_-_Affiliate.html">minmangthuocngam_-_Affiliate</a></li>
-    <li><a href="network.html">network</a></li>
-    <li><a href="NHIP_SH_10.html">NHIP SH 10</a></li>
-    <li><a href="options.html">options</a></li>
-    <li><a href="phu_de_phim.html">phu_de_phim</a></li>
-    <li><a href="shop_tong.html">shop_tong</a></li>
-    <li><a href="shoppe_Affiliate_Brand_Offer.html">shoppe Affiliate Brand Offer</a></li>
-    <li><a href="shoppe_affliate_deepseek_TIM_GIA_HOA_HONG_CAO.html">shoppe affliate deepseek TIM GIA HOA HONG CAO</a></li>
-    <li><a href="shoppe_cac_lam_affliate.html">shoppe cac lam affliate</a></li>
-    <li><a href="shoppe_dang_facebook_gemini.html">shoppe dang facebook gemini</a></li>
-    <li><a href="shoppe_HOAHONGEXTRA.html">shoppe HOAHONGEXTRA</a></li>
-    <li><a href="shoppe_huong_dan_nguoi_moi_lam.html">shoppe huong dan nguoi moi lam</a></li>
-    <li><a href="shoppe_tim_san_pham_theo_chu.html">shoppe tim san pham theo chu</a></li>
-    <li><a href="TCDN_CO_TUONG.html">TCDN CO TUONG</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_34_RA_QUYET_DINH_DOI_THAT.html">TCDN QUANG TRUNG 34 RA QUYET DINH DOI THAT</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_56_PHAN_34.html">TCDN QUANG TRUNG 56 PHAN 34</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P1.html">TCDN QUANG TRUNG c2 CHUA BTTT P1</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P2.html">TCDN QUANG TRUNG c2 CHUA BTTT P2</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P3.html">TCDN QUANG TRUNG c2 CHUA BTTT P3</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P4.html">TCDN QUANG TRUNG c2 CHUA BTTT P4</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_DTDHP1.html">TCDN QUANG TRUNG c2 DTDHP1</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_P1.html">TCDN QUANG TRUNG c2 P1</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_P2.html">TCDN QUANG TRUNG c2 P2</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_P3.html">TCDN QUANG TRUNG c2 P3</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_P4.html">TCDN QUANG TRUNG c2 P4</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_UD_EXCEL_P1.html">TCDN QUANG TRUNG c2 UD EXCEL P1</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_UD_EXCEL_P2.html">TCDN QUANG TRUNG c2 UD EXCEL P2</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_UD_EXCEL_P3.html">TCDN QUANG TRUNG c2 UD EXCEL P3</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_UD_EXCEL_P5.html">TCDN QUANG TRUNG c2 UD EXCEL P5</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_UD_EXCEL_P6.html">TCDN QUANG TRUNG c2 UD EXCEL P6</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c2_UD_EXCEL_P7.html">TCDN QUANG TRUNG c2 UD EXCEL P7</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c3_DTDH_P6.html">TCDN QUANG TRUNG c3 DTDH P6</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c3_DTDH_P7.html">TCDN QUANG TRUNG c3 DTDH P7</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c3_DTDH_P8.html">TCDN QUANG TRUNG c3 DTDH P8</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p1.html">TCDN QUANG TRUNG c3 TONG ON CHUA BAI p1</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p2.html">TCDN QUANG TRUNG c3 TONG ON CHUA BAI p2</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p3.html">TCDN QUANG TRUNG c3 TONG ON CHUA BAI p3</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p4.html">TCDN QUANG TRUNG c3 TONG ON CHUA BAI p4</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p5.html">TCDN QUANG TRUNG c3 TONG ON CHUA BAI p5</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p6.html">TCDN QUANG TRUNG c3 TONG ON CHUA BAI p6</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p7.html">TCDN QUANG TRUNG c3 TONG ON CHUA BAI p7</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c4_Quản_trị_tài_sản_ngắn_hạn_phần_1_(siêu_dễ_hiểu)_♥️_Quang_Trung_TV.html">TCDN QUANG TRUNG c4 Quản trị tài sản ngắn hạn phần 1 (siêu dễ hiểu) ♥️ Quang Trung TV</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c4_vi_du.html">TCDN QUANG TRUNG c4 vi du</a></li>
-    <li><a href="TCDN_QUANG_TRUNG_c4_vidu_co_lai_van_chet.html">TCDN QUANG TRUNG c4 vidu co lai van chet</a></li>
-    <li><a href="tcdn_quang_trung_34_ra_quyet_dinh_doi_that.html">tcdn_quang_trung_34_ra_quyet_dinh_doi_that</a></li>
-    <li><a href="tiep_tuc_deepseek.html">tiep_tuc_deepseek</a></li>
-    <li><a href="tin_thoi_gian_gem.html">tin thoi gian gem</a></li>
-    <li><a href="TINH_BINH_PHUONG.html">TINH BINH PHUONG</a></li>
-    <li><a href="TINH_GIA_VON_HANG_BAN.html">TINH GIA VON HANG BAN</a></li>
-    <li><a href="TINH_NGUOI_XAY_NHA.html">TINH NGUOI XAY NHA</a></li>
-    <li><a href="TINH_NHAM_PHAN_TRAM.html">TINH NHAM PHAN TRAM</a></li>
-    <li><a href="TINH_NHIP_SINH_HOC.html">TINH NHIP SINH HOC</a></li>
-    <li><a href="TINH_PHAN_TRAM.html">TINH PHAN TRAM</a></li>
-    <li><a href="tinh_thoi_gian_chat_gpt.html">tinh thoi gian chat gpt</a></li>
-    <li><a href="tinh_thoi_gian_GROK.html">tinh thoi gian GROK</a></li>
-    <li><a href="TINH_GIO_DUN_NUOC_GROK.html">TINH_GIO_DUN_NUOC_GROK</a></li>
-    <li><a href="tinh_thoi_gian_chat_gpt.html">tinh_thoi_gian_chat_gpt</a></li>
-    <li><a href="tinh_thoi_gian_grok.html">tinh_thoi_gian_grok</a></li>
-    <li><a href="TINHGIAXAYNHADEEP.html">TINHGIAXAYNHADEEP</a></li>
-    <li><a href="TINHGIAXAYNHAGEMINI.html">TINHGIAXAYNHAGEMINI</a></li>
-    <li><a href="TINHGIAXAYNHAGROK.html">TINHGIAXAYNHAGROK</a></li>
-    <li><a href="TINHGIAXAYNHAGROK_2.html">TINHGIAXAYNHAGROK_2</a></li>
-    <li><a href="tinhgiaynha_chatgpt.html">tinhgiaynha_chatgpt</a></li>
-    <li><a href="TINHGIẪYNHA.CHATGPT.html">TINHGIẪYNHA.CHATGPT</a></li>
-    <li><a href="TOANCAOCAPGEMINI.html">TOANCAOCAPGEMINI</a></li>
-    <li><a href="TOANCAOCAPGROK.html">TOANCAOCAPGROK</a></li>
-    <li><a href="tong_hop_vtt_transcript.html">tong_hop_vtt_transcript</a></li>
-    <li><a href="TRA_MAU_THEO_DUONG_LIC.html">TRA MAU THEO DUONG LIC</a></li>
-    <li><a href="tra_cuu_phim.html">tra_cuu_phim</a></li>
-    <li><a href="trac_nghiem_mua_sam_hoan_canhchatgpt.html">trac_nghiem_mua_sam_hoan_canhchatgpt</a></li>
-    <li><a href="tu-ong-ang-bai.html">tu-ong-ang-bai</a></li>
-    <li><a href="tuc_ngu_ca_dao.html">tuc_ngu_ca_dao</a></li>
-    <li><a href="TUTIMTHUATTOANPHUHOP.html">TUTIMTHUATTOANPHUHOP</a></li>
-    <li><a href="UNG_DUNG_QUAN_LY_DU_LICH.html">UNG DUNG QUAN LY DU LICH</a></li>
-    <li><a href="viec_hang_ngay.html">viec hang ngay</a></li>
-    <li><a href="viec_hang_ngay.html">viec_hang_ngay</a></li>
-    <li><a href="web.html">web</a></li>
-    <li><a href="xem_ngay_hoang_dao.html">xem ngay hoang dao</a></li>
-    <li><a href="XEM_TUOI_GIO_THEO_MA_THANG.html">XEM TUOI GIO THEO MA THANG</a></li>
-    <li><a href="Đưa_sang_sheet.html">Đưa sang sheet</a></li>
-  </ul>
+  <div class="container">
+    <div class="header">
+      <h1>04_CONG_VIEC_QUAN_LY_AI</h1>
+      <p>Kho lưu trữ: namnguyen7133-png/cong-viec-quan-ly-ai • Tổng số tệp HTML: 230</p>
+    </div>
+    
+    <div class="toolbar">
+      <div class="search-box">
+        <input id="searchInput" type="search" placeholder="Gõ từ khóa để lọc nhanh tệp HTML..." autocomplete="off" />
+      </div>
+      <div id="countBadge" class="badge">Hiển thị 230 / 230 tệp</div>
+    </div>
+    <div id="listGrid" class="grid"></div>
+    <div id="emptyState" class="empty" style="display:none;">Không tìm thấy tệp HTML phù hợp với từ khóa.</div>
+  </div>
+
+  <script>
+    const ITEMS = [{"name": "AP_DUNG_BAI_TOAN_DEM_NGUOI_LAM_NHA.html", "title": "AP DUNG BAI TOAN DEM NGUOI LAM NHA", "rel_path": "AP_DUNG_BAI_TOAN_DEM_NGUOI_LAM_NHA.html", "size_text": "35.2 KB"}, {"name": "BANG_DU_SINH_TRAI_GAI.html", "title": "BANG DU SINH TRAI GAI", "rel_path": "BANG_DU_SINH_TRAI_GAI.html", "size_text": "39.0 KB"}, {"name": "CACH_BINH_PHUONG_SO_#_CHU_SO.html", "title": "CACH BINH PHUONG SO # CHU SO", "rel_path": "CACH_BINH_PHUONG_SO_#_CHU_SO.html", "size_text": "4.2 KB"}, {"name": "CACH_TINH_CHO_BAN_SHOPPE_KHONG_LO.html", "title": "CACH TINH CHO BAN SHOPPE KHONG LO", "rel_path": "CACH_TINH_CHO_BAN_SHOPPE_KHONG_LO.html", "size_text": "5.1 KB"}, {"name": "CACH_TINH_GIA_BAN_BANH.html", "title": "CACH TINH GIA BAN BANH", "rel_path": "CACH_TINH_GIA_BAN_BANH.html", "size_text": "3.9 KB"}, {"name": "CACH_TINH_GIA_BAN_TAP_HOA.html", "title": "CACH TINH GIA BAN TAP HOA", "rel_path": "CACH_TINH_GIA_BAN_TAP_HOA.html", "size_text": "3.9 KB"}, {"name": "CACH_TINH_HOA_VON_NHIEU_MAT_HANG.html", "title": "CACH TINH HOA VON NHIEU MAT HANG", "rel_path": "CACH_TINH_HOA_VON_NHIEU_MAT_HANG.html", "size_text": "4.8 KB"}, {"name": "CACH_TINH_NGOAI_CHO.html", "title": "CACH TINH NGOAI CHO", "rel_path": "CACH_TINH_NGOAI_CHO.html", "size_text": "5.4 KB"}, {"name": "CACH_TINH_NHAM_NHANH.html", "title": "CACH TINH NHAM NHANH", "rel_path": "CACH_TINH_NHAM_NHANH.html", "size_text": "5.5 KB"}, {"name": "CAC_AI_MANH_ME_CHO_CONG_VIEC.html", "title": "CAC AI MANH ME CHO CONG VIEC", "rel_path": "CAC_AI_MANH_ME_CHO_CONG_VIEC.html", "size_text": "43.4 KB"}, {"name": "CAUHOITRUOCKHIXAYNHA.html", "title": "CAUHOITRUOCKHIXAYNHA", "rel_path": "CAUHOITRUOCKHIXAYNHA.html", "size_text": "16.2 KB"}, {"name": "CAUHOITRUOCKHIXAYNHAGEMINI.html", "title": "CAUHOITRUOCKHIXAYNHAGEMINI", "rel_path": "CAUHOITRUOCKHIXAYNHAGEMINI.html", "size_text": "9.6 KB"}, {"name": "CAUHOITRUOCKHIXAYNHAGEMINI_2.html", "title": "CAUHOITRUOCKHIXAYNHAGEMINI 2", "rel_path": "CAUHOITRUOCKHIXAYNHAGEMINI_2.html", "size_text": "10.3 KB"}, {"name": "CAUHOITRUOCKHIXAYNHAGROK.html", "title": "CAUHOITRUOCKHIXAYNHAGROK", "rel_path": "CAUHOITRUOCKHIXAYNHAGROK.html", "size_text": "8.2 KB"}, {"name": "CAUHOITRUOCKHIXAYNHAGROK_2.html", "title": "CAUHOITRUOCKHIXAYNHAGROK 2", "rel_path": "CAUHOITRUOCKHIXAYNHAGROK_2.html", "size_text": "8.8 KB"}, {"name": "COTUONG.html", "title": "COTUONG", "rel_path": "COTUONG.html", "size_text": "4.4 KB"}, {"name": "CO_HUM.html", "title": "CO HUM", "rel_path": "CO_HUM.html", "size_text": "20.2 KB"}, {"name": "CO_QUAN_SU.html", "title": "CO QUAN SU", "rel_path": "CO_QUAN_SU.html", "size_text": "51.2 KB"}, {"name": "CO_TU_LENH.html", "title": "CO TU LENH", "rel_path": "CO_TU_LENH.html", "size_text": "4.4 KB"}, {"name": "DO_THI_CUOC_DOI_THANG.html", "title": "DO THI CUOC DOI THANG", "rel_path": "DO_THI_CUOC_DOI_THANG.html", "size_text": "2.1 KB"}, {"name": "GAME_TREX.html", "title": "GAME TREX", "rel_path": "GAME_TREX.html", "size_text": "25.8 KB"}, {"name": "GIO_LAM_VIEC_GEMINI_AI.html", "title": "GIO LAM VIEC GEMINI AI", "rel_path": "GIO_LAM_VIEC_GEMINI_AI.html", "size_text": "6.0 KB"}, {"name": "GIO_VANG_DANG_BÀI_CHAT.html", "title": "GIO VANG DANG BÀI CHAT", "rel_path": "GIO_VANG_DANG_BÀI_CHAT.html", "size_text": "4.0 KB"}, {"name": "GIO_VANG_DANG_BÀI_DEEPSEEK.html", "title": "GIO VANG DANG BÀI DEEPSEEK", "rel_path": "GIO_VANG_DANG_BÀI_DEEPSEEK.html", "size_text": "2.4 KB"}, {"name": "GIO_VANG_DANG_BÀI_GEMINI.html", "title": "GIO VANG DANG BÀI GEMINI", "rel_path": "GIO_VANG_DANG_BÀI_GEMINI.html", "size_text": "3.7 KB"}, {"name": "GIO_VANG_DANG_BÀI_GROK.html", "title": "GIO VANG DANG BÀI GROK", "rel_path": "GIO_VANG_DANG_BÀI_GROK.html", "size_text": "9.2 KB"}, {"name": "GOI_Y_MAU_YUONG_PHAN.html", "title": "GOI Y MAU YUONG PHAN", "rel_path": "GOI_Y_MAU_YUONG_PHAN.html", "size_text": "5.4 KB"}, {"name": "Gemini_Control.html", "title": "Gemini Control", "rel_path": "Gemini_Control.html", "size_text": "3.5 KB"}, {"name": "HAN_TRINH_AI_deepseek.html", "title": "HAN TRINH AI deepseek", "rel_path": "HAN_TRINH_AI_deepseek.html", "size_text": "13.9 KB"}, {"name": "HUONG_DAN_CHAT_GPT_GAME.html", "title": "HUONG DAN CHAT GPT GAME", "rel_path": "HUONG_DAN_CHAT_GPT_GAME.html", "size_text": "4.0 KB"}, {"name": "HUONG_DAN_DEEPSEEK.html", "title": "HUONG DAN DEEPSEEK", "rel_path": "HUONG_DAN_DEEPSEEK.html", "size_text": "16.6 KB"}, {"name": "HUONG_DAN_GEMINI.html", "title": "HUONG DAN GEMINI", "rel_path": "HUONG_DAN_GEMINI.html", "size_text": "13.1 KB"}, {"name": "HUONG_DAN_GROK.html", "title": "HUONG DAN GROK", "rel_path": "HUONG_DAN_GROK.html", "size_text": "9.5 KB"}, {"name": "LAM_KENH_PHIM_Chatgpt.html", "title": "LAM KENH PHIM Chatgpt", "rel_path": "LAM_KENH_PHIM_Chatgpt.html", "size_text": "3.3 KB"}, {"name": "Lưu_link_Github.html", "title": "Lưu link Github", "rel_path": "Lưu_link_Github.html", "size_text": "5.7 KB"}, {"name": "NHIP_SH_10.html", "title": "NHIP SH 10", "rel_path": "NHIP_SH_10.html", "size_text": "6.6 KB"}, {"name": "QUAN_LY_CONG_VIEC.html", "title": "QUAN LY CONG VIEC", "rel_path": "QUAN_LY_CONG_VIEC.html", "size_text": "2.3 KB"}, {"name": "Quan-ly-Kim-tu-do.html", "title": "Quan ly Kim tu do", "rel_path": "Quan-ly-Kim-tu-do.html", "size_text": "16.8 KB"}, {"name": "Quan-ly-link.html", "title": "Quan ly link", "rel_path": "Quan-ly-link.html", "size_text": "4.0 KB"}, {"name": "Shopee_lay_san_pham.html", "title": "Shopee lay san pham", "rel_path": "Shopee_lay_san_pham.html", "size_text": "3.1 KB"}, {"name": "SÁCH_GIÁO_KHOA_Cach_lam_tiep_thi.html", "title": "SÁCH GIÁO KHOA Cach lam tiep thi", "rel_path": "SÁCH_GIÁO_KHOA_Cach_lam_tiep_thi.html", "size_text": "17.8 KB"}, {"name": "TCDN_CO_TUONG.html", "title": "TCDN CO TUONG", "rel_path": "TCDN_CO_TUONG.html", "size_text": "16.5 KB"}, {"name": "TCDN_QUANG_TRUNG_34_RA_QUYET_DINH_DOI_THAT.html", "title": "TCDN QUANG TRUNG 34 RA QUYET DINH DOI THAT", "rel_path": "TCDN_QUANG_TRUNG_34_RA_QUYET_DINH_DOI_THAT.html", "size_text": "48.7 KB"}, {"name": "TCDN_QUANG_TRUNG_56_PHAN_34.html", "title": "TCDN QUANG TRUNG 56 PHAN 34", "rel_path": "TCDN_QUANG_TRUNG_56_PHAN_34.html", "size_text": "80.3 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P1.html", "title": "TCDN QUANG TRUNG c2 CHUA BTTT P1", "rel_path": "TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P1.html", "size_text": "6.8 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P2.html", "title": "TCDN QUANG TRUNG c2 CHUA BTTT P2", "rel_path": "TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P2.html", "size_text": "6.7 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P3.html", "title": "TCDN QUANG TRUNG c2 CHUA BTTT P3", "rel_path": "TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P3.html", "size_text": "6.5 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P4.html", "title": "TCDN QUANG TRUNG c2 CHUA BTTT P4", "rel_path": "TCDN_QUANG_TRUNG_c2_CHUA_BTTT_P4.html", "size_text": "6.4 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_DTDHP1.html", "title": "TCDN QUANG TRUNG c2 DTDHP1", "rel_path": "TCDN_QUANG_TRUNG_c2_DTDHP1.html", "size_text": "7.0 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_P1.html", "title": "TCDN QUANG TRUNG c2 P1", "rel_path": "TCDN_QUANG_TRUNG_c2_P1.html", "size_text": "7.3 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_P2.html", "title": "TCDN QUANG TRUNG c2 P2", "rel_path": "TCDN_QUANG_TRUNG_c2_P2.html", "size_text": "7.7 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_P3.html", "title": "TCDN QUANG TRUNG c2 P3", "rel_path": "TCDN_QUANG_TRUNG_c2_P3.html", "size_text": "7.5 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_P4.html", "title": "TCDN QUANG TRUNG c2 P4", "rel_path": "TCDN_QUANG_TRUNG_c2_P4.html", "size_text": "7.8 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P1.html", "title": "TCDN QUANG TRUNG c2 UD EXCEL P1", "rel_path": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P1.html", "size_text": "6.3 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P2.html", "title": "TCDN QUANG TRUNG c2 UD EXCEL P2", "rel_path": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P2.html", "size_text": "7.0 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P3.html", "title": "TCDN QUANG TRUNG c2 UD EXCEL P3", "rel_path": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P3.html", "size_text": "6.6 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P5.html", "title": "TCDN QUANG TRUNG c2 UD EXCEL P5", "rel_path": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P5.html", "size_text": "7.2 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P6.html", "title": "TCDN QUANG TRUNG c2 UD EXCEL P6", "rel_path": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P6.html", "size_text": "7.1 KB"}, {"name": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P7.html", "title": "TCDN QUANG TRUNG c2 UD EXCEL P7", "rel_path": "TCDN_QUANG_TRUNG_c2_UD_EXCEL_P7.html", "size_text": "6.8 KB"}, {"name": "TCDN_QUANG_TRUNG_c3_DTDH_P6.html", "title": "TCDN QUANG TRUNG c3 DTDH P6", "rel_path": "TCDN_QUANG_TRUNG_c3_DTDH_P6.html", "size_text": "6.5 KB"}, {"name": "TCDN_QUANG_TRUNG_c3_DTDH_P7.html", "title": "TCDN QUANG TRUNG c3 DTDH P7", "rel_path": "TCDN_QUANG_TRUNG_c3_DTDH_P7.html", "size_text": "6.7 KB"}, {"name": "TCDN_QUANG_TRUNG_c3_DTDH_P8.html", "title": "TCDN QUANG TRUNG c3 DTDH P8", "rel_path": "TCDN_QUANG_TRUNG_c3_DTDH_P8.html", "size_text": "7.2 KB"}, {"name": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p1.html", "title": "TCDN QUANG TRUNG c3 TONG ON CHUA BAI p1", "rel_path": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p1.html", "size_text": "5.5 KB"}, {"name": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p2.html", "title": "TCDN QUANG TRUNG c3 TONG ON CHUA BAI p2", "rel_path": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p2.html", "size_text": "7.3 KB"}, {"name": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p3.html", "title": "TCDN QUANG TRUNG c3 TONG ON CHUA BAI p3", "rel_path": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p3.html", "size_text": "7.5 KB"}, {"name": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p4.html", "title": "TCDN QUANG TRUNG c3 TONG ON CHUA BAI p4", "rel_path": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p4.html", "size_text": "6.2 KB"}, {"name": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p5.html", "title": "TCDN QUANG TRUNG c3 TONG ON CHUA BAI p5", "rel_path": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p5.html", "size_text": "6.1 KB"}, {"name": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p6.html", "title": "TCDN QUANG TRUNG c3 TONG ON CHUA BAI p6", "rel_path": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p6.html", "size_text": "5.9 KB"}, {"name": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p7.html", "title": "TCDN QUANG TRUNG c3 TONG ON CHUA BAI p7", "rel_path": "TCDN_QUANG_TRUNG_c3_TONG_ON_CHUA_BAI_p7.html", "size_text": "6.1 KB"}, {"name": "TCDN_QUANG_TRUNG_c4_Quản_trị_tài_sản_ngắn_hạn_phần_1_(siêu_dễ_hiểu)_♥️_Quang_Trung_TV.html", "title": "TCDN QUANG TRUNG c4 Quản trị tài sản ngắn hạn phần 1 (siêu dễ hiểu) ♥️ Quang Trung TV", "rel_path": "TCDN_QUANG_TRUNG_c4_Quản_trị_tài_sản_ngắn_hạn_phần_1_(siêu_dễ_hiểu)_♥️_Quang_Trung_TV.html", "size_text": "34.4 KB"}, {"name": "TCDN_QUANG_TRUNG_c4_vi_du.html", "title": "TCDN QUANG TRUNG c4 vi du", "rel_path": "TCDN_QUANG_TRUNG_c4_vi_du.html", "size_text": "52.6 KB"}, {"name": "TCDN_QUANG_TRUNG_c4_vidu_co_lai_van_chet.html", "title": "TCDN QUANG TRUNG c4 vidu co lai van chet", "rel_path": "TCDN_QUANG_TRUNG_c4_vidu_co_lai_van_chet.html", "size_text": "23.6 KB"}, {"name": "TINHGIAXAYNHADEEP.html", "title": "TINHGIAXAYNHADEEP", "rel_path": "TINHGIAXAYNHADEEP.html", "size_text": "27.8 KB"}, {"name": "TINHGIAXAYNHAGEMINI.html", "title": "TINHGIAXAYNHAGEMINI", "rel_path": "TINHGIAXAYNHAGEMINI.html", "size_text": "8.1 KB"}, {"name": "TINHGIAXAYNHAGROK.html", "title": "TINHGIAXAYNHAGROK", "rel_path": "TINHGIAXAYNHAGROK.html", "size_text": "7.8 KB"}, {"name": "TINHGIAXAYNHAGROK_2.html", "title": "TINHGIAXAYNHAGROK 2", "rel_path": "TINHGIAXAYNHAGROK_2.html", "size_text": "8.1 KB"}, {"name": "TINHGIẪYNHA.CHATGPT.html", "title": "TINHGIẪYNHA.CHATGPT", "rel_path": "TINHGIẪYNHA.CHATGPT.html", "size_text": "5.3 KB"}, {"name": "TINH_BINH_PHUONG.html", "title": "TINH BINH PHUONG", "rel_path": "TINH_BINH_PHUONG.html", "size_text": "5.1 KB"}, {"name": "TINH_GIA_VON_HANG_BAN.html", "title": "TINH GIA VON HANG BAN", "rel_path": "TINH_GIA_VON_HANG_BAN.html", "size_text": "38.3 KB"}, {"name": "TINH_GIO_DUN_NUOC_GROK.html", "title": "TINH GIO DUN NUOC GROK", "rel_path": "TINH_GIO_DUN_NUOC_GROK.html", "size_text": "19.6 KB"}, {"name": "TINH_NGUOI_XAY_NHA.html", "title": "TINH NGUOI XAY NHA", "rel_path": "TINH_NGUOI_XAY_NHA.html", "size_text": "24.5 KB"}, {"name": "TINH_NHAM_PHAN_TRAM.html", "title": "TINH NHAM PHAN TRAM", "rel_path": "TINH_NHAM_PHAN_TRAM.html", "size_text": "3.7 KB"}, {"name": "TINH_NHIP_SINH_HOC.html", "title": "TINH NHIP SINH HOC", "rel_path": "TINH_NHIP_SINH_HOC.html", "size_text": "16.2 KB"}, {"name": "TINH_PHAN_TRAM.html", "title": "TINH PHAN TRAM", "rel_path": "TINH_PHAN_TRAM.html", "size_text": "18.4 KB"}, {"name": "TOANCAOCAPGEMINI.html", "title": "TOANCAOCAPGEMINI", "rel_path": "TOANCAOCAPGEMINI.html", "size_text": "9.7 KB"}, {"name": "TOANCAOCAPGROK.html", "title": "TOANCAOCAPGROK", "rel_path": "TOANCAOCAPGROK.html", "size_text": "13.7 KB"}, {"name": "TRA_MAU_THEO_DUONG_LIC.html", "title": "TRA MAU THEO DUONG LIC", "rel_path": "TRA_MAU_THEO_DUONG_LIC.html", "size_text": "568 B"}, {"name": "TUTIMTHUATTOANPHUHOP.html", "title": "TUTIMTHUATTOANPHUHOP", "rel_path": "TUTIMTHUATTOANPHUHOP.html", "size_text": "28.3 KB"}, {"name": "UNG_DUNG_QUAN_LY_DU_LICH.html", "title": "UNG DUNG QUAN LY DU LICH", "rel_path": "UNG_DUNG_QUAN_LY_DU_LICH.html", "size_text": "4.9 KB"}, {"name": "XEM_TUOI_GIO_THEO_MA_THANG.html", "title": "XEM TUOI GIO THEO MA THANG", "rel_path": "XEM_TUOI_GIO_THEO_MA_THANG.html", "size_text": "60.6 KB"}, {"name": "a-nhap-benh-theo-ngay-gio.html", "title": "a nhap benh theo ngay gio", "rel_path": "a-nhap-benh-theo-ngay-gio.html", "size_text": "5.4 KB"}, {"name": "affiliate_marketing.html", "title": "affiliate marketing", "rel_path": "affiliate_marketing.html", "size_text": "1.4 KB"}, {"name": "afliate-hub.html", "title": "afliate hub", "rel_path": "afliate-hub.html", "size_text": "3.6 KB"}, {"name": "ban-co.html", "title": "ban co", "rel_path": "ban-co.html", "size_text": "63.5 KB"}, {"name": "ban-do-tac-chien.html", "title": "ban do tac chien", "rel_path": "ban-do-tac-chien.html", "size_text": "10.0 KB"}, {"name": "bangsinhtraigai.html", "title": "bangsinhtraigai", "rel_path": "bangsinhtraigai.html", "size_text": "14.9 KB"}, {"name": "cach-lam-affliate.html", "title": "cach lam affliate", "rel_path": "cach-lam-affliate.html", "size_text": "5.0 KB"}, {"name": "cam-xuc-1.html", "title": "cam xuc 1", "rel_path": "cam-xuc-1.html", "size_text": "46.0 KB"}, {"name": "canh-bao-rui-ro.html", "title": "canh bao rui ro", "rel_path": "canh-bao-rui-ro.html", "size_text": "14.9 KB"}, {"name": "che-o-an-it-benh-tat.html", "title": "che o an it benh tat", "rel_path": "che-o-an-it-benh-tat.html", "size_text": "18.3 KB"}, {"name": "checklist.html", "title": "checklist", "rel_path": "checklist.html", "size_text": "2.4 KB"}, {"name": "chon-mat-hang-tiep-thi.html", "title": "chon mat hang tiep thi", "rel_path": "chon-mat-hang-tiep-thi.html", "size_text": "15.9 KB"}, {"name": "cong-cu-ban-hang.html", "title": "cong cu ban hang", "rel_path": "cong-cu-ban-hang.html", "size_text": "6.7 KB"}, {"name": "dang_bai.html", "title": "dang bai", "rel_path": "dang_bai.html", "size_text": "11.0 KB"}, {"name": "dangbai.html", "title": "dangbai", "rel_path": "dangbai.html", "size_text": "10.9 KB"}, {"name": "dung-ien-thoai-lam.html", "title": "dung ien thoai lam", "rel_path": "dung-ien-thoai-lam.html", "size_text": "21.3 KB"}, {"name": "ghep_chu_nang_cao.html", "title": "ghep chu nang cao", "rel_path": "ghep_chu_nang_cao.html", "size_text": "19.7 KB"}, {"name": "gio-i-xe-boi-bay-chieu.html", "title": "gio i xe boi bay chieu", "rel_path": "gio-i-xe-boi-bay-chieu.html", "size_text": "56.8 KB"}, {"name": "gio-i-xe-boi-bay-em.html", "title": "gio i xe boi bay em", "rel_path": "gio-i-xe-boi-bay-em.html", "size_text": "36.8 KB"}, {"name": "gio-i-xe-boi-bay-sang.html", "title": "gio i xe boi bay sang", "rel_path": "gio-i-xe-boi-bay-sang.html", "size_text": "68.1 KB"}, {"name": "gio-i-xe-boi-bay-trua.html", "title": "gio i xe boi bay trua", "rel_path": "gio-i-xe-boi-bay-trua.html", "size_text": "46.1 KB"}, {"name": "gio-xe-1-5-em.html", "title": "gio xe 1 5 em", "rel_path": "gio-xe-1-5-em.html", "size_text": "6.0 KB"}, {"name": "gioi-thieu-chat-gpt.html", "title": "gioi thieu chat gpt", "rel_path": "gioi-thieu-chat-gpt.html", "size_text": "11.0 KB"}, {"name": "gioi-thieu-ve-grok.html", "title": "gioi thieu ve grok", "rel_path": "gioi-thieu-ve-grok.html", "size_text": "14.8 KB"}, {"name": "goi_y_tra_loi.html", "title": "goi y tra loi", "rel_path": "goi_y_tra_loi.html", "size_text": "12.5 KB"}, {"name": "grok-nhac-nho.html", "title": "grok nhac nho", "rel_path": "grok-nhac-nho.html", "size_text": "5.9 KB"}, {"name": "hai-ben-cung-thang.html", "title": "hai ben cung thang", "rel_path": "hai-ben-cung-thang.html", "size_text": "5.5 KB"}, {"name": "hoa-hong-extra.html", "title": "hoa hong extra", "rel_path": "hoa-hong-extra.html", "size_text": "8.2 KB"}, {"name": "hoa-hong_shope.html", "title": "hoa hong shope", "rel_path": "hoa-hong_shope.html", "size_text": "9.0 KB"}, {"name": "huong-dan-chon-sp.html", "title": "huong dan chon sp", "rel_path": "huong-dan-chon-sp.html", "size_text": "13.2 KB"}, {"name": "huong-dan-lam-affliate-shoppe.html", "title": "huong dan lam affliate shoppe", "rel_path": "huong-dan-lam-affliate-shoppe.html", "size_text": "32.1 KB"}, {"name": "huong-dan-lam-tiep-thi.html", "title": "huong dan lam tiep thi", "rel_path": "huong-dan-lam-tiep-thi.html", "size_text": "9.3 KB"}, {"name": "kb2_tro-giang-gemini.html", "title": "kb2 tro giang gemini", "rel_path": "kb2_tro-giang-gemini.html", "size_text": "28.8 KB"}, {"name": "kb2chatgpt_tro-giang-kb2.html", "title": "kb2chatgpt tro giang kb2", "rel_path": "kb2chatgpt_tro-giang-kb2.html", "size_text": "39.9 KB"}, {"name": "kb4chatgpt_tro-giang-kb4.html", "title": "kb4chatgpt tro giang kb4", "rel_path": "kb4chatgpt_tro-giang-kb4.html", "size_text": "28.9 KB"}, {"name": "ke-hoach-thang.html", "title": "ke hoach thang", "rel_path": "ke-hoach-thang.html", "size_text": "34.2 KB"}, {"name": "ket-hop-ai-grok.html", "title": "ket hop ai grok", "rel_path": "ket-hop-ai-grok.html", "size_text": "3.4 KB"}, {"name": "kho-hang.html", "title": "kho hang", "rel_path": "kho-hang.html", "size_text": "6.8 KB"}, {"name": "kinh-doanh-4-ai.html", "title": "kinh doanh 4 ai", "rel_path": "kinh-doanh-4-ai.html", "size_text": "10.4 KB"}, {"name": "kinh-nghiem-buon-ban.html", "title": "kinh nghiem buon ban", "rel_path": "kinh-nghiem-buon-ban.html", "size_text": "23.7 KB"}, {"name": "lam-affliate-chuyen-nghiep.html", "title": "lam affliate chuyen nghiep", "rel_path": "lam-affliate-chuyen-nghiep.html", "size_text": "4.3 KB"}, {"name": "lam-affliate-gemini.html", "title": "lam affliate gemini", "rel_path": "lam-affliate-gemini.html", "size_text": "4.7 KB"}, {"name": "lam-affliate.html", "title": "lam affliate", "rel_path": "lam-affliate.html", "size_text": "21.1 KB"}, {"name": "lam-nguoi-grok.html", "title": "lam nguoi grok", "rel_path": "lam-nguoi-grok.html", "size_text": "7.1 KB"}, {"name": "lam-tiep-thi.html", "title": "lam tiep thi", "rel_path": "lam-tiep-thi.html", "size_text": "30.5 KB"}, {"name": "lam-viec-nhom.html", "title": "lam viec nhom", "rel_path": "lam-viec-nhom.html", "size_text": "23.8 KB"}, {"name": "lam_video_AU_MY_GEMINI.html", "title": "lam video AU MY GEMINI", "rel_path": "lam_video_AU_MY_GEMINI.html", "size_text": "4.5 KB"}, {"name": "lam_video_vientuong_GROK.html", "title": "lam video vientuong GROK", "rel_path": "lam_video_vientuong_GROK.html", "size_text": "6.5 KB"}, {"name": "lay-link-shoppe.html", "title": "lay link shoppe", "rel_path": "lay-link-shoppe.html", "size_text": "15.7 KB"}, {"name": "link_github_dang_facbook_zalo.html", "title": "link github dang facbook zalo", "rel_path": "link_github_dang_facbook_zalo.html", "size_text": "1.7 KB"}, {"name": "luu-ten-duong-dan.html", "title": "luu ten duong dan", "rel_path": "luu-ten-duong-dan.html", "size_text": "885 B"}, {"name": "mac-qa-nhiet-o.html", "title": "mac qa nhiet o", "rel_path": "mac-qa-nhiet-o.html", "size_text": "37.4 KB"}, {"name": "mau-phong-canh.html", "title": "mau phong canh", "rel_path": "mau-phong-canh.html", "size_text": "6.9 KB"}, {"name": "mau-quang-cao.html", "title": "mau quang cao", "rel_path": "mau-quang-cao.html", "size_text": "11.5 KB"}, {"name": "mau-sac-101-150.html", "title": "mau sac 101 150", "rel_path": "mau-sac-101-150.html", "size_text": "34.4 KB"}, {"name": "mau-sac-151-200.html", "title": "mau sac 151 200", "rel_path": "mau-sac-151-200.html", "size_text": "32.7 KB"}, {"name": "mau-sac-201-255.html", "title": "mau sac 201 255", "rel_path": "mau-sac-201-255.html", "size_text": "50.0 KB"}, {"name": "mau-sac-qa.html", "title": "mau sac qa", "rel_path": "mau-sac-qa.html", "size_text": "57.6 KB"}, {"name": "mau-sac-trang-phuc.html", "title": "mau sac trang phuc", "rel_path": "mau-sac-trang-phuc.html", "size_text": "52.3 KB"}, {"name": "minmangthuocngam_-_Affiliate.html", "title": "minmangthuocngam   Affiliate", "rel_path": "minmangthuocngam_-_Affiliate.html", "size_text": "16.2 KB"}, {"name": "network.html", "title": "network", "rel_path": "network.html", "size_text": "354 B"}, {"name": "nhap-benh-theo-gio.html", "title": "nhap benh theo gio", "rel_path": "nhap-benh-theo-gio.html", "size_text": "33.6 KB"}, {"name": "oc-so-tien.html", "title": "oc so tien", "rel_path": "oc-so-tien.html", "size_text": "23.1 KB"}, {"name": "options.html", "title": "options", "rel_path": "options.html", "size_text": "612 B"}, {"name": "phu_de_phim.html", "title": "phu de phim", "rel_path": "phu_de_phim.html", "size_text": "3.6 KB"}, {"name": "phân_loại_sản_phẩm_theo_ký_tự.html", "title": "phân loại sản phẩm theo ký tự", "rel_path": "phân_loại_sản_phẩm_theo_ký_tự.html", "size_text": "7.1 KB"}, {"name": "quan-ly-chi-tieu-gia-inh.html", "title": "quan ly chi tieu gia inh", "rel_path": "quan-ly-chi-tieu-gia-inh.html", "size_text": "16.3 KB"}, {"name": "qui-trinh-4ai.html", "title": "qui trinh 4ai", "rel_path": "qui-trinh-4ai.html", "size_text": "28.4 KB"}, {"name": "shop_tong.html", "title": "shop tong", "rel_path": "shop_tong.html", "size_text": "8.4 KB"}, {"name": "shope_affliate_Grok_TIM_GIA_HOA_HONG_CAO.html", "title": "shope affliate Grok TIM GIA HOA HONG CAO", "rel_path": "shope_affliate_Grok_TIM_GIA_HOA_HONG_CAO.html", "size_text": "68.7 KB"}, {"name": "shopee_affliate_gemini_TIM_GIA_HOA_HONG_CAO.html", "title": "shopee affliate gemini TIM GIA HOA HONG CAO", "rel_path": "shopee_affliate_gemini_TIM_GIA_HOA_HONG_CAO.html", "size_text": "38.6 KB"}, {"name": "shopee_afliate_chat_gpt_TIM_GIA_HOA_HONG_CAO.html", "title": "shopee afliate chat gpt TIM GIA HOA HONG CAO", "rel_path": "shopee_afliate_chat_gpt_TIM_GIA_HOA_HONG_CAO.html", "size_text": "3.5 KB"}, {"name": "shopee_chon_theo_SO_LUONG_SP.html", "title": "shopee chon theo SO LUONG SP", "rel_path": "shopee_chon_theo_SO_LUONG_SP.html", "size_text": "8.7 KB"}, {"name": "shoppe_Affiliate_Brand_Offer.html", "title": "shoppe Affiliate Brand Offer", "rel_path": "shoppe_Affiliate_Brand_Offer.html", "size_text": "37.4 KB"}, {"name": "shoppe_HOAHONGEXTRA.html", "title": "shoppe HOAHONGEXTRA", "rel_path": "shoppe_HOAHONGEXTRA.html", "size_text": "14.7 KB"}, {"name": "shoppe_affliate_deepseek_TIM_GIA_HOA_HONG_CAO.html", "title": "shoppe affliate deepseek TIM GIA HOA HONG CAO", "rel_path": "shoppe_affliate_deepseek_TIM_GIA_HOA_HONG_CAO.html", "size_text": "47.9 KB"}, {"name": "shoppe_cac_lam_affliate.html", "title": "shoppe cac lam affliate", "rel_path": "shoppe_cac_lam_affliate.html", "size_text": "3.2 KB"}, {"name": "shoppe_dang_facebook_gemini.html", "title": "shoppe dang facebook gemini", "rel_path": "shoppe_dang_facebook_gemini.html", "size_text": "8.6 KB"}, {"name": "shoppe_huong_dan_nguoi_moi_lam.html", "title": "shoppe huong dan nguoi moi lam", "rel_path": "shoppe_huong_dan_nguoi_moi_lam.html", "size_text": "5.1 KB"}, {"name": "shoppe_tim_san_pham_theo_chu.html", "title": "shoppe tim san pham theo chu", "rel_path": "shoppe_tim_san_pham_theo_chu.html", "size_text": "14.0 KB"}, {"name": "shoppe_tim_san_pham_theo_chu_chat.html", "title": "shoppe tim san pham theo chu chat", "rel_path": "shoppe_tim_san_pham_theo_chu_chat.html", "size_text": "9.6 KB"}, {"name": "theo-doi-ban-hang-nang-cao-2.html", "title": "theo doi ban hang nang cao 2", "rel_path": "theo-doi-ban-hang-nang-cao-2.html", "size_text": "3.2 KB"}, {"name": "theo-doi-ban-nang-cao.html", "title": "theo doi ban nang cao", "rel_path": "theo-doi-ban-nang-cao.html", "size_text": "3.1 KB"}, {"name": "thoi-gian-bieu-gio-dang.html", "title": "thoi gian bieu gio dang", "rel_path": "thoi-gian-bieu-gio-dang.html", "size_text": "4.3 KB"}, {"name": "thuong-luong.html", "title": "thuong luong", "rel_path": "thuong-luong.html", "size_text": "17.6 KB"}, {"name": "tiep_tuc_deepseek.html", "title": "tiep tuc deepseek", "rel_path": "tiep_tuc_deepseek.html", "size_text": "6.5 KB"}, {"name": "tim-cac-so-lien-quan.html", "title": "tim cac so lien quan", "rel_path": "tim-cac-so-lien-quan.html", "size_text": "18.1 KB"}, {"name": "tim-gio-theo-so-nhap-vao.html", "title": "tim gio theo so nhap vao", "rel_path": "tim-gio-theo-so-nhap-vao.html", "size_text": "24.0 KB"}, {"name": "tim-o-dung-deep.html", "title": "tim o dung deep", "rel_path": "tim-o-dung-deep.html", "size_text": "81.5 KB"}, {"name": "tim-phuong-tien-cong-so.html", "title": "tim phuong tien cong so", "rel_path": "tim-phuong-tien-cong-so.html", "size_text": "53.0 KB"}, {"name": "tim-so-oi.html", "title": "tim so oi", "rel_path": "tim-so-oi.html", "size_text": "20.7 KB"}, {"name": "tin_thoi_gian_gem.html", "title": "tin thoi gian gem", "rel_path": "tin_thoi_gian_gem.html", "size_text": "13.4 KB"}, {"name": "tinh-kinh-doanh.html", "title": "tinh kinh doanh", "rel_path": "tinh-kinh-doanh.html", "size_text": "25.6 KB"}, {"name": "tinh-ngay-ac-biet.html", "title": "tinh ngay ac biet", "rel_path": "tinh-ngay-ac-biet.html", "size_text": "19.9 KB"}, {"name": "tinh-ngay-gio-chan-le.html", "title": "tinh ngay gio chan le", "rel_path": "tinh-ngay-gio-chan-le.html", "size_text": "25.4 KB"}, {"name": "tinh-ngay-ram-1.html", "title": "tinh ngay ram 1", "rel_path": "tinh-ngay-ram-1.html", "size_text": "41.4 KB"}, {"name": "tinh-thu-theo-dl.html", "title": "tinh thu theo dl", "rel_path": "tinh-thu-theo-dl.html", "size_text": "8.8 KB"}, {"name": "tinh-trung-tang.html", "title": "tinh trung tang", "rel_path": "tinh-trung-tang.html", "size_text": "15.1 KB"}, {"name": "tinh_thoi_gian_GROK.html", "title": "tinh thoi gian GROK", "rel_path": "tinh_thoi_gian_GROK.html", "size_text": "8.9 KB"}, {"name": "tinh_thoi_gian_chat_gpt.html", "title": "tinh thoi gian chat gpt", "rel_path": "tinh_thoi_gian_chat_gpt.html", "size_text": "5.5 KB"}, {"name": "tinhgiaynha_chatgpt.html", "title": "tinhgiaynha chatgpt", "rel_path": "tinhgiaynha_chatgpt.html", "size_text": "5.1 KB"}, {"name": "tra-bang-25.html", "title": "tra bang 25", "rel_path": "tra-bang-25.html", "size_text": "35.4 KB"}, {"name": "tra-mau-quan-ao-ma.html", "title": "tra mau quan ao ma", "rel_path": "tra-mau-quan-ao-ma.html", "size_text": "35.3 KB"}, {"name": "tra-mau-theo-ma.html", "title": "tra mau theo ma", "rel_path": "tra-mau-theo-ma.html", "size_text": "27.3 KB"}, {"name": "tra_cuu_phim.html", "title": "tra cuu phim", "rel_path": "tra_cuu_phim.html", "size_text": "9.3 KB"}, {"name": "trac_nghiem_mua_sam_hoan_canhchatgpt.html", "title": "trac nghiem mua sam hoan canhchatgpt", "rel_path": "trac_nghiem_mua_sam_hoan_canhchatgpt.html", "size_text": "14.2 KB"}, {"name": "tu-dong-lam.html", "title": "tu dong lam", "rel_path": "tu-dong-lam.html", "size_text": "58.5 KB"}, {"name": "tu-duy-ky-su.html", "title": "tu duy ky su", "rel_path": "tu-duy-ky-su.html", "size_text": "17.9 KB"}, {"name": "tu-ong-ang-bai.html", "title": "tu ong ang bai", "rel_path": "tu-ong-ang-bai.html", "size_text": "25.1 KB"}, {"name": "tu-qa-brg.html", "title": "tu qa brg", "rel_path": "tu-qa-brg.html", "size_text": "15.6 KB"}, {"name": "tu-trang-phuc-tuan.html", "title": "tu trang phuc tuan", "rel_path": "tu-trang-phuc-tuan.html", "size_text": "51.8 KB"}, {"name": "tu-trang-phuc.html", "title": "tu trang phuc", "rel_path": "tu-trang-phuc.html", "size_text": "51.3 KB"}, {"name": "tuc_ngu_ca_dao.html", "title": "tuc ngu ca dao", "rel_path": "tuc_ngu_ca_dao.html", "size_text": "3.6 KB"}, {"name": "uong-i-kinh-doanh.html", "title": "uong i kinh doanh", "rel_path": "uong-i-kinh-doanh.html", "size_text": "40.0 KB"}, {"name": "viec_hang_ngay.html", "title": "viec hang ngay", "rel_path": "viec_hang_ngay.html", "size_text": "3.2 KB"}, {"name": "web.html", "title": "web", "rel_path": "web.html", "size_text": "7.6 KB"}, {"name": "xem-can-gio-thu.html", "title": "xem can gio thu", "rel_path": "xem-can-gio-thu.html", "size_text": "22.6 KB"}, {"name": "xem-do-thi-nam.html", "title": "xem do thi nam", "rel_path": "xem-do-thi-nam.html", "size_text": "73.4 KB"}, {"name": "xem-do-thi-thang.html", "title": "xem do thi thang", "rel_path": "xem-do-thi-thang.html", "size_text": "58.0 KB"}, {"name": "xem-do-thi-tuan.html", "title": "xem do thi tuan", "rel_path": "xem-do-thi-tuan.html", "size_text": "64.7 KB"}, {"name": "xem-gio-kd-hd.html", "title": "xem gio kd hd", "rel_path": "xem-gio-kd-hd.html", "size_text": "18.9 KB"}, {"name": "xem-kd-theo-90.html", "title": "xem kd theo 90", "rel_path": "xem-kd-theo-90.html", "size_text": "46.8 KB"}, {"name": "xem-kd-theo-gpt.html", "title": "xem kd theo gpt", "rel_path": "xem-kd-theo-gpt.html", "size_text": "52.9 KB"}, {"name": "xem-ngay-gio-sinh.html", "title": "xem ngay gio sinh", "rel_path": "xem-ngay-gio-sinh.html", "size_text": "25.9 KB"}, {"name": "xem-ngay-gio-viec.html", "title": "xem ngay gio viec", "rel_path": "xem-ngay-gio-viec.html", "size_text": "16.4 KB"}, {"name": "xem-ngay-gio-xau.html", "title": "xem ngay gio xau", "rel_path": "xem-ngay-gio-xau.html", "size_text": "34.4 KB"}, {"name": "xem-ngay-kinh-doanh-cc.html", "title": "xem ngay kinh doanh cc", "rel_path": "xem-ngay-kinh-doanh-cc.html", "size_text": "88.9 KB"}, {"name": "xem-ngay-kinh-doanh-hd.html", "title": "xem ngay kinh doanh hd", "rel_path": "xem-ngay-kinh-doanh-hd.html", "size_text": "18.8 KB"}, {"name": "xem-ngay-sinh-chan-le.html", "title": "xem ngay sinh chan le", "rel_path": "xem-ngay-sinh-chan-le.html", "size_text": "26.7 KB"}, {"name": "xem-nghe-theo-can.html", "title": "xem nghe theo can", "rel_path": "xem-nghe-theo-can.html", "size_text": "24.2 KB"}, {"name": "xem-nha-cua.html", "title": "xem nha cua", "rel_path": "xem-nha-cua.html", "size_text": "11.9 KB"}, {"name": "xem-noi-o-cua-ban.html", "title": "xem noi o cua ban", "rel_path": "xem-noi-o-cua-ban.html", "size_text": "18.5 KB"}, {"name": "xem-so-thanh-chu.html", "title": "xem so thanh chu", "rel_path": "xem-so-thanh-chu.html", "size_text": "23.5 KB"}, {"name": "xem-thang-kd-hd.html", "title": "xem thang kd hd", "rel_path": "xem-thang-kd-hd.html", "size_text": "19.1 KB"}, {"name": "xem-thang-kinh-doanh.html", "title": "xem thang kinh doanh", "rel_path": "xem-thang-kinh-doanh.html", "size_text": "75.0 KB"}, {"name": "xem-tuoi-kinh-doanh.html", "title": "xem tuoi kinh doanh", "rel_path": "xem-tuoi-kinh-doanh.html", "size_text": "75.9 KB"}, {"name": "xem-vi-tri-nha.html", "title": "xem vi tri nha", "rel_path": "xem-vi-tri-nha.html", "size_text": "33.5 KB"}, {"name": "xem_ngay_hoang_dao.html", "title": "xem ngay hoang dao", "rel_path": "xem_ngay_hoang_dao.html", "size_text": "22.4 KB"}, {"name": "Đưa_sang_sheet.html", "title": "Đưa sang sheet", "rel_path": "Đưa_sang_sheet.html", "size_text": "24.0 KB"}, {"name": "đường_dẫn_đưa_vào_facebook_zalo.html", "title": "đường dẫn đưa vào facebook zalo", "rel_path": "đường_dẫn_đưa_vào_facebook_zalo.html", "size_text": "2.1 KB"}];
+    const grid = document.getElementById("listGrid");
+    const input = document.getElementById("searchInput");
+    const badge = document.getElementById("countBadge");
+    const empty = document.getElementById("emptyState");
+
+    function render(filterText = "") {
+      const q = filterText.trim().toLowerCase();
+      const filtered = q
+        ? ITEMS.filter(x =>
+            x.title.toLowerCase().includes(q) ||
+            x.name.toLowerCase().includes(q) ||
+            x.rel_path.toLowerCase().includes(q)
+          )
+        : ITEMS;
+
+      badge.textContent = `Hiển thị ${filtered.length} / ${ITEMS.length} tệp`;
+      if (!filtered.length) {
+        grid.innerHTML = "";
+        empty.style.display = "block";
+        return;
+      }
+      empty.style.display = "none";
+      grid.innerHTML = filtered.map(x => `
+        <a class="item" href="${encodeURI(x.rel_path)}">
+          <div>
+            <div class="item-title">${escapeHtml(x.title)}</div>
+            <div class="item-file">${escapeHtml(x.rel_path)}</div>
+          </div>
+          <div class="item-meta">
+            <span>${escapeHtml(x.size_text)}</span>
+            <span>Mở tệp →</span>
+          </div>
+        </a>
+      `).join("");
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    input.addEventListener("input", e => render(e.target.value));
+    render("");
+  </script>
 </body>
 </html>
