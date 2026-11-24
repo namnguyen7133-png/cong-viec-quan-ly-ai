@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Phân tích Shopee Affiliate từ CSV</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f4f6fa;
+  padding:20px
+}
+.container{
+  max-width:1000px;
+  margin:auto;
+  background:#fff;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.1)
+}
+h1{
+  color:#ee4d2d;
+  text-align:center
+}
+label{
+  font-weight:bold;
+  display:block;
+  margin-top:15px
+}
+input{
+  width:100%;
+  padding:12px;
+  margin-top:5px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  font-size:15px
+}
+button{
+  width:100%;
+  margin-top:20px;
+  padding:14px;
+  background:#ee4d2d;
+  color:#fff;
+  border:none;
+  font-size:16px;
+  border-radius:8px;
+  cursor:pointer
+}
+button:hover{
+  background:#d84315
+}
+.card{
+  margin-top:15px;
+  padding:15px;
+  border-radius:8px;
+  border:1px solid #eee;
+  box-shadow:0 2px 6px rgba(0,0,0,.05)
+}
+.card b{
+  font-size:17px
+}
+.empty{
+  text-align:center;
+  margin-top:30px;
+  color:#777
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>📊 Phân tích Shopee Affiliate (CSV)</h1>
+
+<label>📂 Tải file CSV</label>
+<input type="file" id="fileInput" accept=".csv">
+
+<label>💰 Hoa hồng tối thiểu (%)</label>
+<input type="number" id="minCommission" placeholder="Ví dụ: 15">
+
+<label>📦 Số lượng đã bán tối thiểu</label>
+<input type="number" id="minSold" placeholder="Ví dụ: 100">
+
+<button onclick="analyze()">PHÂN TÍCH</button>
+
+<div id="result"></div>
+</div>
+
+<script>
+let products = [];
+
+document.getElementById("fileInput").addEventListener("change", e=>{
+  const reader = new FileReader();
+  reader.onload = ()=> products = parseCSV(reader.result);
+  reader.readAsText(e.target.files[0], "UTF-8");
+});
+
+function parseCSV(text){
+  const lines = text.trim().split("\n");
+  const headers = lines.shift().split(",").map(h=>h.trim().toLowerCase());
+
+  return lines.map(line=>{
+    const cols = line.split(",");
+    let obj = {};
+    headers.forEach((h,i)=> obj[h] = cols[i]?.trim());
+    return obj;
+  });
+}
+
+function analyze(){
+  const minC = parseFloat(document.getElementById("minCommission").value || 0);
+  const minS = parseInt(document.getElementById("minSold").value || 0);
+
+  const filtered = products
+    .filter(p=>{
+      const c = parseFloat(p.hoa_hong);
+      const s = parseInt(p.da_ban);
+      return c >= minC && s >= minS;
+    })
+    .sort((a,b)=> parseFloat(b.hoa_hong) - parseFloat(a.hoa_hong));
+
+  render(filtered);
+}
+
+function render(list){
+  const box = document.getElementById("result");
+  box.innerHTML = "";
+
+  if(list.length === 0){
+    box.innerHTML = "<div class='empty'>❌ Không có sản phẩm phù hợp</div>";
+    return;
+  }
+
+  list.forEach(p=>{
+    box.innerHTML += `
+      <div class="card">
+        <b>${p.ten_san_pham}</b><br>
+        💰 Hoa hồng: ${p.hoa_hong}<br>
+        📦 Đã bán: ${p.da_ban}<br>
+        🔗 <a href="${p.link}" target="_blank">Mở sản phẩm</a>
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>

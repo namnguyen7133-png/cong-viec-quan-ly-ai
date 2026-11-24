@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>📋 Nhắc Gemini nhớ ngữ cảnh cũ - Công thức dấu chấm phẩy</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #eef2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .card {
+            max-width: 780px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #dce5ec;
+        }
+        .header {
+            background: #1e466e;
+            color: white;
+            padding: 18px 24px;
+            font-weight: 600;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .content {
+            padding: 24px;
+        }
+        .alert {
+            background: #fff3e0;
+            border-left: 5px solid #f5a623;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            border-radius: 14px;
+            font-size: 0.95rem;
+        }
+        .copy-area {
+            background: #f8fafd;
+            border: 1px solid #cbdde9;
+            border-radius: 18px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        textarea {
+            width: 100%;
+            height: 420px;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            font-size: 13px;
+            background: #fefef5;
+            border: 1px solid #bdd4e4;
+            border-radius: 14px;
+            padding: 14px;
+            white-space: pre-wrap;
+            resize: vertical;
+        }
+        button {
+            background: #1e466e;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #0f2c48;
+        }
+        .note {
+            font-size: 0.85rem;
+            color: #4a627a;
+            margin-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 16px;
+        }
+        .badge {
+            background: #eef2ff;
+            color: #1e466e;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="header">
+        📌 NHẮC LẠI NGẮN GỌN CHO GEMINI
+        <span class="badge" style="background:#ffffff30; margin-left:auto;">copy → dán → tiếp tục</span>
+    </div>
+    <div class="content">
+        <div class="alert">
+            ⚡ <strong>Khi mạng đơ, treo máy, sang cuộc mới:</strong> chỉ cần copy đoạn trong khung bên dưới, dán vào chat Gemini. 
+            Nó sẽ nhớ <strong>đúng dự án dở dang, lỗi dấu chấm phẩy, vùng máy của bạn</strong> và không lan man.
+        </div>
+
+        <div class="copy-area">
+            <label style="font-weight:600; margin-bottom:8px; display:block;">📋 NỘI DUNG CẦN COPY (bôi đen hoặc bấm nút bên dưới):</label>
+            <textarea id="reminderText" readonly>
+🔁 NHẮC LẠI NGỮ CẢNH CŨ – TIẾP TỤC DỰ ÁN ĐANG DỞ (không lan man)
+
+1. Tôi đang làm dở dự án Excel / Google Sheets, máy tôi dùng dấu CHẤM PHẨY (;) trong công thức, KHÔNG dùng dấu phẩy (,).
+2. Lỗi thường gặp: tôi gõ =SUM(A1,B1) → cần sửa thành =SUM(A1;B1). Mọi hàm (IF, VLOOKUP, SUMIFS,...) cũng vậy.
+3. Bạn hay giải thích nhanh, nhảy cóc, sai với thực tế. Yêu cầu lần này:
+   - Giải thích chậm, từng bước, bám sát dữ liệu tôi gửi.
+   - Không suy diễn, không bỏ qua bước trung gian.
+   - Kiểm tra lại dấu phân cách vùng miền trước khi đưa công thức.
+4. Mạng vừa bị đơ/treo, tôi sang cuộc hội thoại mới. Hãy tiếp tục ngay từ lỗi cuối cùng tôi đề cập, không giải thích lại từ đầu.
+5. Nếu tôi dán sheet hoặc công thức lỗi → hãy phát hiện dấu phẩy sai và sửa thành chấm phẩy, đồng thời chỉ ra chỗ logic bị nhảy cóc.
+
+👉 Dữ liệu / công thức lỗi gần nhất (nếu có, tôi sẽ bổ sung bên dưới):
+[CHỪA CHỖ NÀY ĐỂ TÔI DÁN LỖI CỤ THỂ]
+
+Hãy trả lời ngắn gọn: “Đã nhớ. Dùng chấm phẩy, giải thích chậm, bám sheet. Gửi lỗi hoặc file đi.”
+</textarea>
+            <button id="copyBtn">📋 Sao chép toàn bộ</button>
+        </div>
+
+        <div class="note">
+            💡 <strong>Mẹo dùng:</strong> 
+            <ul style="margin: 8px 0 0 20px;">
+                <li>✔️ Sau khi copy, dán vào khung chat Gemini → nó nhận diện được ngay “dự án dở + lỗi chấm phẩy + không lan man”.</li>
+                <li>✔️ Nếu bạn có thêm lỗi công thức cụ thể, hãy dán kèm vào phần <code>[CHỪA CHỖ NÀY...]</code> trước khi gửi.</li>
+                <li>✔️ Lưu file này thành <strong>bookmarklet</strong> hoặc để trên màn hình, mỗi lần treo máy chỉ cần mở → copy 1 phát.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    const copyBtn = document.getElementById('copyBtn');
+    const textarea = document.getElementById('reminderText');
+
+    copyBtn.addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(textarea.value);
+            copyBtn.textContent = '✅ Đã sao chép!';
+            copyBtn.style.backgroundColor = '#2b6e3c';
+            setTimeout(() => {
+                copyBtn.textContent = '📋 Sao chép toàn bộ';
+                copyBtn.style.backgroundColor = '#1e466e';
+            }, 1800);
+        } catch (err) {
+            textarea.select();
+            document.execCommand('copy');
+            copyBtn.textContent = '✅ Đã copy (cách cũ)';
+            setTimeout(() => {
+                copyBtn.textContent = '📋 Sao chép toàn bộ';
+            }, 1500);
+        }
+    });
+</script>
+</body>
+</html>

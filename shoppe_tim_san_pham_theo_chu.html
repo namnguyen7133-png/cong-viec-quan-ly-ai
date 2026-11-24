@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Nhập & Phân tích Ưu đãi Affiliate</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    padding: 20px;
+}
+h1 { color: #333; }
+.box {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+textarea {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 10px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    vertical-align: top;
+}
+th {
+    background: #007bff;
+    color: white;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+button {
+    padding: 8px 14px;
+    margin: 5px;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+button:hover {
+    background: #0056b3;
+}
+button.clear-btn {
+    background: #dc3545;
+}
+button.clear-btn:hover {
+    background: #c82333;
+}
+.search-section {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #e9ecef;
+    border-radius: 5px;
+}
+select {
+    width: 200px;
+    padding: 8px;
+    margin-right: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.filter-controls {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.result-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+.original-name {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+.highlight {
+    background-color: #ffeb3b;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+.analyzed-chars {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+.chars-list {
+    display: inline-block;
+    background: #e3f2fd;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
+.matched-char {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+}
+.search-char-display {
+    display: inline-block;
+    background: #ff9800;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.search-summary {
+    background: #e8f5e9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+</style>
+</head>
+<body>
+
+<h1>📊 Nhập & Phân tích Ưu đãi Shopee Affiliate</h1>
+
+<div class="box">
+    <h3>1️⃣ Nhập dữ liệu CSV</h3>
+    <textarea id="csvText" placeholder="Dán dữ liệu CSV vào đây..."></textarea>
+    <div>
+        <button onclick="parseText()">Phân tích dữ liệu</button>
+        <button class="clear-btn" onclick="clearData()">Xóa dữ liệu</button>
+    </div>
+</div>
+
+<div class="box">
+    <h3>2️⃣ Tìm kiếm theo tên</h3>
+    <div class="search-section">
+        <div class="filter-controls">
+            <select id="nameFilter" multiple size="6">
+                <option value="A">A</option>
+                <option value="N">N</option>
+                <option value="H">H</option>
+                <option value="C">C</option>
+                <option value="ÂU">ÂU</option>
+                <option value="U">U</option>
+                <option value="NGỌC">NGỌC</option>
+                <option value="G">G</option>
+                <option value="HÀ">HÀ</option>
+                <option value="NĂNG">NĂNG</option>
+                <option value="Ă">Ă</option>
+                <option value="M">M</option>
+                <option value="HIỀN">HIỀN</option>
+                <option value="I">I</option>
+                <option value="ỀN">ỀN</option>
+                <option value="NGA">NGA</option>
+                <option value="LUYẾN">LUYẾN</option>
+                <option value="L">L</option>
+                <option value="Y">Y</option>
+                <option value="ẾN">ẾN</option>
+                <option value="CHIÊN">CHIÊN</option>
+                <option value="I">I</option>
+                <option value="ÊN">ÊN</option>
+                <option value="HÙNG">HÙNG</option>
+                <option value="Ù">Ù</option>
+                <option value="DŨNG">DŨNG</option>
+                <option value="D">D</option>
+                <option value="Ũ">Ũ</option>
+            </select>
+            <div>
+                <button onclick="filterByName()">Lọc theo tên</button>
+                <button class="clear-btn" onclick="clearFilter()">Xóa lọc</button>
+            </div>
+        </div>
+        <p><small>Giữ Ctrl để chọn nhiều ký tự/tên</small></p>
+    </div>
+</div>
+
+<div class="box">
+    <h3>📋 Kết quả</h3>
+    <div id="output"></div>
+</div>
+
+<script>
+let currentData = [];
+let analyzedProducts = []; // Lưu sản phẩm đã phân tích
+
+// Đọc từ textarea
+function parseText() {
+    const text = document.getElementById("csvText").value;
+    if (!text.trim()) {
+        alert("Chưa có dữ liệu!");
+        return;
+    }
+    parseCSV(text);
+}
+
+// Hàm parse CSV (xử lý cả dấu phẩy + dấu ngoặc kép)
+function parseCSV(text) {
+    const rows = [];
+    let row = [];
+    let current = "";
+    let inQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"' && inQuotes && next === '"') {
+            current += '"';
+            i++;
+        } else if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            row.push(current.trim());
+            current = "";
+        } else if ((char === '\n' || char === '\r') && !inQuotes) {
+            if (current || row.length) {
+                row.push(current.trim());
+                rows.push(row);
+            }
+            row = [];
+            current = "";
+        } else {
+            current += char;
+        }
+    }
+    if (current || row.length) {
+        row.push(current.trim());
+        rows.push(row);
+    }
+
+    currentData = rows;
+    analyzeProducts(rows);
+}
+
+// Phân tích tên sản phẩm thành các chữ cái cuối
+function analyzeProducts(data) {
+    analyzedProducts = [];
+    
+    data.forEach(row => {
+        if (row.length < 5) return;
+        
+        const productName = row[0];
+        const analyzedChars = analyzeProductName(productName);
+        
+        analyzedProducts.push({
+            originalName: productName,
+            analyzedChars: analyzedChars,
+            fullRow: row,
+            highlightedName: productName // Tên gốc chưa highlight
+        });
+    });
+    
+    renderAnalyzedProducts(analyzedProducts);
+}
+
+// Phân tích tên sản phẩm: lấy chữ cái cuối của mỗi từ
+function analyzeProductName(productName) {
+    // Loại bỏ các ký tự đặc biệt, số, dấu ngoặc []
+    let cleanedName = productName.replace(/\[.*?\]/g, '') // Loại bỏ [NE12] và tương tự
+                                .replace(/[0-9]/g, '')    // Loại bỏ số
+                                .replace(/[|]/g, '')      // Loại bỏ ký tự |
+                                .trim();
+    
+    // Tách thành các từ
+    const words = cleanedName.split(/\s+/);
+    const result = [];
+    
+    words.forEach(word => {
+        if (word.length > 0) {
+            // Lấy chữ cái cuối của từ
+            const lastChar = word.charAt(word.length - 1).toUpperCase();
+            // Lưu cả từ đầy đủ để kiểm tra
+            result.push({
+                word: word.toUpperCase(),
+                lastChar: lastChar,
+                originalWord: word // Giữ từ gốc để highlight
+            });
+        }
+    });
+    
+    return result;
+}
+
+// Tô màu các từ trong tên sản phẩm có chữ cái cuối khớp với tìm kiếm
+function highlightProductName(productName, analyzedChars, searchChars) {
+    let highlightedName = productName;
+    
+    // Tạo regex để tìm các từ có chữ cái cuối khớp
+    analyzedChars.forEach(item => {
+        if (searchChars.includes(item.lastChar)) {
+            // Tìm từ gốc trong tên sản phẩm (có thể có dấu)
+            const regex = new RegExp(`\\b${escapeRegExp(item.originalWord)}\\b`, 'gi');
+            highlightedName = highlightedName.replace(regex, (match) => {
+                return `<span class="highlight">${match}</span>`;
+            });
+        }
+    });
+    
+    return highlightedName;
+}
+
+// Escape ký tự đặc biệt cho regex
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Hiển thị sản phẩm đã phân tích
+function renderAnalyzedProducts(products) {
+    if (products.length === 0) {
+        document.getElementById("output").innerHTML = "<p>Chưa có dữ liệu nào được phân tích.</p>";
+        return;
+    }
+
+    let html = `<h4>📝 Sản phẩm đã phân tích (${products.length} sản phẩm)</h4>`;
+    
+    products.forEach((product, index) => {
+        html += `
+        <div class="result-item">
+            <div class="original-name">${product.originalName}</div>
+            <div class="analyzed-chars">
+                Chữ cái cuối phân tích: 
+                ${product.analyzedChars.map(item => 
+                    `<span class="chars-list">${item.word} → ${item.lastChar}</span>`
+                ).join('')}
+            </div>
+            <div>
+                <strong>Thời gian:</strong> ${product.fullRow[1].replace(/\n/g, "<br>")}<br>
+                <strong>Hoa hồng:</strong> ${product.fullRow[2]}<br>
+                <strong>Liên kết:</strong> 
+                <a href="${product.fullRow[3]}" target="_blank">Mở shop</a> | 
+                <a href="${product.fullRow[4]}" target="_blank">Link aff</a>
+            </div>
+        </div>
+        `;
+    });
+
+    document.getElementById("output").innerHTML = html;
+}
+
+// Hiển thị kết quả lọc
+function renderFilteredProducts(filteredProducts, searchChars) {
+    if (filteredProducts.length === 0) {
+        document.getElementById("output").innerHTML = "<p>Không tìm thấy sản phẩm nào phù hợp.</p>";
+        return;
+    }
+
+    const selectedNames = Array.from(document.getElementById("nameFilter").selectedOptions).map(option => option.value);
+    
+    let html = `
+    <div class="search-summary">
+        <h4>🔍 Kết quả lọc (${filteredProducts.length} sản phẩm)</h4>
+        <div>
+            <strong>Tìm kiếm theo:</strong> 
+            ${searchChars.map(char => `<span class="search-char-display">${char}</span>`).join('')}
+        </div>
+    </div>
+    `;
+    
+    filteredProducts.forEach((product, index) => {
+        // Tô màu tên sản phẩm
+        const highlightedName = highlightProductName(product.originalName, product.analyzedChars, searchChars);
+        
+        // Tô màu chữ cái cuối trong phần phân tích
+        const highlightedAnalysis = product.analyzedChars.map(item => {
+            const isMatched = searchChars.includes(item.lastChar);
+            const charClass = isMatched ? 'chars-list matched-char' : 'chars-list';
+            return `<span class="${charClass}">${item.word} → ${item.lastChar}</span>`;
+        }).join('');
+        
+        html += `
+        <div class="result-item">
+            <div class="original-name">${highlightedName}</div>
+            <div class="analyzed-chars">
+                Chữ cái cuối phân tích: 
+                ${highlightedAnalysis}
+            </div>
+            <div>
+                <strong>Thời gian:</strong> ${product.fullRow[1].replace(/\n/g, "<br>")}<br>
+                <strong>Hoa hồng:</strong> ${product.fullRow[2]}<br>
+                <strong>Liên kết:</strong> 
+                <a href="${product.fullRow[3]}" target="_blank">Mở shop</a> | 
+                <a href="${product.fullRow[4]}" target="_blank">Link aff</a>
+            </div>
+        </div>
+        `;
+    });
+
+    document.getElementById("output").innerHTML = html;
+}
+
+// Xóa dữ liệu
+function clearData() {
+    document.getElementById("csvText").value = "";
+    currentData = [];
+    analyzedProducts = [];
+    document.getElementById("output").innerHTML = "<p>Đã xóa dữ liệu. Bạn có thể nhập dữ liệu mới.</p>";
+    clearFilter();
+}
+
+// Lọc theo tên
+function filterByName() {
+    const select = document.getElementById("nameFilter");
+    const selectedNames = Array.from(select.selectedOptions).map(option => option.value);
+    
+    if (selectedNames.length === 0) {
+        alert("Vui lòng chọn ít nhất một ký tự/tên để lọc!");
+        return;
+    }
+    
+    if (analyzedProducts.length === 0) {
+        alert("Chưa có dữ liệu để lọc!");
+        return;
+    }
+    
+    // Lọc sản phẩm: kiểm tra xem tất cả các ký tự đã chọn có trong chữ cái cuối không
+    const filteredProducts = analyzedProducts.filter(product => {
+        // Lấy tất cả chữ cái cuối từ sản phẩm
+        const productLastChars = product.analyzedChars.map(item => item.lastChar);
+        
+        // Kiểm tra xem tất cả các ký tự đã chọn có trong sản phẩm không
+        return selectedNames.every(name => {
+            return productLastChars.includes(name);
+        });
+    });
+    
+    renderFilteredProducts(filteredProducts, selectedNames);
+}
+
+// Xóa lọc
+function clearFilter() {
+    const select = document.getElementById("nameFilter");
+    // Bỏ chọn tất cả các option
+    Array.from(select.options).forEach(option => {
+        option.selected = false;
+    });
+    
+    // Hiển thị lại toàn bộ dữ liệu
+    if (analyzedProducts.length > 0) {
+        renderAnalyzedProducts(analyzedProducts);
+    }
+}
+</script>
+
+</body>
+</html>

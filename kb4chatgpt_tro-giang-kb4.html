@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trợ Giảng – Đòn Bẩy & Quản Trị Rủi Ro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root{
+  --bg:#080b12; --panel:#111722; --panel2:#171f2d; --line:#2a3445;
+  --text:#f4f7fb; --muted:#aeb8c7; --accent:#00d4ff; --accent2:#7c4dff;
+  --green:#28e07b; --red:#ff4d67; --yellow:#ffd54a; --orange:#ff9d42;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:18px;line-height:1.6;min-height:100vh}
+.container{max-width:960px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:clamp(1.7rem,4vw,2.3rem);font-weight:900;text-align:center;background:linear-gradient(90deg,#00d4ff,#7c4dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:22px;font-size:1.05rem}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px}
+.tab-btn{padding:11px 15px;font-size:.95rem;font-weight:700;border:2px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);cursor:pointer;transition:.2s}
+.tab-btn:hover{border-color:var(--accent)}
+.tab-btn.active{background:linear-gradient(135deg,#00d4ff,#008cff);color:#001018;border-color:transparent}
+.panel{display:none}.panel.active{display:block}
+.card{background:linear-gradient(145deg,rgba(23,31,45,.96),rgba(12,17,26,.98));border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:16px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+h2{font-size:1.4rem;font-weight:800;color:var(--accent);margin-bottom:12px}
+h3{font-size:1.2rem;font-weight:700;color:var(--accent2);margin:14px 0 8px}
+p{margin-bottom:10px}
+.fun{background:#171f2d;border-left:4px solid var(--yellow);padding:12px 14px;border-radius:0 12px 12px 0;margin:12px 0;color:#e2e8f0}
+.fun::before{content:"💡 "}
+.good-box{background:rgba(40,224,123,.12);border:1px solid var(--green);border-radius:12px;padding:12px 14px;margin:10px 0}
+.caution-box{background:rgba(255,213,74,.12);border:1px solid var(--yellow);border-radius:12px;padding:12px 14px;margin:10px 0}
+.bad-box{background:rgba(255,77,103,.12);border:1px solid var(--red);border-radius:12px;padding:12px 14px;margin:10px 0}
+.info-box{background:rgba(0,212,255,.12);border:1px solid var(--accent);border-radius:12px;padding:12px 14px;margin:10px 0}
+label{display:block;font-weight:600;margin-bottom:5px;color:var(--muted);font-size:1rem}
+input[type=number]{width:100%;padding:13px 15px;font-size:1.2rem;font-weight:600;background:#0c121c;border:2px solid var(--line);border-radius:12px;color:var(--text);outline:none}
+input:focus{border-color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;font-size:1.1rem;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:linear-gradient(135deg,#00d4ff,#008cff);color:#001018}
+.btn-secondary{background:#1b2534;color:var(--text);border:2px solid var(--line)}
+.btn-full{width:100%}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:14px 0}
+.result-box{background:#0c121c;border-radius:14px;padding:16px;margin-top:14px;font-size:1.1rem}
+.result-box .big{font-size:1.7rem;font-weight:800;color:var(--accent);margin:6px 0}
+.step{font-family:ui-monospace,monospace;background:#080e17;padding:12px 14px;border-radius:10px;margin:10px 0;font-size:1.05rem;line-height:1.7;border:1px dashed var(--line)}
+.level-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.level-btn{padding:9px 14px;border-radius:10px;border:2px solid var(--line);background:#1b2534;color:var(--text);font-weight:600;cursor:pointer}
+.level-btn.active{border-color:var(--accent);background:rgba(0,212,255,.12);color:var(--accent)}
+.qa-item{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.qa-q{background:#171f2d;padding:14px 16px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.qa-a{display:none;padding:16px;background:var(--panel)}
+.qa-a.open{display:block}
+.ans{margin:10px 0;padding:11px 13px;border-radius:10px}
+.ans.correct{background:rgba(40,224,123,.15);border-left:4px solid var(--green)}
+.ans.wrong{background:rgba(255,77,103,.12);border-left:4px solid var(--red)}
+.metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:11px;margin:14px 0}
+.metric{background:#0c121c;border-radius:12px;padding:13px;text-align:center;border:1px solid var(--line)}
+.metric .label{font-size:.9rem;color:var(--muted)}
+.metric .value{font-size:1.25rem;font-weight:800;margin-top:3px}
+.positive{color:var(--green)}.negative{color:var(--red)}.neutral{color:var(--yellow)}
+.exp-btn{font-size:.85rem;color:var(--accent);background:none;border:none;cursor:pointer;text-decoration:underline;margin-left:4px}
+.tooltip{display:none;background:#080e17;border:1px solid var(--line);padding:11px;border-radius:10px;margin-top:6px;font-size:.95rem}
+.tooltip.show{display:block}
+.link-game{display:block;text-align:center;margin:18px 0;padding:16px;background:linear-gradient(135deg,#00d4ff,#7c4dff);color:#001018;font-size:1.25rem;font-weight:800;border-radius:14px;text-decoration:none}
+.link-game:hover{opacity:.93}
+.slider-row{margin:12px 0}
+input[type=range]{width:100%;height:8px;accent-color:var(--accent)}
+.small{font-size:.92rem;color:var(--muted)}
+.risk-bar{height:18px;border-radius:999px;background:#080d14;border:1px solid var(--line);overflow:hidden;margin:8px 0}
+.risk-fill{height:100%;transition:.4s}
+@media(max-width:600px){h1{font-size:1.55rem}body{font-size:16px}.tab-btn{padding:9px 11px;font-size:.85rem}}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🎓 Trợ Giảng – Đòn Bẩy & Quản Trị Rủi Ro</h1>
+  <p class="subtitle">Học trước → Hiểu số → Vào game Leverage → Chọn vì hiểu, không vì đoán</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('hoc',this)">📚 Học từ đầu</button>
+    <button class="tab-btn" onclick="showTab('maytinh',this)">🧮 Máy tính</button>
+    <button class="tab-btn" onclick="showTab('vsao',this)">🎓 Vì sao đúng/sai?</button>
+    <button class="tab-btn" onclick="showTab('thu',this)">🧪 Thử nếu…</button>
+    <button class="tab-btn" onclick="showTab('bang',this)">📊 Bảng tổng hợp</button>
+    <button class="tab-btn" onclick="showTab('game',this)">🎮 Vào Game</button>
+  </div>
+
+  <!-- TAB HỌC -->
+  <div id="tab-hoc" class="panel active">
+    <div class="level-nav">
+      <button class="level-btn active" onclick="showLevel(1,this)">Cấp 1 – Đòn bẩy</button>
+      <button class="level-btn" onclick="showLevel(2,this)">Cấp 2 – DSCR</button>
+      <button class="level-btn" onclick="showLevel(3,this)">Cấp 3 – Dòng tiền & Nợ</button>
+      <button class="level-btn" onclick="showLevel(4,this)">Cấp 4 – Rủi ro</button>
+      <button class="level-btn" onclick="showLevel(5,this)">Cấp 5 – Quyết định vay</button>
+    </div>
+
+    <div id="level-1" class="level-content">
+      <div class="card">
+        <h2>Cấp 1 – Hệ số đòn bẩy tài chính</h2>
+        <h3>Nó là gì?</h3>
+        <p>Tỷ lệ giữa <strong>Tổng nợ</strong> và <strong>Tổng tài sản</strong>. Cho biết bạn đang dùng bao nhiêu tiền vay để “đẩy” tài sản.</p>
+        <p class="info-box">Hệ số đòn bẩy = Tổng nợ ÷ Tổng tài sản</p>
+        <div class="step">
+          Ví dụ: Nợ 6 tỷ · Tài sản 10 tỷ<br>
+          Đòn bẩy = 6 ÷ 10 = <strong>0,6 = 60%</strong>
+        </div>
+        <h3>Ý nghĩa</h3>
+        <p>• 30–40%: khá an toàn<br>• 50–70%: bắt đầu phải để ý<br>• &gt;75%: rủi ro cao – một cú sốc là đau</p>
+        <div class="fun">Đòn bẩy giống đòn bẩy vật lý: càng dài càng đẩy được nặng, nhưng cũng càng dễ gãy nếu lực ngược lại.</div>
+        <div class="caution-box">Tài sản lớn nhờ nợ không có nghĩa là bạn giàu. Ngân hàng nhìn vào khả năng trả nợ, không chỉ nhìn tài sản.</div>
+      </div>
+    </div>
+
+    <div id="level-2" class="level-content" style="display:none">
+      <div class="card">
+        <h2>Cấp 2 – DSCR (Khả năng trả nợ)</h2>
+        <h3>Nó là gì?</h3>
+        <p><strong>Debt Service Coverage Ratio</strong> – Tỷ lệ bao phủ nghĩa vụ nợ. Cho biết EBITDA có đủ trả gốc + lãi không.</p>
+        <p class="info-box">DSCR = EBITDA ÷ (Gốc + Lãi phải trả)</p>
+        <div class="step">
+          EBITDA = 2,5 tỷ<br>
+          Gốc + Lãi = 1,8 tỷ<br>
+          DSCR = 2,5 ÷ 1,8 ≈ <strong>1,39x</strong>
+        </div>
+        <h3>Ý nghĩa con số</h3>
+        <p>• DSCR &lt; 1: <span class="negative">Không đủ trả nợ</span> – báo động đỏ<br>• 1,0 – 1,25: Vùng đệm mỏng<br>• ≥ 1,3 – 1,5: Tương đối an toàn<br>• ≥ 2: Rất khỏe</p>
+        <div class="fun">DSCR &lt; 1 nghĩa là: tiền kiếm được từ hoạt động không đủ trả ngân hàng. Bạn đang “ăn” vào vốn hoặc vay thêm để trả nợ cũ – vòng xoáy nguy hiểm.</div>
+        <div class="good-box">Ngân hàng thường thích DSCR ≥ 1,2–1,5. Dưới mức đó họ sẽ bắt đầu “cười rất nhẹ”.</div>
+      </div>
+    </div>
+
+    <div id="level-3" class="level-content" style="display:none">
+      <div class="card">
+        <h2>Cấp 3 – Dòng tiền khi có nợ</h2>
+        <h3>Net Cash Flow</h3>
+        <p>Tiền vào − Tiền ra. Khi có nợ, “Tiền ra” bao gồm cả gốc + lãi.</p>
+        <div class="step">
+          Tiền vào (doanh thu thực nhận): 5 tỷ<br>
+          − Chi phí vận hành: 3 tỷ<br>
+          − Gốc + Lãi: 1,5 tỷ<br>
+          = Dòng tiền ròng: <strong>0,5 tỷ</strong>
+        </div>
+        <div class="bad-box">Lợi nhuận trên giấy có thể dương, nhưng nếu tiền chưa về hoặc phải trả nợ quá nhiều → dòng tiền vẫn âm. Ngân hàng quan tâm dòng tiền hơn là lợi nhuận kế toán.</div>
+        <div class="fun">Doanh thu là lời hứa. Lợi nhuận là lý thuyết. Dòng tiền mới là oxy. Đặc biệt khi bạn đang nợ ngân hàng.</div>
+      </div>
+    </div>
+
+    <div id="level-4" class="level-content" style="display:none">
+      <div class="card">
+        <h2>Cấp 4 – Đo rủi ro đòn bẩy</h2>
+        <p>Game dùng một “thanh rủi ro” kết hợp:</p>
+        <ul style="padding-left:20px;margin-bottom:12px">
+          <li>Đòn bẩy cao (Nợ/Tài sản)</li>
+          <li>DSCR thấp</li>
+          <li>Dòng tiền mỏng hoặc âm</li>
+          <li>Biên lợi nhuận thấp</li>
+        </ul>
+        <div class="caution-box">
+          Rủi ro &lt; 25%: 🟢 An toàn tương đối<br>
+          25–50%: 🟡 Bắt đầu phải để ý<br>
+          50–75%: 🟠 Rủi ro cao<br>
+          &gt; 75%: 🔴 Nguy hiểm – dòng tiền có thể không nuôi nổi nợ
+        </div>
+        <div class="fun">Tăng trưởng nhờ vay giống lái xe nhanh trên đường ướt. Có thể về đích sớm, nhưng phanh gấp một cái là trượt.</div>
+      </div>
+    </div>
+
+    <div id="level-5" class="level-content" style="display:none">
+      <div class="card">
+        <h2>Cấp 5 – Khi nào nên / không nên vay?</h2>
+        <h3>Nên cân nhắc vay khi:</h3>
+        <div class="good-box">
+          • Dòng tiền ổn định dương nhiều kỳ<br>
+          • DSCR sau khi vay vẫn ≥ 1,3<br>
+          • Đòn bẩy sau vay không vượt quá vùng an toàn của bạn<br>
+          • Có phương án trả nợ rõ ràng (không phải “tính sau”)
+        </div>
+        <h3>Không nên vay khi:</h3>
+        <div class="bad-box">
+          • Dòng tiền đang âm hoặc bấp bênh<br>
+          • DSCR hiện tại đã &lt; 1,2<br>
+          • Vay để “che” lỗ vận hành<br>
+          • Chỉ nhìn doanh thu / tài sản lớn mà bỏ qua khả năng trả nợ
+        </div>
+        <div class="fun">Câu hỏi đáng sợ nhất: “Nếu doanh thu giảm 20–30% thì ai trả tiền ngân hàng?” Nếu bạn không trả lời được → đừng vay thêm.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB MÁY TÍNH -->
+  <div id="tab-maytinh" class="panel">
+    <div class="card">
+      <h2>🧮 Máy tính Đòn bẩy (Nợ / Tài sản)</h2>
+      <div class="calc-grid">
+        <div><label>Tổng nợ</label><input type="number" id="c_debt" value="6000000000" step="100000000"></div>
+        <div><label>Tổng tài sản</label><input type="number" id="c_assets" value="10000000000" step="100000000"></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="calcLeverage()">🔄 Tính đòn bẩy</button>
+      <div class="result-box" id="r_leverage"></div>
+    </div>
+
+    <div class="card">
+      <h2>🧮 Máy tính DSCR</h2>
+      <div class="calc-grid">
+        <div><label>EBITDA</label><input type="number" id="c_ebitda" value="2500000000" step="100000000"></div>
+        <div><label>Gốc + Lãi (Debt Service)</label><input type="number" id="c_service" value="1800000000" step="100000000"></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="calcDSCR()">🔄 Tính DSCR</button>
+      <div class="result-box" id="r_dscr"></div>
+    </div>
+
+    <div class="card">
+      <h2>🧮 Máy tính Dòng tiền</h2>
+      <div class="calc-grid">
+        <div><label>Tiền vào</label><input type="number" id="c_in" value="5000000000" step="100000000"></div>
+        <div><label>Tiền ra (gồm gốc+lãi)</label><input type="number" id="c_out" value="4500000000" step="100000000"></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="calcCF()">🔄 Tính dòng tiền</button>
+      <div class="result-box" id="r_cf"></div>
+    </div>
+  </div>
+
+  <!-- TAB VÌ SAO -->
+  <div id="tab-vsao" class="panel">
+    <div class="card">
+      <h2>🎓 Tư duy đúng/sai khi dùng đòn bẩy</h2>
+      <p class="small">Game có nhiều tình huống xoay quanh vay tiền, DSCR, dòng tiền. Dưới đây là các nguyên tắc cốt lõi để bạn tự suy luận.</p>
+
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">1. “Doanh thu tăng mạnh → vay thêm để mở rộng ngay” <span>▼</span></div>
+        <div class="qa-a">
+          <div class="ans wrong">❌ Thường là suy nghĩ nguy hiểm nếu chưa kiểm tra DSCR và dòng tiền sau khi vay.</div>
+          <div class="info-box">Cần hỏi: Sau khi vay, DSCR còn ≥ 1,3 không? Dòng tiền còn dương không? Nếu doanh thu giảm 20% thì sao?</div>
+          <div class="fun">Doanh thu tăng giống gió thuận. Nhưng nếu thuyền đã quá nặng nợ, gió to cũng có thể lật thuyền.</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">2. “Tài sản lớn → an toàn” <span>▼</span></div>
+        <div class="qa-a">
+          <div class="ans wrong">❌ Tài sản lớn nhờ nợ không đồng nghĩa an toàn.</div>
+          <div class="step">Tài sản 20 tỷ nhưng nợ 16 tỷ → đòn bẩy 80%. Một cú giảm giá tài sản hoặc dòng tiền yếu là nguy hiểm.</div>
+          <div class="good-box">Ngân hàng quan tâm: Bạn trả được gốc + lãi không? (DSCR) và dòng tiền thực tế thế nào.</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">3. “Lợi nhuận trên giấy đẹp → được vay thêm” <span>▼</span></div>
+        <div class="qa-a">
+          <div class="ans wrong">❌ Lợi nhuận kế toán ≠ tiền mặt.</div>
+          <div class="caution-box">Khách nợ 90 ngày, hàng tồn kho cao, phải trả nợ ngân hàng hàng tháng → lợi nhuận đẹp nhưng ví trống.</div>
+          <div class="fun">Lợi nhuận là lý thuyết. Dòng tiền là oxy. Ngân hàng thở bằng oxy, không thở bằng Excel.</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">4. “DSCR &lt; 1 nhưng vẫn vay vì tin tưởng tăng trưởng” <span>▼</span></div>
+        <div class="qa-a">
+          <div class="ans wrong">❌ Rất nguy hiểm.</div>
+          <div class="bad-box">DSCR &lt; 1 nghĩa là EBITDA hiện tại không đủ trả gốc + lãi. Vay thêm lúc này giống đổ thêm dầu vào lửa.</div>
+          <div class="good-box">Ưu tiên: Cải thiện dòng tiền và EBITDA trước, rồi mới nghĩ tới vay mở rộng.</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">5. Thứ tự tư duy đúng khi cân nhắc vay <span>▼</span></div>
+        <div class="qa-a">
+          <div class="ans correct">✅ Dòng tiền → DSCR → Đòn bẩy → Rủi ro kịch bản xấu → Mới quyết định vay</div>
+          <div class="ans wrong">❌ Doanh thu → Tài sản → Vay ngay → Tính sau</div>
+          <div class="fun">Câu hỏi vàng: “Nếu mọi thứ xấu đi 20–30%, tôi vẫn trả được nợ không?” Nếu không chắc → đừng vay.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB THỬ NẾU -->
+  <div id="tab-thu" class="panel">
+    <div class="card">
+      <h2>🧪 Thí nghiệm đòn bẩy – Kéo thanh xem rủi ro</h2>
+      <p class="small">Thay đổi Nợ, Tài sản, EBITDA, Nghĩa vụ nợ → xem đòn bẩy, DSCR và mức rủi ro thay đổi.</p>
+      <div class="slider-row">
+        <label>Tổng nợ: <span id="s_debt_v">6.000.000.000</span></label>
+        <input type="range" id="s_debt" min="0" max="20000000000" step="200000000" value="6000000000" oninput="runExp()">
+      </div>
+      <div class="slider-row">
+        <label>Tổng tài sản: <span id="s_assets_v">10.000.000.000</span></label>
+        <input type="range" id="s_assets" min="2000000000" max="30000000000" step="500000000" value="10000000000" oninput="runExp()">
+      </div>
+      <div class="slider-row">
+        <label>EBITDA: <span id="s_ebitda_v">2.500.000.000</span></label>
+        <input type="range" id="s_ebitda" min="0" max="8000000000" step="100000000" value="2500000000" oninput="runExp()">
+      </div>
+      <div class="slider-row">
+        <label>Gốc + Lãi: <span id="s_service_v">1.800.000.000</span></label>
+        <input type="range" id="s_service" min="200000000" max="5000000000" step="100000000" value="1800000000" oninput="runExp()">
+      </div>
+      <div class="metric-row" id="exp_metrics"></div>
+      <div class="risk-bar"><div id="exp_risk_fill" class="risk-fill" style="width:0%"></div></div>
+      <div class="result-box" id="exp_explain"></div>
+      <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
+        <button class="btn btn-secondary" onclick="preset('safe')">🟢 An toàn</button>
+        <button class="btn btn-secondary" onclick="preset('warn')">🟡 Cảnh báo</button>
+        <button class="btn btn-secondary" onclick="preset('danger')">🔴 Nguy hiểm</button>
+        <button class="btn btn-secondary" onclick="preset('default')">🔄 Mặc định</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB BẢNG -->
+  <div id="tab-bang" class="panel">
+    <div class="card">
+      <h2>📊 Bảng chỉ số – Hiểu từng con số</h2>
+      <div class="metric-row">
+        <div class="metric"><div class="label">Đòn bẩy <button class="exp-btn" onclick="toggleTip('t1')">?</button></div><div class="value" id="b_da">60%</div><div class="tooltip" id="t1">Nợ ÷ Tài sản. Càng cao càng phụ thuộc tiền vay.</div></div>
+        <div class="metric"><div class="label">DSCR <button class="exp-btn" onclick="toggleTip('t2')">?</button></div><div class="value" id="b_dscr">1.39x</div><div class="tooltip" id="t2">EBITDA ÷ (Gốc+Lãi). &lt;1 = không đủ trả nợ.</div></div>
+        <div class="metric"><div class="label">Dòng tiền <button class="exp-btn" onclick="toggleTip('t3')">?</button></div><div class="value" id="b_cf">+500tr</div><div class="tooltip" id="t3">Tiền vào − Tiền ra. Oxy của doanh nghiệp.</div></div>
+        <div class="metric"><div class="label">Mức rủi ro <button class="exp-btn" onclick="toggleTip('t4')">?</button></div><div class="value" id="b_risk">35%</div><div class="tooltip" id="t4">Tổng hợp đòn bẩy + DSCR + dòng tiền. Càng cao càng nguy.</div></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="syncBang()">🔄 Đồng bộ từ Máy tính</button>
+    </div>
+  </div>
+
+  <!-- TAB GAME -->
+  <div id="tab-game" class="panel">
+    <div class="card" style="text-align:center">
+      <h2>🎮 Sẵn sàng vào Kịch bản 4?</h2>
+      <p>Bạn đã hiểu đòn bẩy, DSCR, dòng tiền khi có nợ, và khi nào nên/không nên vay chưa?</p>
+      <div class="fun">Nhớ câu thần chú: “Nếu mọi thứ xấu đi 20–30%, tôi vẫn trả được nợ không?”</div>
+      <a class="link-game" href="kb4chatgpt.html" target="_blank">🚀 MỞ WEB GAME LEVERAGE & RISK</a>
+      <p class="small" style="margin-top:12px">Để cùng thư mục với file <code>kb4chatgpt.html</code>.<br>Hoặc mở file game thủ công.</p>
+      <div class="info-box" style="text-align:left;margin-top:16px">
+        <strong>Gợi ý chơi:</strong><br>
+        1. Học kỹ tab Đòn bẩy + DSCR trước.<br>
+        2. Dùng Máy tính và “Thử nếu…” để cảm nhận số.<br>
+        3. Vào game, mỗi quyết định vay hãy tự hỏi DSCR và dòng tiền.<br>
+        4. Sai thì đọc giải thích + quay lại tab này.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+function showLevel(n,btn){
+  document.querySelectorAll('.level-content').forEach(el=>el.style.display='none');
+  document.getElementById('level-'+n).style.display='block';
+  document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+function fmt(n){return new Intl.NumberFormat('vi-VN').format(Math.round(n));}
+function toggleQA(el){el.nextElementSibling.classList.toggle('open');}
+function toggleTip(id){document.getElementById(id).classList.toggle('show');}
+
+function calcLeverage(){
+  const debt=Number(document.getElementById('c_debt').value)||0;
+  const assets=Number(document.getElementById('c_assets').value)||0;
+  const da=assets>0?debt/assets:0;
+  const pct=(da*100).toFixed(1);
+  let msg=da<0.4?'Đòn bẩy thấp – vùng an toàn tương đối.':da<0.6?'Đòn bẩy trung bình – cần theo dõi DSCR.':da<0.75?'Đòn bẩy cao – rủi ro rõ ràng.':'Đòn bẩy rất cao – nguy hiểm.';
+  document.getElementById('r_leverage').innerHTML=`
+    <div class="step">Đòn bẩy = ${fmt(debt)} ÷ ${fmt(assets)} = <strong>${pct}%</strong></div>
+    <p class="big ${da<0.5?'positive':da<0.7?'neutral':'negative'}">${pct}%</p>
+    <div class="info-box">${msg}</div>
+    <div class="fun">Thử tăng nợ lên gần bằng tài sản xem cảm giác “ngộp” thế nào.</div>
+  `;
+}
+
+function calcDSCR(){
+  const ebitda=Number(document.getElementById('c_ebitda').value)||0;
+  const service=Number(document.getElementById('c_service').value)||0;
+  const dscr=service>0?ebitda/service:0;
+  let msg=dscr<1?'<span class="negative">Không đủ trả nợ (DSCR &lt; 1)</span> – báo động đỏ.':dscr<1.25?'Vùng đệm mỏng – cần cẩn thận.':dscr<1.5?'Tương đối an toàn.':'Khá khỏe.';
+  document.getElementById('r_dscr').innerHTML=`
+    <div class="step">DSCR = ${fmt(ebitda)} ÷ ${fmt(service)} = <strong>${dscr.toFixed(2)}x</strong></div>
+    <p class="big ${dscr>=1.3?'positive':dscr>=1?'neutral':'negative'}">${dscr.toFixed(2)}x</p>
+    <div class="info-box">${msg}</div>
+    <div class="fun">DSCR &lt; 1 nghĩa là bạn đang dùng tiền khác (vốn hoặc vay mới) để trả nợ cũ. Vòng xoáy bắt đầu.</div>
+  `;
+}
+
+function calcCF(){
+  const inn=Number(document.getElementById('c_in').value)||0;
+  const out=Number(document.getElementById('c_out').value)||0;
+  const cf=inn-out;
+  let msg=cf>0?`Dòng tiền dương ${fmt(cf)} ₫ – còn thở được.`:`Dòng tiền âm ${fmt(Math.abs(cf))} ₫ – đang “ăn” vốn hoặc tăng nợ.`;
+  document.getElementById('r_cf').innerHTML=`
+    <div class="step">${fmt(inn)} − ${fmt(out)} = <strong>${fmt(cf)} ₫</strong></div>
+    <p class="big ${cf>=0?'positive':'negative'}">${fmt(cf)} ₫</p>
+    <div class="info-box">${msg}</div>
+  `;
+}
+
+function runExp(){
+  const debt=Number(document.getElementById('s_debt').value);
+  const assets=Number(document.getElementById('s_assets').value);
+  const ebitda=Number(document.getElementById('s_ebitda').value);
+  const service=Number(document.getElementById('s_service').value);
+
+  document.getElementById('s_debt_v').textContent=fmt(debt);
+  document.getElementById('s_assets_v').textContent=fmt(assets);
+  document.getElementById('s_ebitda_v').textContent=fmt(ebitda);
+  document.getElementById('s_service_v').textContent=fmt(service);
+
+  const da=assets>0?debt/assets:0;
+  const dscr=service>0?ebitda/service:0;
+
+  // Simple risk score 0-100
+  let risk=0;
+  risk += Math.min(40, da*50);
+  if(dscr<1) risk+=40;
+  else if(dscr<1.25) risk+=25;
+  else if(dscr<1.5) risk+=10;
+  risk=Math.min(100,Math.round(risk));
+
+  document.getElementById('exp_metrics').innerHTML=`
+    <div class="metric"><div class="label">Đòn bẩy</div><div class="value ${da<0.5?'positive':da<0.7?'neutral':'negative'}">${(da*100).toFixed(0)}%</div></div>
+    <div class="metric"><div class="label">DSCR</div><div class="value ${dscr>=1.3?'positive':dscr>=1?'neutral':'negative'}">${dscr.toFixed(2)}x</div></div>
+    <div class="metric"><div class="label">Rủi ro</div><div class="value">${risk}%</div></div>
+  `;
+
+  const fill=document.getElementById('exp_risk_fill');
+  fill.style.width=risk+'%';
+  fill.style.background=risk<30?'linear-gradient(90deg,#28e07b,#8cffb9)':risk<60?'linear-gradient(90deg,#ffd54a,#ff9d42)':'linear-gradient(90deg,#ff9d42,#ff4d67)';
+
+  let exp='';
+  if(risk<25) exp='🟢 Tương đối an toàn. Có vùng đệm.';
+  else if(risk<50) exp='🟡 Bắt đầu phải để ý. Đòn bẩy đang ăn vào vùng an toàn.';
+  else if(risk<75) exp='🟠 Rủi ro cao. Một cú giảm doanh thu có thể gây đau.';
+  else exp='🔴 NGUY HIỂM. Dòng tiền có thể không đủ nuôi khoản nợ.';
+
+  document.getElementById('exp_explain').innerHTML=`<div class="info-box">${exp}</div>
+    <div class="fun">Kéo nợ lên cao trong khi EBITDA giữ nguyên – bạn sẽ thấy DSCR và thanh rủi ro “đỏ” rất nhanh.</div>`;
+}
+
+function preset(type){
+  if(type==='safe'){document.getElementById('s_debt').value=3000000000;document.getElementById('s_assets').value=12000000000;document.getElementById('s_ebitda').value=3500000000;document.getElementById('s_service').value=1500000000;}
+  else if(type==='warn'){document.getElementById('s_debt').value=7000000000;document.getElementById('s_assets').value=10000000000;document.getElementById('s_ebitda').value=2200000000;document.getElementById('s_service').value=1800000000;}
+  else if(type==='danger'){document.getElementById('s_debt').value=15000000000;document.getElementById('s_assets').value=18000000000;document.getElementById('s_ebitda').value=1500000000;document.getElementById('s_service').value=2000000000;}
+  else{document.getElementById('s_debt').value=6000000000;document.getElementById('s_assets').value=10000000000;document.getElementById('s_ebitda').value=2500000000;document.getElementById('s_service').value=1800000000;}
+  runExp();
+}
+
+function syncBang(){
+  const debt=Number(document.getElementById('c_debt').value)||0;
+  const assets=Number(document.getElementById('c_assets').value)||0;
+  const ebitda=Number(document.getElementById('c_ebitda').value)||0;
+  const service=Number(document.getElementById('c_service').value)||0;
+  const da=assets>0?debt/assets:0;
+  const dscr=service>0?ebitda/service:0;
+  const cf=(Number(document.getElementById('c_in').value)||0)-(Number(document.getElementById('c_out').value)||0);
+  let risk=Math.min(100,Math.round(Math.min(40,da*50)+(dscr<1?40:dscr<1.25?25:dscr<1.5?10:0)));
+
+  document.getElementById('b_da').textContent=(da*100).toFixed(0)+'%';
+  document.getElementById('b_dscr').textContent=dscr.toFixed(2)+'x';
+  document.getElementById('b_cf').textContent=(cf>=0?'+':'')+fmt(cf);
+  document.getElementById('b_risk').textContent=risk+'%';
+}
+
+// init
+runExp();
+calcLeverage();
+calcDSCR();
+calcCF();
+</script>
+</body>
+</html>

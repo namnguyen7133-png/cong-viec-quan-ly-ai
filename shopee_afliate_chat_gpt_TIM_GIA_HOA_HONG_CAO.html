@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Affiliate Analyzer – Lọc nâng cao</title>
+<style>
+ body { font-family: Arial; padding:20px; background:#f4f6fa }
+ textarea { width:100%; height:200px; }
+ table { border-collapse: collapse; width:100%; margin-top:20px; background:#fff }
+ th, td { border:1px solid #ccc; padding:8px; text-align:left }
+ th { background:#0b4f6c; color:#fff }
+ .btn { padding:10px 18px; background:#0b4f6c; color:white; border:none; cursor:pointer; margin-top:10px; border-radius:6px }
+ .btn:hover { background:#083b52 }
+ .note { margin-top:10px; color:#555 }
+ .vip { color:#d90429; font-weight:bold }
+ .box { background:#fff; padding:15px; border-radius:8px; margin-bottom:15px }
+ input { padding:6px; width:120px }
+</style>
+</head>
+
+<body>
+
+<h2>📊 Affiliate Shopee – Bộ lọc THỰC CHIẾN</h2>
+
+<div class="box">
+<b>🔧 Điều kiện lọc</b><br><br>
+
+Hoa hồng cho phép (% – nhập cách nhau bằng dấu phẩy):<br>
+<input id="rateInput" value="4,5,6,7,11,14,21,22,23,24,25,26,27,37" style="width:100%"><br><br>
+
+Lượt bán tối thiểu:<br>
+<input id="saleInput" type="number" value="106">
+</div>
+
+<textarea id="csvInput" placeholder="📌 Dán dữ liệu CSV Shopee Affiliate ở đây..."></textarea>
+
+<button class="btn" onclick="analyze()">▶️ Phân tích & Lọc</button>
+
+<div id="result"></div>
+
+<script>
+function analyze(){
+    const raw = document.getElementById('csvInput').value.trim();
+    if(!raw){ alert("❌ Chưa có dữ liệu CSV"); return; }
+
+    // LẤY ĐIỀU KIỆN TỪ Ô NHẬP
+    const RATE_LIST = document.getElementById('rateInput').value
+        .split(',')
+        .map(x => parseFloat(x.trim()))
+        .filter(x => !isNaN(x));
+
+    const MIN_SALE = parseInt(document.getElementById('saleInput').value) || 0;
+
+    const lines = raw.split(/\n(?=(?:[^"]*"[^"]*")*[^"]*$)/);
+    const rows = lines.map(l=>l.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/));
+
+    rows.shift(); // bỏ header
+
+    const data = rows.map(r => ({
+        name: r[0]?.replace(/"/g,'') || "",
+        time: r[1]?.replace(/"/g,'') || "",
+        rate: parseFloat((r[2]||"").replace(',','.')),
+        link: r[3] || "",
+        sale: parseInt((r[4]||"").replace(/\D/g,'')) || 0
+    }));
+
+    const filtered = data.filter(x =>
+        x.sale >= MIN_SALE &&
+        RATE_LIST.includes(x.rate)
+    );
+
+    let html = `<h3>📌 KẾT QUẢ (${filtered.length})</h3>`;
+
+    if(filtered.length === 0){
+        html += `<p>❌ Không có sản phẩm đạt điều kiện</p>`;
+    } else {
+        html += `
+        <table>
+        <tr>
+          <th>Tên SP / Shop</th>
+          <th>Hoa hồng</th>
+          <th>Lượt bán</th>
+          <th>Thời gian</th>
+          <th>Link</th>
+        </tr>`;
+        filtered.forEach(x=>{
+            const vip = x.rate >= 21;
+            html += `
+            <tr>
+              <td>${x.name}</td>
+              <td class="${vip?'vip':''}">
+                ${x.rate}% ${vip?'🔥':''}
+              </td>
+              <td>${x.sale}</td>
+              <td>${x.time}</td>
+              <td><a href="${x.link}" target="_blank">Mở</a></td>
+            </tr>`;
+        });
+        html += `</table>`;
+    }
+
+    html += `
+    <p class="note">
+    🔥 = Hoa hồng cao, ưu tiên chạy content trước<br>
+    🚀 Phù hợp: TikTok – Reels – SEO Affiliate
+    </p>`;
+
+    document.getElementById('result').innerHTML = html;
+}
+</script>
+
+</body>
+</html>

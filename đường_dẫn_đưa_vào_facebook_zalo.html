@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Lưu & Copy Link</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 6px 10px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+    .item {
+      border: 1px solid #ccc;
+      padding: 8px;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .link {
+      word-break: break-all;
+      flex: 1;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>📌 LƯU LINK – COPY – XÓA</h2>
+
+<input id="linkInput" placeholder="Dán link vào đây..." />
+<button onclick="saveLink()">Lưu link</button>
+
+<div id="list"></div>
+
+<script>
+  const STORAGE_KEY = "saved_links";
+
+  function getLinks() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  }
+
+  function render() {
+    const list = document.getElementById("list");
+    list.innerHTML = "";
+    getLinks().forEach((link, index) => {
+      list.innerHTML += `
+        <div class="item">
+          <div class="link">${link}</div>
+          <div>
+            <button onclick="copyLink('${link}')">Copy</button>
+            <button onclick="deleteLink(${index})">Xóa</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function saveLink() {
+    const input = document.getElementById("linkInput");
+    const link = input.value.trim();
+    if (!link) return alert("Chưa dán link!");
+    const links = getLinks();
+    links.push(link);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+    input.value = "";
+    render();
+  }
+
+  function copyLink(link) {
+    navigator.clipboard.writeText(link);
+    alert("Đã copy link!");
+  }
+
+  function deleteLink(index) {
+    const links = getLinks();
+    links.splice(index, 1);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+    render();
+  }
+
+  render();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>minmangthuocngam - Affiliate</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 30px; }
+.box { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+h1 { color: #0d47a1; text-align: center; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+th { background: #0d47a1; color: white; }
+tr:nth-child(even) { background: #f9f9f9; }
+.search-box { width: 100%; padding: 10px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px; }
+.back-btn { display: inline-block; margin-bottom: 15px; padding: 8px 15px; background: #555; color: white; text-decoration: none; border-radius: 4px; }
+.back-btn:hover { background: #333; }
+</style>
+</head>
+<body>
+<div class="box">
+    <a href="index_menu.html" class="back-btn">⬅ Quay lại danh mục</a>
+    <h1>minmangthuocngam - Affiliate</h1>
+    <input type="text" id="search" class="search-box" placeholder="🔍 Tìm kiếm nhanh trong trang này..." onkeyup="timKiem()">
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 80px;">STT</th>
+                <th>Nội dung chi tiết</th>
+            </tr>
+        </thead>
+        <tbody id="table-data">
+            <tr>
+                <td><b>1</b></td>
+                <td>Tóc | Máy massage | 1 | óc lợn | họng | vú | bấu dục | bẹn | bắp bò  | gừng sữa</td>
+            </tr>
+            <tr>
+                <td><b>2</b></td>
+                <td>Mắt | Kem dưỡng | 2 | mắt | cổ | lá lách | gan | bắp đùi | móng giò | nem</td>
+            </tr>
+            <tr>
+                <td><b>3</b></td>
+                <td>Tai | Dụng cụ bảo vệ | 3 | má | hàu | sườn | cột sống | chân giò  | chả quế | miến lươn </td>
+            </tr>
+            <tr>
+                <td><b>4</b></td>
+                <td>Mũi | Phụ kiện | 4 | tai | vai | tóp mỡ | Mông | bún mọc | chân gà | cháo tim gan</td>
+            </tr>
+            <tr>
+                <td><b>5</b></td>
+                <td>Miệng | Dầu gội | 5 | miệng | tim | dạ dày | Bóng | phở | mắt cá  | cháo cá </td>
+            </tr>
+            <tr>
+                <td><b>6</b></td>
+                <td>Răng | Băng dán | 6 | cằm | vú | lòng | pin | bì | tôm | cua</td>
+            </tr>
+            <tr>
+                <td><b>7</b></td>
+                <td>Cổ | Máy xông | 7 | mũi | họng | dồi | mật | bún bò  | trai | ghẹ</td>
+            </tr>
+            <tr>
+                <td><b>8</b></td>
+                <td>Vai | Tinh dầu | 8 | mồm | gáy | mề | đuôi | giò lụa | hến | lươn </td>
+            </tr>
+            <tr>
+                <td><b>9</b></td>
+                <td>Ngực | Đai nịt | 9 | bì | bì | xách | bì | miến gà  | trùng trục  | ốc</td>
+            </tr>
+            <tr>
+                <td><b>10</b></td>
+                <td>Bụng | Lược | 10</td>
+            </tr>
+            <tr>
+                <td><b>11</b></td>
+                <td>Lưng | Máy sấy tóc | 11</td>
+            </tr>
+            <tr>
+                <td><b>12</b></td>
+                <td>Tay | Kẹp tóc | 12</td>
+            </tr>
+            <tr>
+                <td><b>13</b></td>
+                <td>Cổ tay | Keo xịt tóc</td>
+            </tr>
+            <tr>
+                <td><b>14</b></td>
+                <td>Đầu gối | Mũ bảo hiểm</td>
+            </tr>
+            <tr>
+                <td><b>15</b></td>
+                <td>Bắp chân | Mũ lưỡi trai | 03/08/2026</td>
+            </tr>
+            <tr>
+                <td><b>16</b></td>
+                <td>Bàn chân | Kính mắt | 31/12/2025</td>
+            </tr>
+            <tr>
+                <td><b>17</b></td>
+                <td>Gót chân | Kính áp tròng | 215</td>
+            </tr>
+            <tr>
+                <td><b>18</b></td>
+                <td>Da mặt | Thuốc nhỏ mắt | 41</td>
+            </tr>
+            <tr>
+                <td><b>19</b></td>
+                <td>Mông | Mặt nạ mắt | 58</td>
+            </tr>
+            <tr>
+                <td><b>20</b></td>
+                <td>Ngón tay | Máy trợ thính</td>
+            </tr>
+            <tr>
+                <td><b>21</b></td>
+                <td>Cổ chân | Bông ngoáy tai</td>
+            </tr>
+            <tr>
+                <td><b>22</b></td>
+                <td>Móng tay | Khẩu trang</td>
+            </tr>
+            <tr>
+                <td><b>23</b></td>
+                <td>Móng chân | Máy xông mũi | 1 | óc lợn</td>
+            </tr>
+            <tr>
+                <td><b>24</b></td>
+                <td>Cánh tay | Son môi | 2 | họng</td>
+            </tr>
+            <tr>
+                <td><b>25</b></td>
+                <td>Bàn tay | Bàn chải răng | 3 | vú</td>
+            </tr>
+            <tr>
+                <td><b>26</b></td>
+                <td>Kem đánh răng | 4 | bấu dục</td>
+            </tr>
+            <tr>
+                <td><b>27</b></td>
+                <td>Nước súc miệng | 5 | bẹn</td>
+            </tr>
+            <tr>
+                <td><b>28</b></td>
+                <td>Máy cạo râu | 6 | bắp bò </td>
+            </tr>
+            <tr>
+                <td><b>29</b></td>
+                <td>Sữa rửa mặt | 7 | gừng sữa</td>
+            </tr>
+            <tr>
+                <td><b>30</b></td>
+                <td>Kem dưỡng da | 8 | mắt</td>
+            </tr>
+            <tr>
+                <td><b>31</b></td>
+                <td>Vòng cổ | 9 | cổ</td>
+            </tr>
+            <tr>
+                <td><b>32</b></td>
+                <td>Khăn quàng | 10 | lá lách</td>
+            </tr>
+            <tr>
+                <td><b>33</b></td>
+                <td>Cà vạt | 11 | gan</td>
+            </tr>
+            <tr>
+                <td><b>34</b></td>
+                <td>Áo sơ mi | 12 | bắp đùi</td>
+            </tr>
+            <tr>
+                <td><b>35</b></td>
+                <td>Áo thun | 13 | móng giò</td>
+            </tr>
+            <tr>
+                <td><b>36</b></td>
+                <td>Áo khoác | 14 | nem</td>
+            </tr>
+            <tr>
+                <td><b>37</b></td>
+                <td>Áo lót | 15 | má</td>
+            </tr>
+            <tr>
+                <td><b>38</b></td>
+                <td>Đai lưng | 16 | hàu</td>
+            </tr>
+            <tr>
+                <td><b>39</b></td>
+                <td>Gel bụng | 17 | sườn</td>
+            </tr>
+            <tr>
+                <td><b>40</b></td>
+                <td>Miếng dán nhiệt | 18 | cột sống</td>
+            </tr>
+            <tr>
+                <td><b>41</b></td>
+                <td>Ba lô | 19 | chân giò </td>
+            </tr>
+            <tr>
+                <td><b>42</b></td>
+                <td>Đồng hồ đeo tay | 20 | chả quế</td>
+            </tr>
+            <tr>
+                <td><b>43</b></td>
+                <td>Vòng tay | 21 | miến lươn </td>
+            </tr>
+            <tr>
+                <td><b>44</b></td>
+                <td>Găng tay | 22 | tai</td>
+            </tr>
+            <tr>
+                <td><b>45</b></td>
+                <td>Kem dưỡng da tay | 23 | vai</td>
+            </tr>
+            <tr>
+                <td><b>46</b></td>
+                <td>Sơn móng tay | 24 | tóp mỡ</td>
+            </tr>
+            <tr>
+                <td><b>47</b></td>
+                <td>Bấm móng tay | 25 | Mông</td>
+            </tr>
+            <tr>
+                <td><b>48</b></td>
+                <td>Tạ tay | 26 | bún mọc</td>
+            </tr>
+            <tr>
+                <td><b>49</b></td>
+                <td>Băng cổ tay | 27 | chân gà</td>
+            </tr>
+            <tr>
+                <td><b>50</b></td>
+                <td>Quần dài | 28 | cháo tim gan</td>
+            </tr>
+            <tr>
+                <td><b>51</b></td>
+                <td>Quần đùi | 29 | miệng</td>
+            </tr>
+            <tr>
+                <td><b>52</b></td>
+                <td>Váy | 30 | tim</td>
+            </tr>
+            <tr>
+                <td><b>53</b></td>
+                <td>Quần lót | 31 | dạ dày</td>
+            </tr>
+            <tr>
+                <td><b>54</b></td>
+                <td>Tất | 32 | Bóng</td>
+            </tr>
+            <tr>
+                <td><b>55</b></td>
+                <td>Giày thể thao | 33 | phở</td>
+            </tr>
+            <tr>
+                <td><b>56</b></td>
+                <td>Giày tây | 34 | mắt cá </td>
+            </tr>
+            <tr>
+                <td><b>57</b></td>
+                <td>Dép | 35 | cháo cá </td>
+            </tr>
+            <tr>
+                <td><b>58</b></td>
+                <td>Sandal | 36 | cằm</td>
+            </tr>
+            <tr>
+                <td><b>59</b></td>
+                <td>Kem trị nứt gót chân | 37 | lòng</td>
+            </tr>
+            <tr>
+                <td><b>60</b></td>
+                <td>Máy massage chân | 38 | pin</td>
+            </tr>
+            <tr>
+                <td><b>61</b></td>
+                <td>Băng đầu gối | 39 | bì</td>
+            </tr>
+            <tr>
+                <td><b>62</b></td>
+                <td>Lót giày | 40 | tôm</td>
+            </tr>
+            <tr>
+                <td><b>63</b></td>
+                <td>Xi đánh giày | 41 | cua</td>
+            </tr>
+            <tr>
+                <td><b>64</b></td>
+                <td>Dầu xả | 42 | mũi</td>
+            </tr>
+            <tr>
+                <td><b>65</b></td>
+                <td>Dầu ủ tóc | 43 | dồi</td>
+            </tr>
+            <tr>
+                <td><b>66</b></td>
+                <td>Serum dưỡng tóc | 44 | mật</td>
+            </tr>
+            <tr>
+                <td><b>67</b></td>
+                <td>Lưới búi tóc | 45 | bún bò </td>
+            </tr>
+            <tr>
+                <td><b>68</b></td>
+                <td>Khăn quấn đầu | 46 | trai</td>
+            </tr>
+            <tr>
+                <td><b>69</b></td>
+                <td>Băng đô | 47 | ghẹ</td>
+            </tr>
+            <tr>
+                <td><b>70</b></td>
+                <td>Thuốc nhuộm tóc | 48 | mồm</td>
+            </tr>
+            <tr>
+                <td><b>71</b></td>
+                <td>Tóc giả | 49 | gáy</td>
+            </tr>
+            <tr>
+                <td><b>72</b></td>
+                <td>Kính bơi | 50 | mề</td>
+            </tr>
+            <tr>
+                <td><b>73</b></td>
+                <td>Kính bảo hộ | 51 | đuôi</td>
+            </tr>
+            <tr>
+                <td><b>74</b></td>
+                <td>Nước ngâm lens | 52 | giò lụa</td>
+            </tr>
+            <tr>
+                <td><b>75</b></td>
+                <td>Bịt tai chống ồn | 53 | hến</td>
+            </tr>
+            <tr>
+                <td><b>76</b></td>
+                <td>Khuyên tai | 54 | lươn </td>
+            </tr>
+            <tr>
+                <td><b>77</b></td>
+                <td>Earcuff (kẹp tai) | 55 | xách</td>
+            </tr>
+            <tr>
+                <td><b>78</b></td>
+                <td>Chỉ nha khoa | 56 | miến gà </td>
+            </tr>
+            <tr>
+                <td><b>79</b></td>
+                <td>Tăm nước | 57 | trùng trục </td>
+            </tr>
+            <tr>
+                <td><b>80</b></td>
+                <td>Hàm duy trì | 58 | ốc</td>
+            </tr>
+            <tr>
+                <td><b>81</b></td>
+                <td>Máy massage mặt | 59</td>
+            </tr>
+            <tr>
+                <td><b>82</b></td>
+                <td>Con lăn cẩm thạch | 60</td>
+            </tr>
+            <tr>
+                <td><b>83</b></td>
+                <td>Giấy thấm dầu | 61</td>
+            </tr>
+            <tr>
+                <td><b>84</b></td>
+                <td>Gối chữ U | 62</td>
+            </tr>
+            <tr>
+                <td><b>85</b></td>
+                <td>Đai chống gù | 63</td>
+            </tr>
+            <tr>
+                <td><b>86</b></td>
+                <td>Miếng dán giảm đau vai gáy | 64</td>
+            </tr>
+            <tr>
+                <td><b>87</b></td>
+                <td>Khăn choàng vai | 65</td>
+            </tr>
+            <tr>
+                <td><b>88</b></td>
+                <td>Dây chuyền | 66</td>
+            </tr>
+            <tr>
+                <td><b>89</b></td>
+                <td>Bao cánh tay chống nắng | 67</td>
+            </tr>
+            <tr>
+                <td><b>90</b></td>
+                <td>Băng cá nhân | 68</td>
+            </tr>
+            <tr>
+                <td><b>91</b></td>
+                <td>Xà phòng rửa tay | 69</td>
+            </tr>
+            <tr>
+                <td><b>92</b></td>
+                <td>Nước rửa tay khô | 70</td>
+            </tr>
+            <tr>
+                <td><b>93</b></td>
+                <td>Nhẫn | 71</td>
+            </tr>
+            <tr>
+                <td><b>94</b></td>
+                <td>Móng tay giả | 72</td>
+            </tr>
+            <tr>
+                <td><b>95</b></td>
+                <td>Kéo cắt da | 73</td>
+            </tr>
+            <tr>
+                <td><b>96</b></td>
+                <td>Gen nịt bụng | 74</td>
+            </tr>
+            <tr>
+                <td><b>97</b></td>
+                <td>Thước dây đo eo | 75</td>
+            </tr>
+            <tr>
+                <td><b>98</b></td>
+                <td>Máy đo huyết áp | 76</td>
+            </tr>
+            <tr>
+                <td><b>99</b></td>
+                <td>Cân sức khỏe | 77</td>
+            </tr>
+            <tr>
+                <td><b>100</b></td>
+                <td>Áo giữ nhiệt | 78</td>
+            </tr>
+            <tr>
+                <td><b>101</b></td>
+                <td>Túi chườm nóng | 79</td>
+            </tr>
+            <tr>
+                <td><b>102</b></td>
+                <td>Xà cạp | 80</td>
+            </tr>
+            <tr>
+                <td><b>103</b></td>
+                <td>Máy tẩy lông chân | 81</td>
+            </tr>
+            <tr>
+                <td><b>104</b></td>
+                <td>Kem tẩy lông | 82</td>
+            </tr>
+            <tr>
+                <td><b>105</b></td>
+                <td>Vòng chân | 83</td>
+            </tr>
+            <tr>
+                <td><b>106</b></td>
+                <td>Miếng dán khử độc bàn chân | 84</td>
+            </tr>
+            <tr>
+                <td><b>107</b></td>
+                <td>Phấn rôm khử mùi giày</td>
+            </tr>
+            <tr>
+                <td><b>108</b></td>
+                <td>Dụng cụ chà gót chân</td>
+            </tr>
+            <tr>
+                <td><b>109</b></td>
+                <td>Đá bọt chân</td>
+            </tr>
+            <tr>
+                <td><b>110</b></td>
+                <td>Băng gạc y tế</td>
+            </tr>
+            <tr>
+                <td><b>111</b></td>
+                <td>Thuốc trị nấm da chân</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+function timKiem() {
+    let input = document.getElementById("search").value.toLowerCase();
+    let rows = document.getElementById("table-data").getElementsByTagName("tr");
+    for (let i = 0; i < rows.length; i++) {
+        let text = rows[i].textContent.toLowerCase();
+        rows[i].style.display = text.includes(input) ? "" : "none";
+    }
+}
+</script>
+<script src="bg-music.js"></script>
+</body>
+</html>

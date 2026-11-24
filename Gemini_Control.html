@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Gemini Memory & Fixer</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; background: #f4f4f9; }
+        .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h3 { color: #2c3e50; margin-top: 0; border-bottom: 2px solid #3498db; pb: 5px; }
+        code { background: #eee; padding: 2px 5px; border-radius: 4px; color: #e74c3c; font-weight: bold; }
+        textarea { width: 100%; height: 120px; margin-top: 10px; border: 1px solid #ccc; border-radius: 4px; padding: 10px; font-family: monospace; background: #fafafa; }
+        button { background: #3498db; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; margin-top: 5px; }
+        button:hover { background: #2980b9; }
+        .hint { font-size: 0.9em; color: #666; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <h2>🛠️ Gemini Automation Assistant</h2>
+
+    <div class="card">
+        <h3>1. Lệnh Fix Công Thức (Dấu ; và Dấu ,)</h3>
+        <p class="hint">Dùng khi Gemini viết công thức Sheets bị sai định dạng vùng/máy của bạn.</p>
+        <textarea id="prompt1">LƯU Ý ĐỊNH DẠNG: Máy tôi dùng định dạng vùng Việt Nam. 
+- Trong Google Sheets: Dấu phân cách tham số là CHẤM PHẨY (;). Dấu thập phân là dấu PHẨY (,).
+- Tuyệt đối không viết kiểu Mỹ (,). Hãy sửa lại toàn bộ công thức trước đó theo đúng quy tắc này.</textarea>
+        <button onclick="copyToClipboard('prompt1')">Copy Lệnh Fix Dấu</button>
+    </div>
+
+    <div class="card">
+        <h3>2. Lệnh "Nối Mạch" Khi Đơ/Lag/Sang Chat Mới</h3>
+        <p class="hint">Copy đoạn này và điền vắn tắt bước cuối cùng bạn đang làm vào chỗ trống.</p>
+        <textarea id="prompt2">KHÔI PHỤC NGỮ CẢNH: Cuộc trò chuyện trước bị gián đoạn do lỗi mạng. 
+- Dự án: Quản lý 32 shop affiliate (Python/GAS/Sheets).
+- Trạng thái: Đang làm dở phần [ĐIỀN BƯỚC ĐANG LÀM VÀO ĐÂY].
+- Yêu cầu: Không giải thích lại lý thuyết, không lan man sang lĩnh vực khác. Tiếp tục viết code/giải pháp từ bước này.</textarea>
+        <button onclick="copyToClipboard('prompt2')">Copy Lệnh Nối Mạch</button>
+    </div>
+
+    <div class="card">
+        <h3>3. Lệnh Chặn "Nhảy Cóc" & Sai Thực Tế</h3>
+        <p class="hint">Dùng khi Gemini đưa code thiếu hoặc giải thích quá sơ sài.</p>
+        <textarea id="prompt3">YÊU CẦU ĐỘ CHÍNH XÁC CAO: Bạn đang giải thích quá nhanh và nhảy cóc bước. 
+- Hãy viết code đầy đủ (Full-code), không viết đoạn mẫu. 
+- Kiểm tra tính logic thực tế với thư viện Selenium/Python hiện tại. 
+- Nếu có biến số nào cần thay đổi, hãy liệt kê rõ ràng, không nói chung chung.</textarea>
+        <button onclick="copyToClipboard('prompt3')">Copy Lệnh Chống Nhảy Cóc</button>
+    </div>
+
+    <script>
+        function copyToClipboard(id) {
+            var copyText = document.getElementById(id);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("Đã copy lệnh vào bộ nhớ tạm!");
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grok Nhắc Nhớ Nhanh - Dán ngay khi chat mới</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+        
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e2937);
+            color: #e2e8f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #1e2937;
+            width: 100%;
+            max-width: 620px;
+            margin: 20px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+        header {
+            background: #0f172a;
+            padding: 20px 25px;
+            text-align: center;
+            border-bottom: 1px solid #334155;
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 500;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .content {
+            padding: 25px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            background: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 15px;
+            line-height: 1.5;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+        .label {
+            display: block;
+            margin: 18px 0 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #cbd5e1;
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 500;
+            background: #22c55e;
+            color: #0f172a;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+        }
+        .tip {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .footer {
+            padding: 15px 25px;
+            background: #0f172a;
+            font-size: 13px;
+            color: #64748b;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Grok Nhắc Nhớ Nhanh</h1>
+            <div class="subtitle">Dán ngay khi chat mới / mạng lag / đứt mạch</div>
+        </header>
+        
+        <div class="content">
+            <label class="label">📌 TÓM TẮT NGỮ CẢNH CŨ (bạn dán vào đây):</label>
+            <textarea id="context" placeholder="Ví dụ: Đang làm Sheet tính lương nhân viên, đến bước công thức VLOOKUP cột lương cơ bản..."></textarea>
+
+            <label class="label">🔄 YÊU CẦU HIỆN TẠI (bạn dán vào đây):</label>
+            <textarea id="request" placeholder="Ví dụ: Tiếp tục hoàn thiện công thức tính thưởng tháng 4"></textarea>
+
+            <button onclick="copyPrompt()">📋 COPY PROMPT &amp; DÁN VÀO GROK NGAY</button>
+            
+            <div class="tip">
+                💡 Mẹo: Nhấn Ctrl + C sau khi copy → mở chat mới → Ctrl + V<br>
+                Grok sẽ tự nhớ quy tắc Sheets Việt Nam và không lan man
+            </div>
+        </div>
+        
+        <div class="footer">
+            Lưu file HTML này vào máy hoặc kéo vào thanh dấu trang (bookmark bar) để mở cực nhanh<br>
+            Nam - Hà Nội • Công thức Sheets dùng ; • Không nhảy cóc • Chi tiết từng bước
+        </div>
+    </div>
+
+    <script>
+        function copyPrompt() {
+            const context = document.getElementById('context').value.trim();
+            const request = document.getElementById('request').value.trim();
+            
+            const promptText = `Tiếp tục NGAY dự án đang làm dở với tôi (Nam, Hà Nội, Việt Nam).
+
+QUY TẮC BẮT BUỘC (luôn áp dụng):
+• Công thức Google Sheets / Excel: DÙNG DẤU CHẤM PHẨY (;) thay vì dấu phẩy (,). Ví dụ: =IF(A1>1000; "Thưởng"; "Không")
+• Giải thích CHI TIẾT, TỪNG BƯỚC MỘT, KHÔNG NHẢY CÓC, KHÔNG LAN MAN sang chủ đề khác.
+• Dựa trên thực tế, không bịa thông tin.
+
+Ngữ cảnh cũ: ${context || "Chưa có tóm tắt, bạn tự nhớ theo lịch sử chat trước"}
+
+Bây giờ tiếp tục ngay với: ${request || "Tiếp tục dự án đang dở"}
+
+Bắt đầu trả lời luôn, không hỏi lại.`;
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = document.querySelector('button');
+                const originalText = btn.innerHTML;
+                btn.style.background = '#16a34a';
+                btn.innerHTML = '✅ ĐÃ COPY - DÁN VÀO GROK NGAY!';
+                setTimeout(() => {
+                    btn.style.background = '#22c55e';
+                    btn.innerHTML = originalText;
+                }, 2200);
+            });
+        }
+
+        // Nhấn Enter trong textarea cũng copy được
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                copyPrompt();
+            }
+        });
+    </script>
+</body>
+</html>

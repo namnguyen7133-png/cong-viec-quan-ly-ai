@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trợ lý Tự động Ghép 9 Mẫu Prompt AI</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
+        .container { max-width: 700px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
+        label { font-weight: bold; color: #34495e; display: block; margin-top: 15px; }
+        select, textarea { width: 100%; margin-top: 8px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        select { background: #e8f4fd; cursor: pointer; border-color: #3498db; }
+        textarea { height: 90px; }
+        .btn-row { display: flex; gap: 10px; margin-top: 15px; }
+        button { flex: 1; background: #27ae60; color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
+        button:hover { background: #219653; }
+        button.clear-btn { background: #e74c3c; }
+        button.clear-btn:hover { background: #c0392b; }
+        button.copy-btn { background: #2980b9; }
+        button.copy-btn:hover { background: #1f618d; }
+        textarea.output-box { background: #f8f9fa; color: #2c3e50; height: 200px; font-family: monospace; font-size: 13px; }
+        .note { font-size: 13px; color: #e67e22; margin-top: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Trợ lý Tự động Ghép 9 Mẫu Prompt AI</h2>
+    
+    <label for="userText">Nhập nội dung / tình huống của bạn:</label>
+    <textarea id="userText" placeholder="Ví dụ: Đọc câu phát biểu hoặc vấn đề cần xử lý vào đây..."></textarea>
+    
+    <div class="btn-row">
+        <button onclick="autoDetectTemplate()">Tự động nhận diện & Tạo Prompt</button>
+        <button class="clear-btn" onclick="clearText()">Xóa nội dung</button>
+    </div>
+
+    <label for="templateSelect">Mẫu AI được chọn (Có thể bấm chọn lại thủ công):</label>
+    <select id="templateSelect" onchange="generatePrompt()">
+        <option value="1">Mẫu 1: Phân tích chiến lược đàm phán / ẩn ý phát biểu[cite: 2]</option>
+        <option value="2">Mẫu 2: Phá băng tâm lý, hướng dẫn học sinh nản chí từng bước[cite: 3]</option>
+        <option value="3">Mẫu 3: Chứng minh một nhận định, đạo lý, chân lý[cite: 4]</option>
+        <option value="4">Mẫu 4: Nghị luận xã hội - Phân tích vấn đề bằng câu hỏi ngược[cite: 5]</option>
+        <option value="5">Mẫu 5: Phân tích văn học (Thơ, truyện ngắn) như giải mã mật thư[cite: 6]</option>
+        <option value="6">Mẫu 6: Bình giảng văn học (Đánh giá, bàn luận sâu)[cite: 7]</option>
+        <option value="7">Mẫu 7: Viết luận văn dài theo nguyên tắc lặp lại đầu đề[cite: 8]</option>
+        <option value="8">Mẫu 8: Nạp dữ liệu phụ đề phim để phân tích triết lý / tâm lý[cite: 9]</option>
+        <option value="9">Mẫu 9: Chuyên gia tâm lý hòa giải mâu thuẫn gia đình (Giới hạn &lt;500 ký tự)[cite: 1]</option>
+    </select>
+    
+    <label for="promptOutput">Prompt hoàn chỉnh để dán vào AI:</label>
+    <textarea id="promptOutput" class="output-box" readonly placeholder="Prompt sẽ hiện ra ở đây sau khi bấm nút tạo..."></textarea>
+    
+    <div class="btn-row">
+        <button class="copy-btn" onclick="copyToClipboard()">Copy Prompt</button>
+    </div>
+    <div class="note" id="statusMsg"></div>
+</div>
+
+<script>
+function autoDetectTemplate() {
+    const text = document.getElementById('userText').value.toLowerCase();
+    const selectBox = document.getElementById('templateSelect');
+    const statusMsg = document.getElementById('statusMsg');
+
+    if (!text.trim()) {
+        alert("Vui lòng nhập nội dung vào ô trống trước!");
+        return;
+    }
+
+    // Thuật toán quét từ khóa tự động chọn mẫu
+    if (text.includes('mẹ') || text.includes('chăm') || text.includes('vợ') || text.includes('chồng') || text.includes('gia đình') || text.includes('sổ đỏ') || text.includes('nhà') || text.includes('nội ngoại')) {
+        selectBox.value = "9";
+        statusMsg.innerText = "⚡ Đã tự động chọn: Mẫu 9 (Hòa giải mâu thuẫn gia đình)[cite: 1]";
+    } else if (text.includes('đàm phán') || text.includes('hòa bình') || text.includes('thương lượng') || text.includes('phát biểu') || text.includes('tuổi')) {
+        selectBox.value = "1";
+        statusMsg.innerText = "⚡ Đã tự động chọn: Mẫu 1 (Đàm phán / ẩn ý)[cite: 2]";
+    } else if (text.includes('học sinh') || text.includes('chán nản') || text.includes('khó quá') || text.includes('không hiểu') || text.includes('nản')) {
+        selectBox.value = "2";
+        statusMsg.innerText = "⚡ Đã tự động chọn: Mẫu 2 (Phá băng tâm lý học tập)[cite: 3]";
+    } else if (text.includes('chứng minh') || text.includes('đạo lý') || text.includes('nhận định') || text.includes('chân lý')) {
+        selectBox.value = "3";
+        statusMsg.innerText = "⚡ Đã tự động chọn: Mẫu 3 (Chứng minh nhận định)[cite: 4]";
+    } else if (text.includes('nghị luận xã hội') || text.includes('vấn đề xã hội') || text.includes('khô khan')) {
+        selectBox.value = "4";
+        statusMsg.innerText = "⚡ Đã tự động chọn: Mẫu 4 (Nghị luận xã hội)[cite: 5]";
+    } else if (text.includes('thơ') || text.includes('truyện ngắn') || text.includes('câu thơ') || text.includes('đoạn văn')) {
+        selectBox.value = "5";
+        statusMsg.innerText = "⚡ Đã tự động chọn: Mẫu 5 (Phân tích văn học)[cite: 6]";
+    } else if (text.includes('bình giảng') || text.includes('đánh giá tác phẩm') || text.includes('tác phẩm')) {
+        selectBox.value = "6";
+        statusMsg.innerText = "⚡ Đã tự động chọn: Mẫu 6 (Bình giảng văn học)[cite: 7]";
+    } else if (text.includes('luận văn') || text.includes('đề tài') || text.includes('dàn ý') || text.includes('tiểu luận')) {
+        selectBox.value = "7";
+        statusMsg.innerText = "⚡ Đã tự động chọn: Mẫu 7 (Viết luận văn dài)[cite: 8]";
+    } else if (text.includes('phụ đề') || text.includes('sub') || text.includes('phim') || text.includes('hội thoại')) {
+        selectBox.value = "8";
+        statusMsg.innerText = "⚡ Đã tự động chọn: Mẫu 8 (Nạp dữ liệu phụ đề)[cite: 9]";
+    } else {
+        statusMsg.innerText = "💡 Đã giữ mẫu hiện tại hoặc bạn có thể chọn thủ công ở ô bên trên.";
+    }
+    
+    generatePrompt();
+}
+
+function generatePrompt() {
+    const selectBox = document.getElementById('templateSelect').value;
+    const textInput = document.getElementById('userText').value.trim();
+    const outputBox = document.getElementById('promptOutput');
+
+    if (!textInput) {
+        outputBox.value = "";
+        return;
+    }
+
+    let template = "";
+    switch(selectBox) {
+        case "1":
+            template = `Bạn là một chuyên gia chiến lược đàm phán quốc tế và tâm lý hành vi. Hãy phân tích câu phát biểu dưới đây để giải mã tư duy, chiến thuật và ẩn ý[cite: 2]. Cấu trúc phân tích gồm: 1. Ẩn ý và Mục đích cốt lõi; 2. Góc nhìn Tâm lý và Cảm xúc; 3. Phân loại Chiến thuật; 4. Gợi ý Ứng phó và Phản đòn tối ưu[cite: 2].\n\nTình huống/Phát biểu cần phân tích: "${textInput}"`;
+            break;
+        case "2":
+            template = `Bạn là một người thầy tận tâm, kiên nhẫn. Học sinh đang nản chí và kêu ca với đề bài sau[cite: 3]. Hãy đồng cảm nhẹ nhàng, giải thích đơn giản không dùng từ hàn lâm, và chia nhỏ quá trình làm bài thành các bước cơ bản nhất[cite: 3].\n\nĐề bài / Vấn đề của học sinh: "${textInput}"`;
+            break;
+        case "3":
+            template = `Hãy giúp hướng dẫn chứng minh vấn đề sau một cách đơn giản như đưa bằng chứng thực tế[cite: 4]. Hướng dẫn cấu trúc 3 bước: 1. Giải thích từ khóa; 2. Lấy dẫn chứng đời thực; 3. Rút ra bài học[cite: 4]. Kèm theo ví dụ bình dị.\n\nVấn đề cần chứng minh: "${textInput}"`;
+            break;
+        case "4":
+            template = `Học sinh đang kêu ca đề nghị luận xã hội khô khan[cite: 5]. Hãy khơi gợi tư duy bằng 3 câu hỏi xương sống (Vấn đề là gì? Tại sao xảy ra? Nên làm gì?), hướng dẫn tìm ý từ thực tế và trấn an không cần viết quá văn hoa[cite: 5].\n\nĐề bài nghị luận xã hội: "${textInput}"`;
+            break;
+        case "5":
+            template = `Hãy phân tích đoạn văn/thơ sau theo cách "giải mã mật thư"[cite: 6]. Không dùng thuật ngữ phức tạp, hướng dẫn 2 bước: Nhìn bề nổi (tả cảnh/hành động) và Nhìn tầng sâu (cảm xúc buồn vui cô đơn)[cite: 6].\n\nNgữ liệu cần phân tích: "${textInput}"`;
+            break;
+        case "6":
+            template = `Hãy giải thích và hướng dẫn bình giảng đoạn tác phẩm sau giống như việc ngồi bàn tán với bạn bè về một bộ phim hay[cite: 7]. Dạy cách chọn ra câu đắt giá nhất và bày tỏ chính kiến cảm xúc cá nhân[cite: 7].\n\nNgữ liệu cần bình giảng: "${textInput}"`;
+            break;
+        case "7":
+            template = `Bạn là chuyên gia học thuật. Tôi cần viết luận văn dài cho đề tài sau[cite: 8]. Áp dụng nghiêm ngặt quy tắc lặp lại đầu đề (Checkpoint) sau mỗi phần lớn và viết từng phần một, chờ lệnh viết tiếp[cite: 8].\n\nThông tin luận văn / Dàn ý chi tiết: "${textInput}"`;
+            break;
+        case "8":
+            template = `Dưới đây là trích đoạn phụ đề/đoạn hội thoại[cite: 9]. Hãy đọc kỹ để hiểu bối cảnh và sẵn sàng thực hiện các yêu cầu phân tích sâu về tâm lý hoặc trích xuất dẫn chứng viết văn[cite: 9].\n\nNội dung phụ đề/hội thoại: "${textInput}"`;
+            break;
+        case "9":
+            template = `Bạn là một chuyên gia tâm lý thấu cảm và là một người hòa giải khéo léo. \n\nBối cảnh mâu thuẫn cốt lõi xuất phát từ sự bất công và tủi thân khi so sánh cách đối xử giữa hai bên gia đình[cite: 1]:\n- Nỗi niềm/Lời than vãn của người vợ/chồng là: "${textInput}"\n\nNhiệm vụ của bạn:\n1. Tìm kiếm và trích xuất những ý tứ thể hiện sự tổn thương từ câu nói trên[cite: 1].\n2. Soạn ra 1 gợi ý câu nói (hoặc kịch bản giao tiếp thoại ngắn) vừa khéo léo thừa nhận sự vô tâm, vừa nhắc nhở nhẹ nhàng về sự công bằng tình cảm nội ngoại để giảng hòa[cite: 1].\n3. YÊU CẦU: Câu trả lời thoại gợi ý phải CỰC KỲ NGẮN GỌN, đúng trọng tâm, TUYỆT ĐỐI DƯỚI 500 KÝ TỰ để đọc thoại trực tiếp ngay lập tức.`;
+            break;
+    }
+    outputBox.value = template;
+}
+
+function clearText() {
+    document.getElementById('userText').value = "";
+    document.getElementById('promptOutput').value = "";
+    document.getElementById('statusMsg').innerText = "🧹 Đã làm sạch ô nhập liệu.";
+}
+
+function copyToClipboard() {
+    const outputBox = document.getElementById('promptOutput');
+    const statusMsg = document.getElementById('statusMsg');
+    
+    if (!outputBox.value) {
+        alert("Chưa có nội dung để copy!");
+        return;
+    }
+
+    outputBox.select();
+    outputBox.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(outputBox.value).then(() => {
+        statusMsg.innerText = "✅ Đã copy vào bộ nhớ tạm thành công!";
+    }, () => {
+        statusMsg.innerText = "❌ Lỗi khi copy.";
+    });
+}
+</script>
+
+</body>
+</html>

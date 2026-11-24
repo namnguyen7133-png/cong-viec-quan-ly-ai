@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content & Golden Hour Tracker</title>
+    <style>
+        :root { --primary: #ee4d2d; --dark: #2d2d2d; --light: #f5f5f5; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--light); color: var(--dark); padding: 20px; line-height: 1.6; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { color: var(--primary); text-align: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        
+        .timer-section { background: #fff5f1; border: 1px solid var(--primary); border-radius: 10px; padding: 15px; margin-bottom: 20px; text-align: center; }
+        .next-hour { font-weight: bold; font-size: 1.2em; color: #d0011b; }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        
+        button { background: var(--primary); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 18px; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #d73211; }
+
+        #resultArea { margin-top: 20px; padding: 20px; background: #f9f9f9; border-left: 5px solid var(--primary); display: none; white-space: pre-wrap; }
+        .copy-btn { background: #555; margin-top: 10px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚀 AI POSTING TOOL</h1>
+
+    <div class="timer-section">
+        <div>Khung giờ vàng sắp tới: <span id="targetHour" class="next-hour">--:--</span></div>
+        <div id="countdown">Đang tính toán thời gian...</div>
+    </div>
+
+    <div class="input-group">
+        <label>1. Dán Link Sản Phẩm (Shopee/TikTok/Lazada):</label>
+        <input type="text" id="productLink" placeholder="https://shopee.vn/product/...">
+    </div>
+
+    <div class="input-group">
+        <label>2. Tên sản phẩm & Đặc điểm nổi bật:</label>
+        <input type="text" id="productName" placeholder="Ví dụ: Nồi chiên không dầu - Giảm dầu mỡ, giòn ngon">
+    </div>
+
+    <div class="input-group">
+        <label>3. Chọn phong cách ngụ ngôn:</label>
+        <select id="storyStyle">
+            <option value="haihuoc">Hài hước, châm biếm</option>
+            <option value="sau sắc">Sâu sắc, ý nghĩa</option>
+            <option value="giat-gan">Giật gân, tò mò</option>
+        </select>
+    </div>
+
+    <button onclick="generateContent()">AI VIẾT TRUYỆN NGỤ NGÔN ✨</button>
+
+    <div id="resultArea">
+        <div id="textContent"></div>
+        <button class="copy-btn" onclick="copyResult()">SAO CHÉP NỘI DUNG</button>
+    </div>
+</div>
+
+<script>
+    // 1. Quản lý giờ vàng
+    const goldenHours = ["06:45", "11:15", "13:45", "16:15", "19:45", "22:15"];
+    
+    function updateCountdown() {
+        const now = new Date();
+        const currentTime = now.getHours() * 60 + now.getMinutes();
+        
+        let target = goldenHours[0];
+        for (let time of goldenHours) {
+            let [h, m] = time.split(':').map(Number);
+            if ((h * 60 + m) > currentTime) {
+                target = time;
+                break;
+            }
+        }
+
+        document.getElementById('targetHour').innerText = target;
+        document.getElementById('countdown').innerText = `Đừng quên đặt báo thức lúc: ${target} để đăng bài!`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 2. AI viết chuyện (Logic giả lập nội dung sáng tạo)
+    function generateContent() {
+        const name = document.getElementById('productName').value;
+        const link = document.getElementById('productLink').value;
+        const style = document.getElementById('storyStyle').value;
+
+        if (!name) {
+            alert("Vui lòng nhập tên sản phẩm!");
+            return;
+        }
+
+        const templates = [
+            `Ngày xửa ngày xưa, trong một ngôi làng nọ, mọi người đều khổ sở vì ${name.split('-')[0]}. Một ngày kia, vị pháp sư mang đến một phép màu mang tên "${name}". Kể từ đó, ai dùng cũng thấy đời nở hoa, ${name.split('-')[1] || "mọi phiền lo tan biến"}. 
+
+👉 Bài học: Đừng chịu đựng sự bất tiện khi giải pháp nằm ngay ở đây: ${link}`,
+            
+            `Chuyện kể rằng có một anh chàng luôn bị người yêu phàn nàn vì không có ${name.split('-')[0]}. Sau bao đêm trăn trở, anh quyết định đầu tư "${name}". Kết quả là không những người yêu khen mà cả xóm đều trầm trồ. 
+
+👉 Ngụ ngôn cho thấy: Đầu tư vào bản thân (và món này) không bao giờ lỗ: ${link}`,
+            
+            `Ở một vương quốc nọ, có hai người thợ cùng làm một công việc. Một người dùng tay không, một người dùng "${name}". Cuối ngày, người có công cụ đã thong dong đi uống trà, còn người kia vẫn miệt mài trong mệt mỏi. 
+
+👉 Thông điệp: Người thông minh chọn công cụ tốt. Mua ngay tại: ${link}`
+        ];
+
+        const randomStory = templates[Math.floor(Math.random() * templates.length)];
+        document.getElementById('textContent').innerText = `[GỢI Ý ĐĂNG BÀI]\n\n${randomStory}`;
+        document.getElementById('resultArea').style.display = 'block';
+    }
+
+    function copyResult() {
+        const text = document.getElementById('textContent').innerText;
+        navigator.clipboard.writeText(text);
+        alert("Đã sao chép nội dung!");
+    }
+</script>
+
+</body>
+</html>

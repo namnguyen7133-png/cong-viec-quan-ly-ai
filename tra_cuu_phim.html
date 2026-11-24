@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra cứu Phụ đề Phim & Liên kết YouTube</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
+        .container { max-width: 850px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 10px; }
+        .path-box { background: #e8f4fd; border: 1px dashed #3498db; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #2980b9; margin-bottom: 15px; word-break: break-all; }
+        
+        label { font-weight: bold; color: #34495e; display: block; margin-top: 15px; }
+        textarea, input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; margin-top: 6px; }
+        textarea { height: 100px; }
+        
+        .search-quick-box { background: #fff8e1; padding: 12px; border-radius: 6px; border: 1px solid #ffe082; margin-top: 15px; }
+        
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        button { flex: 1; background: #8e44ad; color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
+        button:hover { background: #732d91; }
+        button.clear-btn { background: #e74c3c; flex: 0.3; }
+        button.clear-btn:hover { background: #c0392b; }
+        
+        .result-section { margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 6px; border-left: 5px solid #8e44ad; }
+        
+        /* Cấu trúc từng cụm/dòng hiển thị rõ ràng */
+        .movie-card { background: #fff; padding: 15px; margin-top: 12px; border-radius: 6px; border: 1px solid #e1e8ed; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .movie-title { font-weight: bold; color: #2980b9; font-size: 16px; margin-bottom: 6px; }
+        .line-item { margin: 5px 0; font-size: 14px; color: #333; }
+        .quote-box { font-style: italic; color: #c0392b; background: #fdf2f2; padding: 8px 10px; border-radius: 4px; margin-top: 8px; border-left: 3px solid #e74c3c; }
+        
+        /* Định dạng nút Link YouTube */
+        .yt-link { display: inline-block; margin-top: 8px; background: #ff0000; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold; }
+        .yt-link:hover { background: #cc0000; }
+        .no-yt { display: inline-block; margin-top: 8px; background: #95a5a6; color: white; padding: 6px 12px; border-radius: 4px; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Tra cứu Tâm lý từ Phụ đề Phim & Kho YouTube</h2>
+    <div class="path-box"><b>Kho lưu trữ nguồn:</b> D:\HE_THONG_HO_TRO_RA_QUYET_DINH\DU_AN\13. KHO_LUU_TRU</div>
+    
+    <label for="inputText">1. Dán nội dung / câu nói cần phân tích tâm lý:</label>
+    <textarea id="inputText" placeholder="Ví dụ: Tủi thân chuyện chăm sóc gia đình nội ngoại, bất công tiền bạc, mâu thuẫn vợ chồng..."></textarea>
+    
+    <!-- Thanh tìm kiếm từ khóa nhanh dạng dòng -->
+    <div class="search-quick-box">
+        <label for="quickKeyword" style="margin-top:0; color:#b78103;">2. Hoặc tìm nhanh theo từ khóa riêng lẻ (Từng dòng):</label>
+        <input type="text" id="quickKeyword" placeholder="Nhập từ khóa (vd: tủi thân, sổ đỏ, tiền, vô tâm...) rồi bấm Tìm kiếm..." onkeyup="if(event.key === 'Enter') searchMovieSubtitles()">
+    </div>
+    
+    <div class="btn-group">
+        <button onclick="searchMovieSubtitles()">Quét Phân Tích & Tìm Phim</button>
+        <button class="clear-btn" onclick="clearAll()">Xóa</button>
+    </div>
+
+    <div class="result-section" id="resultArea">
+        <b>Kết quả tra cứu chi tiết từng cụm dữ liệu sẽ hiển thị ở đây...</b>
+    </div>
+</div>
+
+<script>
+// CƠ SỞ DỮ LIỆU ĐƯỢC CHIA THÀNH TỪNG CỤM / TỪNG DÒNG RÕ RÀNG
+const movieDatabase = [
+    {
+        id: 1,
+        groupName: "Cụm Chủ đề: Xung đột Tài sản & Bất công Nội ngoại",
+        keywords: ['tủi thân', 'chăm sóc', 'bố mẹ', 'đối xử', 'bất công', 'nội ngoại', 'sổ đỏ', 'tiền', 'nhà', 'mua nhà', 'công sức'],
+        title: 'Phim Gia Đình / Xung đột tài sản & Tình cảm',
+        lesson: 'Nhân vật rơi vào trạng thái cô độc khi sự hy sinh âm thầm hoặc tài sản đóng góp không được ghi nhận.',
+        subQuote: '"Lúc bố mẹ ốm đau thì một tay mình lo... Tiền tự tay tao làm ra mua nhà, sao lại đối xử bất công thế này?"',
+        youtubeUrl: 'https://www.youtube.com/results?search_query=về+nhà+đi+con+tranh+chấp+tài+sản' // Đã có liên kết YouTube
+    },
+    {
+        id: 2,
+        groupName: "Cụm Chủ đề: Tổn thương Giao tiếp & Sự vô tâm",
+        keywords: ['cãi vã', 'vô tâm', 'mệt mỏi', 'tổn thương', 'giảng hòa', 'lời nói', 'phàn nàn', 'nóng giận'],
+        title: 'Phim Tâm lý Chữa lành & Giao tiếp Hôn nhân',
+        lesson: 'Những lời trách móc gay gắt bề ngoài thực chất là tiếng kêu cứu nội tâm mong muốn được thấu hiểu.',
+        subQuote: '"Chúng ta thương nhau rất nhiều, nhưng cách chúng ta đối thoại lại vô tình cứa những vết dao sâu nhất."',
+        youtubeUrl: 'https://www.youtube.com/results?search_query=phim+tâm+lý+hôn+nhân+chữa+lành+tổn+thương' // Đã có liên kết YouTube
+    },
+    {
+        id: 3,
+        groupName: "Cụm Chủ đề: Áp lực Kinh tế & Sự dồn nén",
+        keywords: ['gánh nặng', 'kinh tế', 'chi tiêu', 'trách nhiệm', 'bỏ ra', 'thiệt thòi'],
+        title: 'Phim Xã hội Hiện thực: Lát cắt đời sống',
+        lesson: 'Áp lực cơm áo gạo tiền dễ làm mài mòn sự kiên nhẫn, khiến vợ chồng dễ buông lời sát thương nhau.',
+        subQuote: '"Anh tưởng kiếm được đồng tiền dễ lắm chắc? Cả gánh nặng gia đình đè lên vai tôi ai hiểu?"',
+        youtubeUrl: '' // (Ví dụ mẫu chưa có link để kiểm tra tính năng tự sửa/cảnh báo)
+    }
+];
+
+function searchMovieSubtitles() {
+    const text = document.getElementById('inputText').value.toLowerCase();
+    const quickKw = document.getElementById('quickKeyword').value.toLowerCase().trim();
+    const resultArea = document.getElementById('resultArea');
+
+    if (!text.trim() && !quickKw) {
+        alert("Vui lòng nhập nội dung phân tích hoặc từ khóa tìm kiếm!");
+        return;
+    }
+
+    let matchedResults = [];
+
+    movieDatabase.forEach(movie => {
+        let score = 0;
+        // Kiểm tra khớp từ ô văn bản lớn
+        movie.keywords.forEach(kw => {
+            if (text && text.includes(kw)) score += 2;
+            if (quickKw && (kw.includes(quickKw) || quickKw.includes(kw) || movie.groupName.toLowerCase().includes(quickKw))) score += 5;
+        });
+
+        if (score > 0) {
+            matchedResults.push({ ...movie, matchScore: score });
+        }
+    });
+
+    if (matchedResults.length === 0) {
+        resultArea.innerHTML = `<b>Kết quả:</b> Không tìm thấy cụm dữ liệu nào khớp. Vui lòng thử từ khóa khác hoặc kiểm tra lại tệp trong <code>13. KHO_LUU_TRU</code>.`;
+        return;
+    }
+
+    // Sắp xếp theo độ khớp cao nhất
+    matchedResults.sort((a, b) => b.matchScore - a.matchScore);
+
+    let htmlOutput = `<b>🎯 Tìm thấy ${matchedResults.length} cụm dữ liệu / phân đoạn phù hợp:</b><br>`;
+
+    matchedResults.forEach((item, index) => {
+        // Kiểm tra xem tệp/phim này đã có đường dẫn YouTube chưa, nếu chưa thì hiển thị thông báo sửa chữa
+        let ytButton = "";
+        if (item.youtubeUrl && item.youtubeUrl.startsWith("http")) {
+            ytButton = `<a href="${item.youtubeUrl}" target="_blank" class="yt-link">▶ Mở và Xem trên YouTube</a>`;
+        } else {
+            ytButton = `<span class="no-yt">⚠️ Chưa có link YouTube trực tiếp (Đã liệt kê vào dòng chờ cập nhật)</span>`;
+        }
+
+        htmlOutput += `
+            <div class="movie-card">
+                <div class="movie-title">#${index + 1} - ${item.groupName}</div>
+                <div class="line-item"><b>Tên tác phẩm / Nguồn:</b> ${item.title}</div>
+                <div class="line-item"><b>Góc nhìn tâm lý:</b> ${item.lesson}</div>
+                <div class="quote-box"><b>Dòng thoại trích dẫn:</b> ${item.subQuote}</div>
+                <div>${ytButton}</div>
+            </div>
+        `;
+    });
+
+    resultArea.innerHTML = htmlOutput;
+}
+
+function clearAll() {
+    document.getElementById('inputText').value = "";
+    document.getElementById('quickKeyword').value = "";
+    document.getElementById('resultArea').innerHTML = "<b>Kết quả tra cứu chi tiết từng cụm dữ liệu sẽ hiển thị ở đây...</b>";
+}
+</script>
+
+</body>
+</html>

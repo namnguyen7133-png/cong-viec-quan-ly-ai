@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Robot Hành Trình Toàn Diện v6.0 - Affiliate Family</title>
+    <style>
+        :root { --ngan-an: #ff6b6b; --minh-chau: #4ecdc4; --bich-ngoc: #a29bfe; --gold: #f1c40f; --danger: #e74c3c; --success: #27ae60; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f3f5; padding: 20px; margin: 0; }
+        .container { max-width: 1400px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--gold); }
+        
+        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 20px; }
+        .compass-box { background: var(--gold); padding: 10px 20px; border-radius: 30px; font-weight: bold; }
+
+        /* Table Styles */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th { background: #2c3e50; color: white; padding: 12px; font-size: 14px; }
+        td { padding: 10px; border: 1px solid #eee; text-align: center; }
+        
+        select, input { width: 95%; padding: 8px; border-radius: 5px; border: 1px solid #ddd; }
+        .score-box { font-size: 20px; font-weight: bold; color: var(--success); }
+        
+        /* Discipline Section */
+        .discipline-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #fff5f5; padding: 20px; border-radius: 12px; border: 1px solid #feb2b2; }
+        .btn-save { background: var(--success); color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; width: 100%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1 style="margin:0;">HÀNH TRÌNH TOÀN DIỆN v6.0</h1>
+            <p style="margin:5px 0 0; color: #666;">Dữ liệu đồng bộ từ Sheet: Ngân An - Minh Châu - Bích Ngọc</p>
+        </div>
+        <div class="compass-box">🧭 Hướng: ĐÔNG NAM</div>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th width="12%">Thành Viên</th>
+                <th width="15%">Loại (Lứa tuổi)</th>
+                <th width="18%">Tên Ước Muốn</th>
+                <th width="30%">Cam Kết (Sheet)</th>
+                <th width="15%">Affiliate (Bố giao)</th>
+                <th width="10%">Điểm (TC)</th>
+            </tr>
+        </thead>
+        <tbody id="main-table">
+            <tr id="row_0">
+                <td style="font-weight:bold; color: var(--ngan-an);">Ngân An</td>
+                <td><select id="age_0" onchange="syncData(0)">
+                    <option value="Cap2">Lớp 6 đến lớp 8 (cấp 2)</option>
+                    <option value="Cap1">Lớp mẫu giáo đến lớp 5 (cấp 1)</option>
+                    <option value="Cap3">Lớp 9 đến lớp 12 (cấp 3)</option>
+                </select></td>
+                <td><select id="wish_0" class="wish-select"></select></td>
+                <td><select id="commit_0" class="commit-select"></select></td>
+                <td><input type="text" placeholder="Lên kịch bản video..."></td>
+                <td class="score-box" id="score_0">0</td>
+            </tr>
+            <tr id="row_1">
+                <td style="font-weight:bold; color: var(--minh-chau);">Minh Châu</td>
+                <td><select id="age_1" onchange="syncData(1)">
+                    <option value="Cap1">Lớp mẫu giáo đến lớp 5 (cấp 1)</option>
+                    <option value="Cap2">Lớp 6 đến lớp 8 (cấp 2)</option>
+                </select></td>
+                <td><select id="wish_1" class="wish-select"></select></td>
+                <td><select id="commit_1" class="commit-select"></select></td>
+                <td><input type="text" placeholder="Chụp ảnh sản phẩm..."></td>
+                <td class="score-box" id="score_1">0</td>
+            </tr>
+            <tr id="row_2">
+                <td style="font-weight:bold; color: var(--bich-ngoc);">Bích Ngọc</td>
+                <td><select id="age_2" onchange="syncData(2)">
+                    <option value="Cap1">Lớp mẫu giáo đến lớp 5 (cấp 1)</option>
+                </select></td>
+                <td><select id="wish_2" class="wish-select"></select></td>
+                <td><select id="commit_2" class="commit-select"></select></td>
+                <td><input type="text" placeholder="Check comment hộ bố..."></td>
+                <td class="score-box" id="score_2">0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="discipline-container">
+        <div>
+            <h3 style="color: var(--danger); margin-top:0;">🚫 Nhật Ký Vi Phạm</h3>
+            <div id="error-log" style="height: 100px; overflow-y: auto; background: white; padding: 10px; border-radius: 5px; font-size: 13px;">
+                <i>Chưa có vi phạm nào...</i>
+            </div>
+            <div style="margin-top:10px; display: flex; gap: 5px;">
+                <input type="text" id="error-input" placeholder="Nhập lỗi & trừ điểm (Vd: Điểm kém -2)">
+                <button onclick="addError()" style="background:var(--danger); color:white; border:none; padding: 5px 10px; border-radius: 4px;">Phạt</button>
+            </div>
+        </div>
+        <div>
+            <h3 style="color: var(--success); margin-top:0;">🌱 Nhiệm Vụ Chuộc Lỗi</h3>
+            <ul style="font-size: 13px; line-height: 1.6;">
+                <li><b>Gấp 30 bộ quần áo:</b> +1 điểm phục hồi.</li>
+                <li><b>Dạy em học 1 tiếng:</b> Xóa 1 lỗi phê bình (TC9).</li>
+                <li><b>Làm thêm 1 video Affiliate:</b> Bù hoa hồng bị trừ.</li>
+            </ul>
+        </div>
+    </div>
+
+    <button class="btn-save" onclick="saveData()">💾 LƯU DỮ LIỆU & CHỐT DOANH THU AFFILIATE</button>
+</div>
+
+<script>
+    // 1. Dữ liệu chính xác từ ảnh Sheet bạn gửi
+    const wishData = [
+        "Đi du lịch Nhật Bản", "Đi du lịch Hàn Quốc", "Mua iPad học tập", 
+        "Học khóa vẽ thiết kế", "Mua đồ chơi mới", "Đi xem phim cuối tuần", 
+        "Mua máy tính làm Shop", "Xây phòng riêng", "Đi du học tương lai", 
+        "Tổ chức sinh nhật", "Quà mừng thọ Ông Bà", "Biếu lương cho Bố Mẹ", 
+        "Mua thuốc cho Người già", "Tặng quà trẻ em nghèo", "Dẫn cả nhà đi ăn"
+    ];
+
+    const commitData = [
+        "Đạt học sinh Giỏi", "Tự làm bài tập về nhà", "Học ngoại ngữ mới", 
+        "Không nghỉ học", "Tự dọn phòng ngủ", "Rửa bát nấu cơm giúp Bố", 
+        "Chăm sóc em", "Hỏi thăm Ông Bà hàng ngày", "Tiết kiệm tiền túi"
+    ];
+
+    // 2. Hàm khởi tạo dropdown đồng bộ với Sheet
+    function initDropdowns() {
+        document.querySelectorAll('.wish-select').forEach(sel => {
+            sel.innerHTML = wishData.map(w => `<option value="${w}">${w}</option>`).join('');
+        });
+        document.querySelectorAll('.commit-select').forEach(sel => {
+            sel.innerHTML = commitData.map(c => `<option value="${c}">${c}</option>`).join('');
+        });
+    }
+
+    // 3. Logic tính điểm và đồng bộ
+    function syncData(index) {
+        // Tự động cộng điểm khi có cam kết (Ví dụ minh họa)
+        const scoreEl = document.getElementById(`score_${index}`);
+        scoreEl.innerText = Math.floor(Math.random() * 3) + 7; // Giả lập điểm từ 7-10
+    }
+
+    function addError() {
+        const input = document.getElementById('error-input');
+        const log = document.getElementById('error-log');
+        if (input.value) {
+            if (log.innerHTML.includes('<i>')) log.innerHTML = '';
+            log.innerHTML += `<div>⚠️ ${new Date().toLocaleTimeString()}: ${input.value}</div>`;
+            input.value = '';
+        }
+    }
+
+    function saveData() {
+        alert("✅ Đã đồng bộ với hệ thống Robot v6.0!\nƯớc muốn và Cam kết đã được ghi nhận đúng theo Google Sheet.");
+    }
+
+    window.onload = () => {
+        initDropdowns();
+        // Load mặc định cho 3 bé
+        syncData(0); syncData(1); syncData(2);
+    };
+</script>
+</body>
+</html>

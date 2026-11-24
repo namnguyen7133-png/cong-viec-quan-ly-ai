@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phân Tích Affiliate Shopee – Đa Tệp & Sắp Xếp Chữ Cuối</title>
+
+<style>
+body { font-family: Arial, sans-serif; background: #f4f6f8; padding: 20px; }
+.container { max-width: 1250px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+h2 { text-align: center; color: #ee4d2d; }
+textarea { width: 100%; height: 160px; padding: 12px; border-radius: 8px; border: 2px solid #ddd; font-family: monospace; }
+.controls { display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0; align-items: center; }
+input { padding: 10px; border-radius: 8px; border: 2px solid #ddd; }
+button { padding: 12px 18px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.btn-main { background: #ee4d2d; color: #fff; }
+.btn-main:hover { background: #d73211; }
+.btn-reset { background: #6c757d; color: #fff; }
+
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th { background: #ee4d2d; color: #fff; padding: 12px; font-size: 13px; text-align: left; }
+td { border-bottom: 1px solid #eee; padding: 12px; font-size: 14px; vertical-align: top; }
+.stt { font-weight: bold; color: #ee4d2d; width: 40px; }
+.last-char-box { font-weight: bold; color: #007bff; background: #e7f3ff; padding: 2px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid #b3d7ff; }
+.link-btn { display: inline-block; margin: 4px 6px 0 0; padding: 5px 10px; background: #007bff; color: #fff; text-decoration: none; border-radius: 5px; font-size: 12px; }
+.link-btn.aff { background: #28a745; }
+.stats { font-size: 11px; background: #f1f3f5; padding: 6px; border-radius: 6px; margin-top: 6px; color: #666; }
+#summary { margin-top: 15px; font-weight: bold; color: #333; }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h2>Phân Tích Affiliate Shopee (Thông minh & Sắp xếp)</h2>
+
+    <div class="controls">
+        <label>Chọn các tệp CSV: </label>
+        <input type="file" id="csvFile" accept=".csv" multiple>
+    </div>
+
+    <textarea id="inputText" placeholder="Dữ liệu CSV sẽ nạp tại đây..."></textarea>
+
+    <div class="controls">
+        <input type="text" id="targetChars" placeholder="Lọc chữ cái cuối (VD: m,c,e)">
+        <input type="number" id="targetCount" placeholder="Số ký tự ±10%">
+        <button class="btn-main" onclick="analyze()">PHÂN TÍCH & SẮP XẾP</button>
+        <button class="btn-reset" onclick="resetAll()">LÀM MỚI</button>
+    </div>
+
+    <div id="summary"></div>
+    <div id="result"></div>
+</div>
+
+<script>
+const inputText = document.getElementById("inputText");
+const targetChars = document.getElementById("targetChars");
+const targetCount = document.getElementById("targetCount");
+const summary = document.getElementById("summary");
+const result = document.getElementById("result");
+
+document.getElementById("csvFile").addEventListener("change", async function () {
+    const files = Array.from(this.files);
+    if (!files.length) return;
+    let allContent = inputText.value;
+    for (const file of files) {
+        const text = await file.text();
+        allContent += (allContent ? "\n" : "") + text;
+    }
+    inputText.value = allContent;
+    summary.innerHTML = `📂 Đã nạp ${files.length} tệp.`;
+});
+
+function resetAll() {
+    inputText.value = ""; targetChars.value = ""; targetCount.value = "";
+    summary.innerHTML = ""; result.innerHTML = "";
+    document.getElementById("csvFile").value = "";
+}
+
+// ✅ HÀM LẤY CHỮ CÁI CUỐI THÔNG MINH
+function getLastCharOfLine(line) {
+    if (!line) return "";
+
+    let targetText = "";
+
+    // 1. Thử lấy nội dung trong ngoặc kép "" (thường là tên sản phẩm trong CSV)
+    const matchQuote = line.match(/"([^"]+)"/);
+    if (matchQuote && matchQuote[1]) {
+        targetText = matchQuote[1].trim();
+    } else {
+        // 2. Nếu không có ngoặc kép, loại bỏ link và lấy cụm văn bản
+        targetText = line.replace(/https?:\/\/[^\s,]+/g, "").replace(/,/g, " ").trim();
+    }
+
+    // Lấy từ cuối cùng của cụm văn bản đã chọn
+    const words = targetText.split(/\s+/);
+    const lastWord = words[words.length - 1] || "";
+    
+    // Chỉ giữ lại chữ cái, loại bỏ dấu câu dính kèm từ
+    const cleanWord = lastWord.replace(/[^a-zA-Zà-ỹÀ-ỸđĐ]/g, "");
+    
+    return cleanWord.slice(-1).toLowerCase();
+}
+
+function analyze() {
+    const raw = inputText.value.trim();
+    if (!raw) { alert("Chưa có dữ liệu!"); return; }
+
+    const targets = targetChars.value
+        .split(',')
+        .map(s => s.trim().toLowerCase())
+        .filter(Boolean);
+
+    const targetLen = parseFloat(targetCount.value);
+    const lines = raw.split(/\r?\n/);
+    let filteredData = [];
+
+    lines.forEach(line => {
+        const clean = line.trim();
+        if (!clean || clean.startsWith("Mã sản phẩm") || clean.startsWith("Affiliate")) return;
+
+        // Tính độ dài để lọc (nếu có nhập số ký tự)
+        const charCount = clean.length;
+        if (!isNaN(targetLen)) {
+            const min = targetLen * 0.9;
+            const max = targetLen * 1.1;
+            if (charCount < min || charCount > max) return;
+        }
+
+        const lastChar = getLastCharOfLine(clean);
+
+        // Lọc theo danh sách chữ cái người dùng nhập
+        if (targets.length > 0 && !targets.includes(lastChar)) return;
+
+        filteredData.push({
+            original: clean,
+            lastChar: lastChar,
+            charCount: charCount
+        });
+    });
+
+    // ✅ SẮP XẾP THEO THỨ TỰ TIẾNG VIỆT (A, Ă, Â, B, C...)
+    filteredData.sort((a, b) => a.lastChar.localeCompare(b.lastChar, 'vi'));
+
+    let count = 0;
+    let html = `<table><thead><tr><th>STT</th><th>Nội dung (Phân tích theo chữ cuối)</th><th>Link</th></tr></thead><tbody>`;
+
+    filteredData.forEach(item => {
+        const clean = item.original;
+        const productLinks = clean.match(/https:\/\/shopee\.vn\/product\/[^\s,"]+/g) || [];
+        const affLinks = clean.match(/https:\/\/s\.shopee\.vn\/[^\s,"]+/g) || [];
+
+        count++;
+        html += `
+        <tr>
+            <td class="stt">${count}</td>
+            <td>
+                <span class="last-char-box">${item.lastChar.toUpperCase() || '?'}</span> ${clean}
+                <div class="stats">Ký tự: ${item.charCount} | Link SP: ${productLinks.length} | Link AFF: ${affLinks.length}</div>
+            </td>
+            <td>
+                ${productLinks.map(l => `<a href="${l}" target="_blank" class="link-btn">SP</a>`).join("")}
+                ${affLinks.map(l => `<a href="${l}" target="_blank" class="link-btn aff">AFF</a>`).join("")}
+            </td>
+        </tr>`;
+    });
+
+    html += "</tbody></table>";
+    summary.innerHTML = count ? `✅ Tìm thấy <b>${count}</b> dòng.` : "❌ Không tìm thấy dòng nào.";
+    result.innerHTML = count ? html : "";
+}
+</script>
+</body>
+</html>

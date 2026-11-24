@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bảng Điều Khiển Xưởng Affiliate</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; background: #e9ecef; padding: 20px; }
+        .card { background: white; max-width: 700px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #ee4d2d; border-bottom: 2px solid #ee4d2d; padding-bottom: 10px; }
+        .step { background: #f8f9fa; padding: 15px; margin-bottom: 10px; border-left: 5px solid #00b894; }
+        .prompt-box { background: #2d3436; color: #fab1a0; padding: 15px; border-radius: 5px; font-family: monospace; position: relative; }
+        button { cursor: pointer; background: #0984e3; color: white; border: none; padding: 5px 10px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🚀 QUY TRÌNH VẬN HÀNH TỰ ĐỘNG</h2>
+    
+    <div class="step">
+        <input type="checkbox"> <b>Bước 1:</b> Quét link Shopee hàng loạt -> Dán vào Google Sheets.
+    </div>
+
+    <div class="step">
+        <input type="checkbox"> <b>Bước 2:</b> Chạy Make.com để lấy Link rút gọn (Máy tự làm).
+    </div>
+
+    <div class="step">
+        <p><b>Bước 3: Copy lệnh này gửi cho Gemini để viết truyện:</b></p>
+        <div class="prompt-box" id="promptText">
+            "Hãy đóng vai một nhà văn viết truyện ngụ ngôn hiện đại. Dựa trên tên sản phẩm và tính năng này, hãy viết một câu chuyện ngắn có ý nghĩa, lồng ghép khéo léo link mua hàng và hình ảnh. Giọng văn hài hước, kích thích mua sắm."
+        </div>
+        <button onclick="copyPrompt()">Copy Lệnh Prompt</button>
+    </div>
+
+    <div class="step">
+        <input type="checkbox"> <b>Bước 4:</b> Đẩy kết quả vào GitHub CSV (Máy tự đẩy qua HTTP API).
+    </div>
+
+    <div class="step">
+        <input type="checkbox"> <b>Bước 5:</b> Hẹn giờ Facebook Meta Business (Máy tự đăng).
+    </div>
+</div>
+
+<script>
+    function copyPrompt() {
+        var text = document.getElementById("promptText").innerText;
+        navigator.clipboard.writeText(text);
+        alert("Đã copy lệnh cho Gemini! Sang tab Gemini dán vào thôi sếp!");
+    }
+</script>
+
+</body>
+</html>

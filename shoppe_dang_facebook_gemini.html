@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Tạo Bài Viết Facebook Affiliate</title>
+    <style>
+        /* CSS Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5; /* Màu nền Facebook nhẹ */
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #1877f2; /* Màu xanh Facebook */
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        
+        textarea {
+            min-height: 150px;
+        }
+
+        .cta-button {
+            background-color: #1877f2;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .cta-button:hover {
+            background-color: #165be5;
+        }
+
+        /* KHU VỰC KẾT QUẢ VÀ GỢI Ý */
+        .result-box {
+            background-color: #f7f9fb;
+            border: 1px dashed #c0ccda;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 6px;
+        }
+
+        .media-suggestion a {
+            display: inline-block;
+            margin-right: 10px;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #42b72a; /* Màu xanh lá cây Facebook */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            transition: opacity 0.3s;
+        }
+        
+        .media-suggestion a:hover {
+            opacity: 0.9;
+        }
+
+        .copied-message {
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Công Cụ Tự Động Hóa Bài Đăng Affiliate</h1>
+
+        <label for="product-link">🔗 Link Sản Phẩm (Shopee/Lazada/...):</label>
+        <input type="text" id="product-link" placeholder="Dán link sản phẩm tại đây (ví dụ: https://shopee.vn/san-pham-A)">
+
+        <label for="affiliate-link">💰 Link Affiliate (Tracking Link):</label>
+        <input type="text" id="affiliate-link" placeholder="Dán tracking link đã rút gọn của bạn tại đây">
+        
+        <label for="product-name">📝 Tên Sản Phẩm (Tự nhập hoặc copy):</label>
+        <input type="text" id="product-name" placeholder="Ví dụ: Máy ép chậm đa năng HSF-800">
+
+        <button class="cta-button" onclick="generatePost()">Tạo Bài Viết & Gợi Ý Media</button>
+
+        <div id="result-output" class="result-box" style="display: none;">
+            <h2>✨ Bài Đăng Gợi Ý (Copy & Dán)</h2>
+            <textarea id="post-content" readonly></textarea>
+            <button class="cta-button" style="background-color: #42b72a;" onclick="copyToClipboard('post-content')">
+                Copy Nội Dung Bài Viết
+            </button>
+            <span id="copy-message" class="copied-message">Đã sao chép!</span>
+
+            <h3 style="margin-top: 20px;">🖼️ Gợi Ý Tìm Kiếm Media Sinh Động</h3>
+            <p>Sử dụng các từ khóa dưới đây để tìm kiếm hình ảnh/video/âm thanh trên các nền tảng như Google, YouTube, TikTok:</p>
+            <div id="media-suggestions" class="media-suggestion">
+                </div>
+            
+            <h3 style="margin-top: 20px;">Hashtags Thường Dùng</h3>
+            <p id="hashtags"></p>
+        </div>
+    </div>
+
+    <script>
+        // Hàm chính để tạo bài viết và gợi ý
+        function generatePost() {
+            const productLink = document.getElementById('product-link').value.trim();
+            const affiliateLink = document.getElementById('affiliate-link').value.trim();
+            const productName = document.getElementById('product-name').value.trim();
+            const resultOutput = document.getElementById('result-output');
+            const postContentElement = document.getElementById('post-content');
+            const mediaSuggestionsElement = document.getElementById('media-suggestions');
+            const hashtagsElement = document.getElementById('hashtags');
+
+            if (!productName || !affiliateLink) {
+                alert("Vui lòng nhập Tên Sản Phẩm và Link Affiliate trước khi tạo bài!");
+                return;
+            }
+
+            // 1. Tạo nội dung bài viết gợi ý
+            const postTemplate = `
+[TƯ DUY LẠI KHÔNG GIAN BẾP CỦA BẠN!]
+
+Đã dùng thử ${productName} và phải nói là MÊ LY! Ép kiệt bã mà giữ trọn vitamin, nước ép ngon hơn hẳn. Đầu tư vào sức khỏe chưa bao giờ là phí!
+
+🎯 ƯU ĐIỂM NỔI BẬT:
+✅ Tiết kiệm điện, ít ồn.
+✅ Dễ vệ sinh, lắp ráp.
+✅ Thiết kế sang trọng, phù hợp mọi không gian.
+
+🔥 ĐẶT HÀNG NGAY hôm nay để nhận thêm [NHẬP THÔNG TIN KHUYẾN MÃI Ở ĐÂY]!
+
+Link Mua Sắm Chính Hãng (Link Affiliate của bạn): 
+${affiliateLink}
+
+(Link Gốc Sản Phẩm để tham khảo thêm: ${productLink})
+
+#ReviewSanPham #Affiliate #${productName.replace(/\s/g, '').replace(/[^\w]/g, '')} #SanPhamTot #DealHot
+            `.trim();
+
+            postContentElement.value = postTemplate;
+
+            // 2. Tạo gợi ý tìm kiếm Media (Tối ưu hóa cho SEO/Facebook)
+            const baseQuery = productName.split(' ').slice(0, 3).join('+'); // Lấy 3 từ đầu
+            
+            // Xóa nội dung gợi ý cũ
+            mediaSuggestionsElement.innerHTML = ''; 
+
+            const suggestions = [
+                { name: `YouTube (Video Review)`, query: `https://www.youtube.com/results?search_query=review+${baseQuery}` },
+                { name: `Google Hình Ảnh`, query: `https://www.google.com/search?q=${baseQuery}&tbm=isch` },
+                { name: `TikTok (Video Ngắn)`, query: `https://www.tiktok.com/search?q=review%20${baseQuery}` },
+                { name: `Âm Thanh Hot Trend`, query: `https://www.google.com/search?q=nhạc+hot+trend+tiktok+2025` }
+            ];
+
+            suggestions.forEach(suggestion => {
+                const link = document.createElement('a');
+                link.href = suggestion.query;
+                link.target = "_blank";
+                link.textContent = suggestion.name;
+                mediaSuggestionsElement.appendChild(link);
+            });
+
+            // 3. Hiển thị Hashtags
+            const defaultHashtags = `#${productName.replace(/\s/g, '').replace(/[^\w]/g, '')} #SanPhamNenCo #ReviewThucTe #AffiliateMarketing #LinkMuaHang #KhuyenMai`;
+            hashtagsElement.textContent = defaultHashtags;
+
+            resultOutput.style.display = 'block';
+            document.getElementById('copy-message').style.display = 'none';
+        }
+
+        // Hàm sao chép nội dung vào clipboard
+        function copyToClipboard(elementId) {
+            const copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // Dành cho thiết bị di động
+            document.execCommand("copy");
+            
+            const copyMessage = document.getElementById('copy-message');
+            copyMessage.style.display = 'block';
+            setTimeout(() => {
+                copyMessage.style.display = 'none';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

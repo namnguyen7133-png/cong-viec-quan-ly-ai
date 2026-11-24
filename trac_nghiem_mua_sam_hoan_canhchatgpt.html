@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRẮC NGHIỆM – MUA SẮM & HOÀN CẢNH</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Segoe UI,Arial,sans-serif;
+  background:linear-gradient(135deg,#eef2ff,#f8fafc);
+  color:#172033;
+}
+.wrap{max-width:1050px;margin:auto;padding:24px}
+.card{
+  background:white;border-radius:22px;padding:28px;margin:18px 0;
+  box-shadow:0 10px 35px rgba(30,41,59,.10);
+}
+h1{font-size:34px;margin:0 0 10px;color:#173b82}
+h2{font-size:25px;color:#173b82}
+.lead{font-size:18px;line-height:1.65}
+.note{
+  background:#fff7ed;border-left:6px solid #f97316;
+  padding:15px 18px;border-radius:12px;line-height:1.55
+}
+.question{font-size:22px;font-weight:700;line-height:1.5}
+.option{
+  display:block;width:100%;text-align:left;margin:12px 0;padding:16px;
+  border:2px solid #dbe3f0;border-radius:14px;background:#fff;
+  cursor:pointer;font-size:17px;line-height:1.45;transition:.15s;
+}
+.option:hover{border-color:#6366f1;background:#f5f7ff}
+.option.selected{border-color:#2563eb;background:#eff6ff}
+.option.silent{border-style:dashed}
+button{
+  border:0;border-radius:13px;padding:14px 22px;font-size:17px;
+  font-weight:700;cursor:pointer;background:#2563eb;color:#fff;margin:6px;
+}
+button.secondary{background:#64748b}
+.progress{height:12px;background:#e2e8f0;border-radius:20px;overflow:hidden}
+.bar{height:100%;width:0;background:#2563eb;transition:.3s}
+.hidden{display:none}
+.result{
+  font-size:18px;line-height:1.7;background:#f0fdf4;
+  border-left:6px solid #16a34a;padding:18px;border-radius:12px
+}
+.warn{
+  background:#fef2f2;border-left:6px solid #dc2626;
+  padding:18px;border-radius:12px;line-height:1.65
+}
+.small{font-size:14px;color:#64748b}
+.score{font-size:30px;font-weight:800;color:#2563eb}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+td,th{padding:10px;border-bottom:1px solid #e2e8f0;text-align:left}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<div class="card">
+  <h1>🧠 Trắc nghiệm: Mua sắm có hợp với hoàn cảnh của mình không?</h1>
+  <p class="lead">
+    Mục tiêu không phải là chê người giàu, chê người nghèo hay chia xã hội thành
+    “tầng lớp tốt/xấu”. Mục tiêu là học cách nhìn <b>hoàn cảnh tài chính của chính mình</b>
+    trước khi mua một món đồ.
+  </p>
+  <div class="note">
+    <b>Luật chơi:</b> mỗi câu có đúng 5 lựa chọn.<br>
+    🟡 1 lựa chọn = <b>im lặng / chưa quyết định</b>.<br>
+    🟢 1 lựa chọn = <b>phù hợp nhất</b> với nguyên tắc tài chính an toàn.<br>
+    🔴 3 lựa chọn còn lại = các cách xử lý có rủi ro khác nhau.
+  </div>
+</div>
+
+<div class="card">
+  <h2>👤 Bước 1 – Nhập hoàn cảnh của bạn</h2>
+  <p>Không cần ghi tên. Chỉ cần chọn gần đúng.</p>
+
+  <label>Thu nhập hộ gia đình/tháng:</label>
+  <select id="income" style="width:100%;padding:13px;margin:8px 0 16px;border-radius:10px">
+    <option value="1">Dưới 10 triệu</option>
+    <option value="2">10–20 triệu</option>
+    <option value="3">20–40 triệu</option>
+    <option value="4">40–70 triệu</option>
+    <option value="5">Trên 70 triệu</option>
+  </select>
+
+  <label>Tiền tiết kiệm dự phòng hiện có:</label>
+  <select id="saving" style="width:100%;padding:13px;margin:8px 0 16px;border-radius:10px">
+    <option value="1">Gần như chưa có</option>
+    <option value="2">Dưới 1 tháng chi tiêu</option>
+    <option value="3">1–3 tháng chi tiêu</option>
+    <option value="4">3–6 tháng chi tiêu</option>
+    <option value="5">Trên 6 tháng chi tiêu</option>
+  </select>
+
+  <label>Khi mua đồ đắt tiền, bạn thường:</label>
+  <select id="habit" style="width:100%;padding:13px;margin:8px 0 16px;border-radius:10px">
+    <option value="1">Mua theo cảm xúc</option>
+    <option value="2">Thấy người khác có thì muốn có</option>
+    <option value="3">Suy nghĩ vài ngày rồi mua</option>
+    <option value="4">So sánh lợi ích và khả năng chi trả</option>
+    <option value="5">Có ngân sách riêng cho mua sắm</option>
+  </select>
+
+  <button onclick="startQuiz()">Bắt đầu trắc nghiệm →</button>
+</div>
+
+<div id="quiz" class="card hidden">
+  <div class="small">Câu <span id="num">1</span>/<span id="total"></span></div>
+  <div class="progress"><div id="bar" class="bar"></div></div>
+  <br>
+  <div id="question" class="question"></div>
+  <div id="options"></div>
+  <button class="secondary" onclick="prevQuestion()">← Câu trước</button>
+  <button onclick="nextQuestion()">Câu tiếp →</button>
+</div>
+
+<div id="result" class="card hidden"></div>
+
+</div>
+
+<script>
+const questions = [
+{
+ q:"Bạn đang có thu nhập vừa phải, tiền dự phòng còn ít. Một người bạn có điều kiện hơn mua một chiếc điện thoại rất đắt và nói: “Mua đi, dùng mới sướng”. Bạn sẽ làm gì?",
+ a:[
+  ["🟡 Im lặng – chưa quyết định.",0,"Bạn chưa đủ thông tin để quyết định."],
+  ["🟢 Xem nhu cầu thật, ngân sách và tiền dự phòng; nếu mua làm ảnh hưởng an toàn tài chính thì không mua.",3,"Đây là cách ưu tiên hoàn cảnh của chính mình thay vì bắt chước mức chi tiêu của người khác."],
+  ["🔴 Vay tiền để mua cho bằng bạn.",-2,"Món đồ biến thành khoản nợ chỉ để theo kịp người khác."],
+  ["🔴 Mua ngay vì nghĩ mình phải sống như người có điều kiện.",-2,"Đây là bẫy so sánh xã hội."],
+  ["🔴 Mua trả góp dù chưa biết mỗi tháng lấy tiền đâu trả.",-1,"Trả góp không làm món đồ rẻ hơn; nó chỉ chia nhỏ khoản phải trả."]
+ ]
+},
+{
+ q:"Bạn thấy một căn nhà rất đẹp trong khu vực có mức sống cao. Nhà hiện tại của bạn vẫn đáp ứng được nhu cầu, nhưng bạn muốn chuyển lên chỉ vì sợ người khác nghĩ mình kém. Điều gì nên được xem trước?",
+ a:[
+  ["🟡 Im lặng – chưa quyết định.",0,"Tạm dừng để tính toán."],
+  ["🟢 Tổng chi phí nhà ở, thu nhập ổn định, nợ, tiết kiệm và mục tiêu gia đình.",3,"Nhà là quyết định lớn; khả năng chi trả quan trọng hơn việc chứng minh vị thế."],
+  ["🔴 Cứ mua, rồi tính cách trả sau.",-2,"Đẩy một quyết định lớn sang tương lai làm tăng rủi ro."],
+  ["🔴 Hỏi xem hàng xóm đang ở nhà bao nhiêu tiền rồi mua tương đương.",-2,"Chi tiêu của người khác không phải ngân sách của bạn."],
+  ["🔴 Vay tối đa ngân hàng cho phép vì nghĩ “được vay là mua được”.",-2,"Giới hạn ngân hàng không đồng nghĩa với mức chi tiêu phù hợp với gia đình."]
+ ]
+},
+{
+ q:"Một món đồ thời trang đắt tiền không thật sự cần thiết, nhưng nó khiến bạn cảm thấy mình “bằng người ta”. Tiền mua món đó tương đương 1/2 tháng tiền tiết kiệm của gia đình. Bạn nên nghĩ thế nào?",
+ a:[
+  ["🟡 Im lặng – chưa quyết định.",0,"Cảm xúc đang mạnh thì tạm dừng là hợp lý."],
+  ["🟢 Hỏi: “Nếu không ai nhìn thấy món đồ này, mình còn muốn mua không?” rồi đối chiếu với mục tiêu tài chính.",3,"Câu hỏi này giúp tách nhu cầu thật khỏi nhu cầu thể hiện."],
+  ["🔴 Mua vì chỉ sống một lần.",-2,"Sống một lần không có nghĩa là mọi khoản chi đều đáng chi."],
+  ["🔴 Mua vì sợ bị coi thường.",-2,"Quyết định tài chính dựa trên nỗi sợ đánh giá thường dễ gây tiếc nuối."],
+  ["🔴 Mượn tiền người thân để mua.",-2,"Đổi áp lực mua sắm thành áp lực quan hệ."]
+ ]
+},
+{
+ q:"Bạn có thu nhập cao hơn trước và muốn nâng chất lượng cuộc sống. Cách nào hợp lý nhất?",
+ a:[
+  ["🟡 Im lặng – chưa quyết định.",0,"Có thể lập kế hoạch trước."],
+  ["🟢 Nâng mức sống từng bước, đồng thời tăng tiết kiệm, quỹ dự phòng và các khoản chi thật sự có ích.",3,"Có tiền hơn thì có thể sống tốt hơn, nhưng nên tăng mức sống có kiểm soát."],
+  ["🔴 Tăng mọi khoản chi ngay lập tức.",-2,"Chi phí cố định tăng quá nhanh có thể làm giảm khả năng chống đỡ khi thu nhập giảm."],
+  ["🔴 Mua những món đắt nhất để chứng minh mình đã thành công.",-2,"Giá món đồ không phải thước đo duy nhất của thành công."],
+  ["🔴 Dùng toàn bộ khoản tăng thu nhập cho tiêu dùng.",-2,"Không còn phần dành cho dự phòng và mục tiêu dài hạn."]
+ ]
+},
+{
+ q:"Bạn phát hiện mình thường mua những thứ phù hợp với mức sống của người có thu nhập cao hơn nhiều. Dấu hiệu nào đáng xem xét nhất?",
+ a:[
+  ["🟡 Im lặng – chưa quyết định.",0,"Có thể quan sát thêm thói quen chi tiêu."],
+  ["🟢 Chi tiêu cho những thứ vượt khả năng chi trả khiến tiết kiệm giảm, nợ tăng hoặc phải cắt nhu cầu thiết yếu.",3,"Đây là dấu hiệu tài chính cụ thể, có thể đo được."],
+  ["🔴 Cứ tiếp tục nếu món đồ làm mình vui.",-1,"Niềm vui có giá trị nhưng không nên bỏ qua hậu quả tài chính."],
+  ["🔴 Xóa ứng dụng ngân hàng để khỏi nhìn thấy số dư.",-2,"Không nhìn con số không làm vấn đề biến mất."],
+  ["🔴 Mượn người này trả người kia.",-2,"Đó là dấu hiệu dòng tiền đang mất cân đối."]
+ ]
+},
+{
+ q:"Một người có hoàn cảnh khác bạn mua được chiếc xe rất đắt. Bạn cũng muốn mua. Câu hỏi nào quan trọng nhất?",
+ a:[
+  ["🟡 Im lặng – chưa quyết định.",0,"Tạm hoãn quyết định cũng là một lựa chọn."],
+  ["🟢 “Chiếc xe này có phù hợp với nhu cầu và khả năng tài chính của GIA ĐÌNH MÌNH không?”",3,"So sánh với hoàn cảnh của chính mình là dữ liệu hữu ích hơn so sánh với người khác."],
+  ["🔴 “Người ta mua được thì mình cũng phải mua được.”",-2,"Hai gia đình có thể có thu nhập, tài sản và nghĩa vụ hoàn toàn khác nhau."],
+  ["🔴 “Không mua thì mất mặt.”",-2,"Mất mặt không phải là một khoản mục ngân sách."],
+  ["🔴 “Cứ vay, sau này thu nhập sẽ tăng.”",-2,"Thu nhập tương lai chưa chắc chắn."]
+ ]
+}
+];
+
+let current=0, answers=[], profile={};
+
+function startQuiz(){
+ profile={
+  income:+document.getElementById("income").value,
+  saving:+document.getElementById("saving").value,
+  habit:+document.getElementById("habit").value
+ };
+ document.getElementById("quiz").classList.remove("hidden");
+ document.getElementById("total").textContent=questions.length;
+ current=0; answers=[];
+ showQuestion();
+ document.getElementById("quiz").scrollIntoView({behavior:"smooth"});
+}
+
+function showQuestion(){
+ const q=questions[current];
+ document.getElementById("num").textContent=current+1;
+ document.getElementById("question").textContent=q.q;
+ document.getElementById("bar").style.width=((current)/questions.length*100)+"%";
+ const box=document.getElementById("options");
+ box.innerHTML="";
+ q.a.forEach((x,i)=>{
+  const b=document.createElement("button");
+  b.className="option"+(i===0?" silent":"");
+  b.innerHTML=x[0];
+  b.onclick=()=>{
+   answers[current]=i;
+   [...box.children].forEach(e=>e.classList.remove("selected"));
+   b.classList.add("selected");
+  };
+  box.appendChild(b);
+ });
+ if(answers[current]!==undefined) box.children[answers[current]].classList.add("selected");
+}
+
+function nextQuestion(){
+ if(answers[current]===undefined){alert("Hãy chọn 1 trong 5 phương án đã.");return;}
+ if(current<questions.length-1){current++;showQuestion();}
+ else showResult();
+}
+function prevQuestion(){
+ if(current>0){current--;showQuestion();}
+}
+
+function showResult(){
+ let score=0, correct=0, silent=0;
+ let details="";
+ answers.forEach((ans,i)=>{
+  const data=questions[i].a[ans];
+  score+=data[1];
+  if(data[1]===3) correct++;
+  if(data[1]===0) silent++;
+  details+=`<tr><td>${i+1}</td><td>${data[0]}</td><td>${data[2]}</td></tr>`;
+ });
+
+ let advice="";
+ const danger = profile.saving<=2 && profile.habit<=2;
+ if(danger){
+  advice=`<div class="warn"><b>⚠️ Hồ sơ cần đặc biệt chú ý:</b><br>
+  Bạn đang có <b>quỹ dự phòng chưa dày</b> và thói quen mua sắm có thể bị ảnh hưởng bởi cảm xúc hoặc so sánh với người khác.
+  Trong hoàn cảnh này, nguyên tắc nên là:
+  <b>không lấy mức tiêu dùng của người có hoàn cảnh tài chính khác làm chuẩn cho mình.</b><br><br>
+  Không phải vì món đồ thuộc “tầng lớp khác” nên nó xấu hoặc bạn không được mua.
+  Vấn đề là: <b>nó có phù hợp với tiền, nhu cầu và mục tiêu của gia đình bạn hay không?</b>
+  </div>`;
+ }else{
+  advice=`<div class="result"><b>👍 Gợi ý:</b><br>
+  Bạn có thể nâng chất lượng cuộc sống khi khả năng tài chính tăng.
+  Nhưng hãy để <b>ngân sách và mục tiêu của chính mình</b> quyết định mức mua sắm,
+  thay vì dùng cuộc sống của người khác làm thước đo.</div>`;
+ }
+
+ document.getElementById("result").innerHTML=`
+  <h2>📊 Kết quả</h2>
+  <div class="score">${score} điểm</div>
+  <p>Trả lời đúng theo nguyên tắc: <b>${correct}/${questions.length}</b> |
+  Chọn im lặng: <b>${silent}</b></p>
+  ${advice}
+  <h2>🔎 Phân tích từng câu</h2>
+  <table>
+   <tr><th>Câu</th><th>Lựa chọn</th><th>Phân tích</th></tr>
+   ${details}
+  </table>
+  <br>
+  <div class="note">
+   <b>🧭 Công thức nhớ nhanh:</b><br>
+   Nhu cầu thật → Khả năng chi trả → Quỹ dự phòng → Nợ phải trả →
+   Mục tiêu gia đình → rồi mới quyết định mua.
+  </div>
+  <button onclick="location.reload()">🔄 Làm lại từ đầu</button>
+ `;
+ document.getElementById("result").classList.remove("hidden");
+ document.getElementById("bar").style.width="100%";
+ document.getElementById("result").scrollIntoView({behavior:"smooth"});
+}
+</script>
+</body>
+</html>

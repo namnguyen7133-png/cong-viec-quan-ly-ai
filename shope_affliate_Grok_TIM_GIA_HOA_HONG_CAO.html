@@ -1,0 +1,1614 @@
+<!DOCTYPE html> 
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Affiliate Shopee Analyzer Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  body { font-family:'Segoe UI',Arial,sans-serif; background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); margin:0; padding:20px; color:#333; min-height:100vh; }
+  .container { max-width:1300px; margin:0 auto; background:white; border-radius:20px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.3); }
+  header { background:linear-gradient(90deg,#ee4d2d,#ff6b35); color:white; padding:30px; text-align:center; }
+  header h1 { margin:0; font-size:2.5rem; }
+  header p { margin:10px 0 0; opacity:0.9; }
+  .main { padding:30px; }
+  textarea { width:100%; height:220px; padding:15px; border:2px solid #ddd; border-radius:12px; font-family:consolas,monospace; font-size:14px; resize:vertical; }
+  textarea:focus { outline:none; border-color:#ee4d2d; box-shadow:0 0 0 4px rgba(238,77,45,0.2); }
+  .btn-group { margin:20px 0; display:flex; gap:15px; flex-wrap:wrap; }
+  .btn { padding:12px 24px; border:none; border-radius:50px; cursor:pointer; font-weight:bold; transition:all .3s; display:inline-flex; align-items:center; gap:8px; }
+  .btn-primary { background:#ee4d2d; color:white; }
+  .btn-primary:hover { background:#d63d1e; transform:translateY(-3px); box-shadow:0 10px 20px rgba(238,77,45,0.4); }
+  .btn-sample { background:#28a745; color:white; }
+  .btn-sample:hover { background:#218838; transform:translateY(-3px); }
+  .btn-copy { background:#6f42c1; color:white; }
+  .btn-copy:hover { background:#5a32a3; transform:translateY(-3px); }
+  .btn-filter { background:#3498db; color:white; }
+  .btn-filter:hover { background:#2980b9; transform:translateY(-3px); }
+  .btn-reset { background:#95a5a6; color:white; }
+  .btn-reset:hover { background:#7f8c8d; transform:translateY(-3px); }
+  .btn-test-links { background:#e67e22; color:white; }
+  .btn-test-links:hover { background:#d35400; transform:translateY(-3px); }
+  .btn-analyze-text { background:#9b59b6; color:white; }
+  .btn-analyze-text:hover { background:#8e44ad; transform:translateY(-3px); }
+  .result { margin-top:30px; }
+  .section { margin-bottom:40px; background:#f8f9fa; padding:20px; border-radius:12px; border-left:6px solid #dc3545; }
+  h3 { margin:0 0 15px 0; color:#ee4d2d; }
+  table { width:100%; border-collapse:collapse; margin-top:10px; background:white; border-radius:8px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+  th { background:#ee4d2d; color:white; padding:12px; text-align:left; }
+  td { padding:12px; border-bottom:1px solid #eee; }
+  tr:hover { background:#fff5f3; }
+  a { color:#ee4d2d; text-decoration:none; font-weight:600; }
+  a:hover { text-decoration:underline; }
+  .count { background:#ee4d2d; color:white; padding:4px 10px; border-radius:20px; font-size:0.9rem; margin-left:10px; }
+  .special-badge { background:#6f42c1; color:white; padding:2px 8px; border-radius:12px; font-size:0.8rem; margin-left:5px; }
+  footer { text-align:center; padding:20px; background:#2c3e50; color:#ccc; margin-top:50px; }
+  #copyNotice { margin-top:10px; color:#28a745; font-weight:bold; display:none; }
+  
+  /* Filter section styles */
+  .filter-section { background:#e3f2fd; padding:25px; border-radius:15px; margin:30px 0; border:2px solid #bbdefb; }
+  .filter-controls { display:flex; flex-wrap:wrap; gap:20px; margin:20px 0; }
+  .filter-column { flex:1; min-width:300px; background:white; padding:20px; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1); }
+  .filter-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+  .filter-header h3 { margin:0; color:#2c3e50; }
+  .filter-stats { display:flex; justify-content:space-around; background:white; padding:15px; border-radius:10px; margin:15px 0; box-shadow:0 4px 8px rgba(0,0,0,0.1); }
+  .stat-item { text-align:center; }
+  .stat-value { font-size:24px; font-weight:bold; color:#ee4d3a; }
+  .stat-label { font-size:12px; color:#666; }
+  
+  /* Form controls */
+  .form-group { margin-bottom:15px; }
+  .form-group label { display:block; font-weight:bold; margin-bottom:8px; color:#2c3e50; }
+  .form-group input, .form-group select, .form-group textarea { width:100%; padding:10px; border:2px solid #ddd; border-radius:8px; font-size:14px; box-sizing:border-box; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:#3498db; outline:none; box-shadow:0 0 0 3px rgba(52,152,219,0.3); }
+  .form-row { display:flex; gap:15px; margin-bottom:15px; }
+  .form-row .form-group { flex:1; }
+  
+  /* Rate tags */
+  .rate-tags { display:flex; flex-wrap:wrap; gap:8px; margin:15px 0; }
+  .rate-tag { background:#f1f8ff; border:2px solid #c8e1ff; padding:8px 15px; border-radius:20px; cursor:pointer; font-size:14px; transition:all 0.3s; }
+  .rate-tag:hover { background:#e3f2fd; border-color:#3498db; }
+  .rate-tag.active { background:#3498db; color:white; border-color:#2980b9; }
+  .rate-tag.special { border-color:#9b59b6; background:#f3e6f8; }
+  .rate-tag.special.active { background:#9b59b6; color:white; border-color:#8e44ad; }
+  
+  /* Link styles */
+  .link-group { display:flex; gap:5px; }
+  .link-btn { padding:4px 8px; background:#f8f9fa; border:1px solid #dee2e6; border-radius:4px; font-size:12px; cursor:pointer; text-decoration:none; color:#495057; }
+  .link-btn:hover { background:#e9ecef; border-color:#adb5bd; }
+  .link-btn.shopee { background:#ffece8; border-color:#ee4d2d; color:#ee4d2d; }
+  .link-btn.affiliate { background:#e8f4ff; border-color:#3498db; color:#2980b9; }
+  .link-btn.copy { background:#f8f0ff; border-color:#9b59b6; color:#8e44ad; }
+  .link-btn:hover i { transform:scale(1.1); }
+  .link-btn i { margin-right:3px; transition:transform 0.2s; }
+  
+  /* Modal for link preview */
+  .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); }
+  .modal-content { background-color:#fefefe; margin:10% auto; padding:20px; border-radius:10px; width:80%; max-width:600px; box-shadow:0 4px 20px rgba(0,0,0,0.2); }
+  .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
+  .modal-title { font-size:18px; font-weight:bold; color:#ee4d2d; }
+  .close-modal { color:#aaa; font-size:28px; font-weight:bold; cursor:pointer; }
+  .close-modal:hover { color:#000; }
+  .modal-body { margin-bottom:15px; }
+  .modal-url { width:100%; padding:10px; border:1px solid #ddd; border-radius:5px; font-family:monospace; font-size:14px; margin-bottom:10px; }
+  .modal-actions { display:flex; gap:10px; }
+  
+  /* Text analysis section */
+  .text-analysis-section { background:#fff8e1; border:2px solid #ffd54f; margin:30px 0; padding:25px; border-radius:15px; }
+  .text-analysis-controls { display:flex; flex-wrap:wrap; gap:15px; margin:20px 0; }
+  .text-analysis-column { flex:1; min-width:300px; }
+  .letter-box { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; background:#e3f2fd; border:2px solid #3498db; border-radius:4px; margin:2px; font-weight:bold; }
+  .letter-box.match { background:#d4edda; border-color:#28a745; color:#155724; }
+  .letter-box.first { background:#fff3cd; border-color:#ffc107; color:#856404; }
+  .letter-box.middle { background:#e2e3e5; border-color:#6c757d; color:#495057; }
+  .letter-box.last { background:#d1ecf1; border-color:#17a2b8; color:#0c5460; }
+  .category-tag { display:inline-block; background:#f8f9fa; border:1px solid #dee2e6; border-radius:12px; padding:4px 10px; margin:3px; font-size:12px; cursor:pointer; }
+  .category-tag:hover { background:#e9ecef; }
+  .category-tag.selected { background:#3498db; color:white; border-color:#2980b9; }
+  .word-cloud { display:flex; flex-wrap:wrap; gap:8px; margin:15px 0; padding:15px; background:#f8f9fa; border-radius:8px; }
+  .word-item { padding:5px 12px; background:#e9ecef; border-radius:15px; font-size:13px; }
+  .word-item.freq-1 { background:#e9ecef; }
+  .word-item.freq-2 { background:#d1ecf1; }
+  .word-item.freq-3 { background:#bee5eb; }
+  .word-item.freq-4 { background:#abdde5; }
+  .word-item.freq-5 { background:#87ceeb; font-weight:bold; }
+  
+  @media(max-width:768px){
+    header h1{font-size:1.8rem;}
+    .btn-group{flex-direction:column;}
+    table{font-size:14px;}
+    .filter-controls{flex-direction:column;}
+    .filter-column{min-width:100%;}
+    .link-group{flex-wrap:wrap;}
+    .text-analysis-controls{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Affiliate Shopee Analyzer Pro</h1>
+    <p>Bộ lọc thông minh theo tỷ lệ % và số lượng bán - Phân tích văn bản mặt hàng</p>
+  </header>
+  <div class="main">
+    <label for="csvInput"><strong>Bước 1:</strong> Dán toàn bộ nội dung CSV vào ô dưới</label>
+    <textarea id="csvInput" placeholder="Dán CSV ở đây..."></textarea>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="analyze()">
+        <i class="fas fa-search"></i> Phân Tích Ngay
+      </button>
+      <button class="btn btn-sample" onclick="loadSample()">
+        <i class="fas fa-play"></i> Dùng Mẫu Test Đa Dạng
+      </button>
+      <button class="btn btn-analyze-text" onclick="analyzeTextPatterns()">
+        <i class="fas fa-font"></i> Phân Tích Chữ & Mặt Hàng
+      </button>
+      <button class="btn btn-test-links" onclick="testAllLinks()">
+        <i class="fas fa-external-link-alt"></i> Test Tất Cả Link
+      </button>
+      <button class="btn btn-copy" onclick="copyCode()">
+        <i class="fas fa-copy"></i> Copy Mã HTML
+      </button>
+    </div>
+    
+    <!-- Link Preview Modal -->
+    <div id="linkModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="modal-title" id="modalTitle">Xem Trước Link</span>
+          <span class="close-modal" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div style="margin-bottom:15px;">
+            <strong>Loại link:</strong> <span id="modalLinkType"></span>
+          </div>
+          <div style="margin-bottom:10px;">
+            <strong>URL:</strong>
+          </div>
+          <textarea id="modalUrl" class="modal-url" rows="3" readonly></textarea>
+          <div style="margin-top:10px; font-size:12px; color:#666;">
+            <i class="fas fa-info-circle"></i> Link sẽ mở trong tab mới. Kiểm tra kỹ URL trước khi truy cập.
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="openModalLink()">
+            <i class="fas fa-external-link-alt"></i> Mở Link
+          </button>
+          <button class="btn btn-copy" onclick="copyModalLink()">
+            <i class="fas fa-copy"></i> Copy Link
+          </button>
+          <button class="btn btn-reset" onclick="closeModal()">
+            <i class="fas fa-times"></i> Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Text Analysis Section -->
+    <div class="text-analysis-section" id="textAnalysisSection" style="display:none;">
+      <div class="filter-header">
+        <h3><i class="fas fa-font"></i> Phân Tích Chữ Cái & Mặt Hàng</h3>
+        <div>
+          <button class="btn btn-analyze-text" onclick="applyTextAnalysis()">
+            <i class="fas fa-check"></i> Áp Dụng Phân Tích
+          </button>
+          <button class="btn btn-reset" onclick="resetTextAnalysis()">
+            <i class="fas fa-redo"></i> Reset
+          </button>
+        </div>
+      </div>
+      
+      <div class="text-analysis-controls">
+        <!-- Cột 1: Nhập từ khóa tìm kiếm -->
+        <div class="text-analysis-column">
+          <div class="form-group">
+            <label for="searchKeyword"><i class="fas fa-search"></i> Nhập chữ cái/từ khóa tìm kiếm:</label>
+            <input type="text" id="searchKeyword" placeholder="Ví dụ: Women, Men, Health, Shoes..." oninput="highlightMatches()">
+            <small style="color:#666;">Nhập chữ cái hoặc từ để tìm trong tên mặt hàng</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="letterPosition">Vị trí chữ cái quan tâm:</label>
+            <select id="letterPosition" onchange="highlightLetterPosition()">
+              <option value="all">Tất cả chữ cái</option>
+              <option value="first">Chữ cái đầu tiên của mỗi từ</option>
+              <option value="middle">Chữ cái ở giữa từ</option>
+              <option value="last">Chữ cái cuối cùng của mỗi từ</option>
+              <option value="specific">Chữ cái cụ thể (nhập bên dưới)</option>
+            </select>
+          </div>
+          
+          <div class="form-group" id="specificLetterGroup" style="display:none;">
+            <label for="specificLetters">Nhập chữ cái cụ thể (không dấu cách):</label>
+            <input type="text" id="specificLetters" placeholder="Ví dụ: abcde" maxlength="10">
+          </div>
+        </div>
+        
+        <!-- Cột 2: Phân tích mặt hàng -->
+        <div class="text-analysis-column">
+          <div class="form-group">
+            <label><i class="fas fa-tags"></i> Chọn mặt hàng yêu thích (click để chọn):</label>
+            <div id="categoryTags" class="word-cloud">
+              <!-- Categories will be dynamically added here -->
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-sliders-h"></i> Tùy chọn phân tích:</label>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <label>
+                <input type="checkbox" id="matchExact" checked>
+                Tìm chính xác (phân biệt hoa thường)
+              </label>
+              <label>
+                <input type="checkbox" id="highlightMatches" checked>
+                Tô sáng kết quả khớp
+              </label>
+              <label>
+                <input type="checkbox" id="showWordCloud">
+                Hiển thị đám mây từ khóa
+              </label>
+              <label>
+                <input type="checkbox" id="autoSelectMatches">
+                Tự động chọn mặt hàng khớp
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Cột 3: Thống kê chữ cái -->
+        <div class="text-analysis-column">
+          <div class="form-group">
+            <label><i class="fas fa-chart-bar"></i> Thống kê chữ cái phổ biến:</label>
+            <div id="letterStats" style="padding:10px; background:#f8f9fa; border-radius:8px; min-height:100px;">
+              <!-- Letter statistics will appear here -->
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-magic"></i> Gợi ý chọn mặt hàng:</label>
+            <div id="suggestions" style="padding:10px; background:#e8f4ff; border-radius:8px; font-size:13px;">
+              <p style="margin:0;">Nhập từ khóa hoặc chọn mặt hàng để xem gợi ý...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top:15px; padding:10px; background:#fff3cd; border-radius:8px; border:1px solid #ffeaa7;">
+        <p style="margin:0; font-size:14px;">
+          <strong><i class="fas fa-lightbulb"></i> Cách hoạt động:</strong> Phân tích chữ cái và từ khóa trong tên mặt hàng. Kết hợp với bộ lọc tỷ lệ % để tìm sản phẩm phù hợp nhất với sở thích của bạn.
+        </p>
+      </div>
+    </div>
+    
+    <!-- Filter Section -->
+    <div class="filter-section" id="filterSection" style="display:none;">
+      <div class="filter-header">
+        <h3><i class="fas fa-filter"></i> Bộ Lọc Thông Minh</h3>
+        <div>
+          <button class="btn btn-filter" onclick="applyCustomFilters()">
+            <i class="fas fa-check"></i> Áp Dụng Bộ Lọc
+          </button>
+          <button class="btn btn-reset" onclick="resetCustomFilters()">
+            <i class="fas fa-redo"></i> Reset Bộ Lọc
+          </button>
+        </div>
+      </div>
+      
+      <div class="filter-stats" id="filterStats">
+        <div class="stat-item">
+          <div class="stat-value" id="totalShops">0</div>
+          <div class="stat-label">Tổng Shop</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="filteredShops">0</div>
+          <div class="stat-label">Shop Phù Hợp</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="filterPercent">0%</div>
+          <div class="stat-label">Tỷ Lệ Phù Hợp</div>
+        </div>
+      </div>
+      
+      <div class="filter-controls">
+        <!-- Cột 1: Lọc theo phần trăm -->
+        <div class="filter-column">
+          <h4><i class="fas fa-percentage"></i> Lọc theo Tỷ lệ phần trăm</h4>
+          
+          <div class="form-group">
+            <label>Chọn mẫu có sẵn hoặc tự nhập:</label>
+            <div class="rate-tags" id="rateTags">
+              <span class="rate-tag special" data-rate="4">4%</span>
+              <span class="rate-tag special active" data-rate="5">5% ★</span>
+              <span class="rate-tag special active" data-rate="6">6% ★</span>
+              <span class="rate-tag" data-rate="7">7%</span>
+              <span class="rate-tag" data-rate="11">11%</span>
+              <span class="rate-tag" data-rate="14">14%</span>
+              <span class="rate-tag" data-rate="21">21%</span>
+              <span class="rate-tag special active" data-rate="22">22% ★</span>
+              <span class="rate-tag" data-rate="23">23%</span>
+              <span class="rate-tag" data-rate="24">24%</span>
+              <span class="rate-tag special active" data-rate="25">25% ★</span>
+              <span class="rate-tag special active" data-rate="26">26% ★</span>
+              <span class="rate-tag" data-rate="27">27%</span>
+              <span class="rate-tag" data-rate="37">37%</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="customRates">Hoặc nhập tỷ lệ % tùy chỉnh (phân cách bằng dấu phẩy):</label>
+            <input type="text" id="customRates" placeholder="Ví dụ: 5, 10, 15, 20, 25">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="minRate">Tỷ lệ % tối thiểu:</label>
+              <input type="number" id="minRate" min="0" max="200" value="5" step="0.1">
+            </div>
+            <div class="form-group">
+              <label for="maxRate">Tỷ lệ % tối đa:</label>
+              <input type="number" id="maxRate" min="0" max="200" value="106" step="0.1">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Cột 2: Lọc theo số lượng bán -->
+        <div class="filter-column">
+          <h4><i class="fas fa-chart-line"></i> Lọc theo Số lượng đã bán</h4>
+          
+          <div class="form-group">
+            <label>Chọn mẫu số lượng:</label>
+            <select id="salesTemplate" onchange="applySalesTemplate()">
+              <option value="custom">Tùy chỉnh</option>
+              <option value="5-106">5 đến 106 sản phẩm (Mặc định)</option>
+              <option value="10-100">10 đến 100 sản phẩm</option>
+              <option value="20-200">20 đến 200 sản phẩm</option>
+              <option value="50-500">50 đến 500 sản phẩm</option>
+              <option value="100-1000">100 đến 1000 sản phẩm</option>
+              <option value="above100">Trên 100 sản phẩm</option>
+              <option value="above106">Trên 106 sản phẩm</option>
+            </select>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="minSales">Số bán tối thiểu:</label>
+              <input type="number" id="minSales" min="0" value="5">
+            </div>
+            <div class="form-group">
+              <label for="maxSales">Số bán tối đa:</label>
+              <input type="number" id="maxSales" min="0" value="106">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="specificSales">Nhập số lượng cụ thể (mỗi số 1 dòng):</label>
+            <textarea id="specificSales" rows="4" placeholder="Ví dụ:
+50
+80
+100
+150"></textarea>
+            <small style="color:#666;">Chỉ hiển thị shop có số lượng bán khớp với các giá trị này</small>
+          </div>
+        </div>
+        
+        <!-- Cột 3: Tùy chọn bổ sung -->
+        <div class="filter-column">
+          <h4><i class="fas fa-cog"></i> Tùy chọn bổ sung</h4>
+          
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="onlySpecial" checked>
+              Chỉ hiển thị tỷ lệ đặc biệt (5%, 6%, 22%, 25%, 26%)
+            </label>
+          </div>
+          
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="groupByRate" checked>
+              Nhóm kết quả theo tỷ lệ phần trăm
+            </label>
+          </div>
+          
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="showAll" checked>
+              Hiển thị tất cả shop (kể cả không khớp) trong thống kê
+            </label>
+          </div>
+          
+          <div class="form-group">
+            <label for="sortBy">Sắp xếp theo:</label>
+            <select id="sortBy">
+              <option value="rate-desc">Tỷ lệ % (cao → thấp)</option>
+              <option value="rate-asc">Tỷ lệ % (thấp → cao)</option>
+              <option value="sales-desc">Số bán (nhiều → ít)</option>
+              <option value="sales-asc">Số bán (ít → nhiều)</option>
+              <option value="name">Tên shop (A-Z)</option>
+            </select>
+          </div>
+          
+          <div style="margin-top:20px; padding:15px; background:#f8f9fa; border-radius:8px; border:1px solid #e9ecef;">
+            <h5 style="margin-top:0;"><i class="fas fa-lightbulb"></i> Gợi ý lọc:</h5>
+            <p style="margin:5px 0; font-size:13px;">• Để lọc chính xác: chọn tỷ lệ + đặt số bán tối thiểu</p>
+            <p style="margin:5px 0; font-size:13px;">• ★ = Tỷ lệ đặc biệt được ưu tiên</p>
+            <p style="margin:5px 0; font-size:13px;">• Nhấn Ctrl/Cmd + click để chọn nhiều tỷ lệ</p>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top:15px; padding:10px; background:#fff3cd; border-radius:8px; border:1px solid #ffeaa7;">
+        <p style="margin:0; font-size:14px;">
+          <strong><i class="fas fa-info-circle"></i> Lưu ý:</strong> Bộ lọc sẽ kết hợp tất cả điều kiện. Shop phải thỏa mãn cả điều kiện về tỷ lệ % VÀ số lượng bán.
+        </p>
+      </div>
+    </div>
+    
+    <div id="copyNotice">Đã copy mã vào clipboard!</div>
+    <div id="result" class="result"></div>
+  </div>
+  <footer>
+    Affiliate Analyzer Pro © 2026 – Không lưu dữ liệu, xử lý 100% trên máy bạn
+  </footer>
+</div>
+
+<script>
+const SAMPLE_CSV = `Tên ưu đãi,Thời gian ưu đãi,Tỉ lệ hoa hồng,Link ưu đãi,Tracking link ngắn,Lượt bán (thêm nếu có)
+Shop Hoa Hồng 5% (Đặc biệt), "bắt đầu: 2025-01-01", Lên đến 5%, https://shopee.vn/shop1, https://s.shopee.vn/link1, 50
+Shop Hoa Hồng 6% (Đặc biệt), "bắt đầu: 2025-01-01", Lên đến 6%, https://shopee.vn/shop2, https://s.shopee.vn/link2, 10
+Shop Hoa Hồng 22% (Đặc biệt), "bắt đầu: 2025-01-01", Lên đến 22%, https://shopee.vn/shop3, https://s.shopee.vn/link3, 80
+Shop Hoa Hồng 25% (Đặc biệt), "bắt đầu: 2025-01-01", Lên đến 25%, https://shopee.vn/shop4, https://s.shopee.vn/link4, 106
+Shop Hoa Hồng 26% (Đặc biệt), "bắt đầu: 2025-01-01", Lên đến 26%, https://shopee.vn/shop5, https://s.shopee.vn/link5, 30
+Shop Hoa Hồng 10% (Thường), "bắt đầu: 2025-01-01", Lên đến 10%, https://shopee.vn/shop6, https://s.shopee.vn/link6, 60
+Shop Hoa Hồng 50% (Cao), "bắt đầu: 2025-01-01", Lên đến 50%, https://shopee.vn/shop7, https://s.shopee.vn/link7, 100
+Shop Hoa Hồng 105% (Rất cao), "bắt đầu: 2025-01-01", Lên đến 105%, https://shopee.vn/shop8, https://s.shopee.vn/link8, 5
+Shop Lượt bán thấp (Loại), "bắt đầu: 2025-01-01", Lên đến 15%, https://shopee.vn/shop9, https://s.shopee.vn/link9, 3
+Shop Lượt bán cao (Loại), "bắt đầu: 2025-01-01", Lên đến 20%, https://shopee.vn/shop10, https://s.shopee.vn/link10, 200
+Shop Hoa hồng thấp (Loại), "bắt đầu: 2025-01-01", Lên đến 3%, https://shopee.vn/shop11, https://s.shopee.vn/link11, 50
+Shop Hoa hồng quá cao (Loại), "bắt đầu: 2025-01-01", Lên đến 110%, https://shopee.vn/shop12, https://s.shopee.vn/link12, 80`;
+
+// Biến toàn cục để lưu dữ liệu
+let allShops = [];
+let filteredShops = [];
+let isFiltered = false;
+let currentModalLink = '';
+let currentModalType = '';
+let categories = [];
+let selectedCategories = [];
+let letterFrequency = {};
+
+// Tỷ lệ đặc biệt
+const SPECIAL_RATES = [5, 6, 22, 25, 26];
+
+function loadSample() {
+  document.getElementById('csvInput').value = SAMPLE_CSV;
+  analyze();
+}
+
+function copyCode() {
+  const fullCode = document.documentElement.outerHTML;
+  navigator.clipboard.writeText(fullCode).then(() => {
+    const notice = document.getElementById('copyNotice');
+    notice.style.display = 'block';
+    setTimeout(() => { notice.style.display = 'none'; }, 3000);
+  }).catch(err => {
+    alert("Copy thất bại: " + err);
+  });
+}
+
+function escapeHtml(text) {
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+// Hàm kiểm tra và sửa link
+function validateAndFixLink(url) {
+  if (!url) return '';
+  
+  // Loại bỏ khoảng trắng ở đầu và cuối
+  url = url.trim();
+  
+  // Kiểm tra xem URL có hợp lệ không
+  try {
+    // Nếu không có protocol, thêm https://
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url;
+    }
+    
+    // Tạo URL object để validate
+    new URL(url);
+    return url;
+  } catch (e) {
+    // Nếu URL không hợp lệ, thử sửa
+    if (url.includes('shopee.vn')) {
+      return 'https://' + url.replace(/^(https?:\/\/)?/, '');
+    }
+    return url; // Trả về nguyên bản nếu không sửa được
+  }
+}
+
+// Hàm hiển thị modal với link
+function showLinkModal(link, type, shopName = '') {
+  const validLink = validateAndFixLink(link);
+  currentModalLink = validLink;
+  currentModalType = type;
+  
+  document.getElementById('modalTitle').textContent = shopName ? `Link: ${shopName.substring(0, 30)}${shopName.length > 30 ? '...' : ''}` : 'Xem Trước Link';
+  document.getElementById('modalLinkType').textContent = type === 'shop' ? 'Link Shop' : 'Link Affiliate';
+  document.getElementById('modalUrl').value = validLink;
+  
+  // Kiểm tra nếu link có vẻ không hợp lệ
+  if (!validLink || !validLink.includes('://')) {
+    document.getElementById('modalUrl').style.borderColor = '#dc3545';
+    document.getElementById('modalUrl').style.backgroundColor = '#ffe6e6';
+  } else {
+    document.getElementById('modalUrl').style.borderColor = '#28a745';
+    document.getElementById('modalUrl').style.backgroundColor = '#f0fff0';
+  }
+  
+  document.getElementById('linkModal').style.display = 'block';
+}
+
+// Hàm đóng modal
+function closeModal() {
+  document.getElementById('linkModal').style.display = 'none';
+  currentModalLink = '';
+  currentModalType = '';
+}
+
+// Hàm mở link từ modal
+function openModalLink() {
+  if (currentModalLink && currentModalLink.includes('://')) {
+    window.open(currentModalLink, '_blank', 'noopener,noreferrer');
+  } else {
+    alert('Link không hợp lệ! Không thể mở.');
+  }
+}
+
+// Hàm copy link từ modal
+function copyModalLink() {
+  const modalUrl = document.getElementById('modalUrl');
+  modalUrl.select();
+  modalUrl.setSelectionRange(0, 99999);
+  
+  try {
+    navigator.clipboard.writeText(modalUrl.value).then(() => {
+      alert('✅ Đã copy link vào clipboard!');
+    });
+  } catch (err) {
+    document.execCommand('copy');
+    alert('✅ Đã copy link vào clipboard!');
+  }
+}
+
+// Hàm mở link trực tiếp
+function openLink(url, type = 'shop') {
+  const validUrl = validateAndFixLink(url);
+  
+  if (!validUrl || !validUrl.includes('://')) {
+    alert(`Link ${type} không hợp lệ! URL: ${url.substring(0, 50)}...`);
+    return false;
+  }
+  
+  // Mở trong tab mới với noopener và noreferrer để bảo mật
+  window.open(validUrl, '_blank', 'noopener,noreferrer');
+  return true;
+}
+
+// Hàm copy link
+function copyLink(url, type = 'shop') {
+  const validUrl = validateAndFixLink(url);
+  
+  if (!validUrl || !validUrl.includes('://')) {
+    alert(`Link ${type} không hợp lệ! Không thể copy.`);
+    return false;
+  }
+  
+  const tempInput = document.createElement('textarea');
+  tempInput.value = validUrl;
+  document.body.appendChild(tempInput);
+  tempInput.select();
+  tempInput.setSelectionRange(0, 99999);
+  
+  try {
+    navigator.clipboard.writeText(validUrl).then(() => {
+      alert(`✅ Đã copy link ${type} vào clipboard!`);
+    });
+  } catch (err) {
+    document.execCommand('copy');
+    alert(`✅ Đã copy link ${type} vào clipboard!`);
+  }
+  
+  document.body.removeChild(tempInput);
+  return true;
+}
+
+// Hàm test tất cả link
+function testAllLinks() {
+  if (filteredShops.length === 0) {
+    alert('Chưa có dữ liệu shop để test! Hãy phân tích CSV trước.');
+    return;
+  }
+  
+  let validShopLinks = 0;
+  let validAffLinks = 0;
+  let totalLinks = filteredShops.length * 2;
+  
+  filteredShops.forEach(shop => {
+    const shopLink = validateAndFixLink(shop.link);
+    const affLink = validateAndFixLink(shop.track);
+    
+    if (shopLink && shopLink.includes('://')) validShopLinks++;
+    if (affLink && affLink.includes('://')) validAffLinks++;
+  });
+  
+  const resultHtml = `
+    <div style="background:#e3f2fd; padding:15px; border-radius:8px; margin:15px 0;">
+      <h4><i class="fas fa-link"></i> Kiểm tra Link</h4>
+      <p><strong>Tổng số shop:</strong> ${filteredShops.length}</p>
+      <p><strong>Link Shop hợp lệ:</strong> ${validShopLinks}/${filteredShops.length} (${Math.round(validShopLinks/filteredShops.length*100)}%)</p>
+      <p><strong>Link Affiliate hợp lệ:</strong> ${validAffLinks}/${filteredShops.length} (${Math.round(validAffLinks/filteredShops.length*100)}%)</p>
+      <p><strong>Tổng link hợp lệ:</strong> ${validShopLinks + validAffLinks}/${totalLinks} (${Math.round((validShopLinks + validAffLinks)/totalLinks*100)}%)</p>
+      
+      ${validShopLinks < filteredShops.length || validAffLinks < filteredShops.length ? 
+        `<div style="margin-top:10px; padding:10px; background:#fff3cd; border-radius:5px;">
+          <p style="margin:0; color:#856404;"><i class="fas fa-exclamation-triangle"></i> Một số link có thể không hợp lệ. Nhấn vào từng link để kiểm tra.</p>
+        </div>` : 
+        `<div style="margin-top:10px; padding:10px; background:#d4edda; border-radius:5px;">
+          <p style="margin:0; color:#155724;"><i class="fas fa-check-circle"></i> Tất cả link đều hợp lệ!</p>
+        </div>`
+      }
+    </div>
+  `;
+  
+  // Thêm kết quả test vào đầu phần result
+  const resultDiv = document.getElementById('result');
+  if (resultDiv.innerHTML) {
+    resultDiv.innerHTML = resultHtml + resultDiv.innerHTML;
+  } else {
+    resultDiv.innerHTML = resultHtml;
+  }
+  
+  // Cuộn đến kết quả
+  resultDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Khởi tạo sự kiện cho các tag tỷ lệ
+document.addEventListener('DOMContentLoaded', function() {
+  const rateTags = document.querySelectorAll('.rate-tag');
+  rateTags.forEach(tag => {
+    tag.addEventListener('click', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        // Ctrl/Cmd + click để chọn nhiều
+        this.classList.toggle('active');
+      } else {
+        // Click thường - toggle trạng thái
+        this.classList.toggle('active');
+      }
+    });
+  });
+  
+  // Đóng modal khi click bên ngoài
+  window.addEventListener('click', function(event) {
+    const modal = document.getElementById('linkModal');
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+  
+  // Xử lý thay đổi vị trí chữ cái
+  document.getElementById('letterPosition').addEventListener('change', function() {
+    const specificLetterGroup = document.getElementById('specificLetterGroup');
+    if (this.value === 'specific') {
+      specificLetterGroup.style.display = 'block';
+    } else {
+      specificLetterGroup.style.display = 'none';
+    }
+  });
+});
+
+function applySalesTemplate() {
+  const template = document.getElementById('salesTemplate').value;
+  const minSales = document.getElementById('minSales');
+  const maxSales = document.getElementById('maxSales');
+  
+  switch(template) {
+    case '5-106':
+      minSales.value = 5;
+      maxSales.value = 106;
+      break;
+    case '10-100':
+      minSales.value = 10;
+      maxSales.value = 100;
+      break;
+    case '20-200':
+      minSales.value = 20;
+      maxSales.value = 200;
+      break;
+    case '50-500':
+      minSales.value = 50;
+      maxSales.value = 500;
+      break;
+    case '100-1000':
+      minSales.value = 100;
+      maxSales.value = 1000;
+      break;
+    case 'above100':
+      minSales.value = 100;
+      maxSales.value = 999999;
+      break;
+    case 'above106':
+      minSales.value = 106;
+      maxSales.value = 999999;
+      break;
+    // "custom" giữ nguyên giá trị hiện tại
+  }
+}
+
+// Hàm trích xuất danh mục từ tên shop
+function extractCategories() {
+  categories = [];
+  letterFrequency = {};
+  
+  allShops.forEach(shop => {
+    const name = shop.name.toLowerCase();
+    
+    // Tìm các từ khóa phổ biến
+    const commonKeywords = [
+      'health', 'fashion', 'accessories', 'home', 'appliances', 
+      'men', 'women', 'clothes', 'shoes', 'bags', 'mobile', 
+      'gadgets', 'watches', 'grocery', 'beauty', 'moms', 
+      'kids', 'babies', 'electronics', 'cameras', 'living', 
+      'sport', 'outdoor', 'toys', 'automotive'
+    ];
+    
+    commonKeywords.forEach(keyword => {
+      if (name.includes(keyword.toLowerCase())) {
+        if (!categories.includes(keyword)) {
+          categories.push(keyword);
+        }
+      }
+    });
+    
+    // Phân tích chữ cái
+    const cleanedName = name.replace(/[^a-z]/g, '');
+    for (let char of cleanedName) {
+      letterFrequency[char] = (letterFrequency[char] || 0) + 1;
+    }
+  });
+  
+  // Sắp xếp danh mục theo tần suất
+  categories.sort();
+  
+  // Hiển thị danh mục
+  const categoryTagsDiv = document.getElementById('categoryTags');
+  categoryTagsDiv.innerHTML = '';
+  
+  categories.forEach(category => {
+    const tag = document.createElement('span');
+    tag.className = 'category-tag';
+    tag.textContent = category;
+    tag.title = `Click để chọn/deselect ${category}`;
+    tag.dataset.category = category;
+    
+    tag.addEventListener('click', function() {
+      this.classList.toggle('selected');
+      updateSelectedCategories();
+    });
+    
+    categoryTagsDiv.appendChild(tag);
+  });
+  
+  // Hiển thị thống kê chữ cái
+  displayLetterStats();
+}
+
+// Cập nhật danh mục đã chọn
+function updateSelectedCategories() {
+  selectedCategories = [];
+  document.querySelectorAll('.category-tag.selected').forEach(tag => {
+    selectedCategories.push(tag.dataset.category);
+  });
+  
+  // Cập nhật gợi ý
+  updateSuggestions();
+}
+
+// Hiển thị thống kê chữ cái
+function displayLetterStats() {
+  const letterStatsDiv = document.getElementById('letterStats');
+  const sortedLetters = Object.entries(letterFrequency)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 15);
+  
+  let html = '<div style="display:flex; flex-wrap:wrap; gap:3px;">';
+  
+  sortedLetters.forEach(([letter, count]) => {
+    const percentage = Math.round((count / allShops.length) * 100);
+    html += `
+      <div style="text-align:center; margin:2px;">
+        <div class="letter-box" title="${letter.toUpperCase()}: ${count} lần (${percentage}%)">
+          ${letter.toUpperCase()}
+        </div>
+        <div style="font-size:9px;">${count}</div>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  letterStatsDiv.innerHTML = html;
+}
+
+// Cập nhật gợi ý
+function updateSuggestions() {
+  const suggestionsDiv = document.getElementById('suggestions');
+  
+  if (selectedCategories.length > 0) {
+    let suggestions = [];
+    
+    // Gợi ý dựa trên danh mục đã chọn
+    selectedCategories.forEach(category => {
+      const matchingShops = allShops.filter(shop => 
+        shop.name.toLowerCase().includes(category.toLowerCase())
+      );
+      
+      if (matchingShops.length > 0) {
+        const avgRate = matchingShops.reduce((sum, shop) => sum + shop.rate, 0) / matchingShops.length;
+        const maxRate = Math.max(...matchingShops.map(shop => shop.rate));
+        
+        suggestions.push(`
+          <strong>${category}:</strong> ${matchingShops.length} shop, 
+          tỷ lệ trung bình ${avgRate.toFixed(1)}%, 
+          cao nhất ${maxRate}%
+        `);
+      }
+    });
+    
+    if (suggestions.length > 0) {
+      suggestionsDiv.innerHTML = suggestions.join('<br>');
+    } else {
+      suggestionsDiv.innerHTML = '<p style="margin:0;">Không tìm thấy shop khớp với danh mục đã chọn.</p>';
+    }
+  } else {
+    suggestionsDiv.innerHTML = '<p style="margin:0;">Chọn danh mục để xem gợi ý...</p>';
+  }
+}
+
+// Highlight kết quả khớp
+function highlightMatches() {
+  const keyword = document.getElementById('searchKeyword').value.trim();
+  if (!keyword) return;
+  
+  // Tìm shop khớp
+  const matches = allShops.filter(shop => {
+    const matchExact = document.getElementById('matchExact').checked;
+    const shopName = matchExact ? shop.name : shop.name.toLowerCase();
+    const searchTerm = matchExact ? keyword : keyword.toLowerCase();
+    
+    return shopName.includes(searchTerm);
+  });
+  
+  // Cập nhật gợi ý
+  const suggestionsDiv = document.getElementById('suggestions');
+  if (matches.length > 0) {
+    suggestionsDiv.innerHTML = `
+      <p style="margin:0;">
+        <strong>Tìm thấy ${matches.length} shop khớp với "${keyword}":</strong><br>
+        Tỷ lệ trung bình: ${(matches.reduce((sum, shop) => sum + shop.rate, 0) / matches.length).toFixed(1)}%<br>
+        Số bán trung bình: ${Math.round(matches.reduce((sum, shop) => sum + shop.sold, 0) / matches.length)}
+      </p>
+    `;
+  } else {
+    suggestionsDiv.innerHTML = `<p style="margin:0;">Không tìm thấy shop nào khớp với "${keyword}"</p>`;
+  }
+  
+  // Tự động chọn danh mục nếu có
+  if (document.getElementById('autoSelectMatches').checked && keyword.length > 2) {
+    document.querySelectorAll('.category-tag').forEach(tag => {
+      const category = tag.dataset.category.toLowerCase();
+      if (keyword.toLowerCase().includes(category) || category.includes(keyword.toLowerCase())) {
+        tag.classList.add('selected');
+      }
+    });
+    updateSelectedCategories();
+  }
+}
+
+// Highlight vị trí chữ cái
+function highlightLetterPosition() {
+  const position = document.getElementById('letterPosition').value;
+  const specificLetters = document.getElementById('specificLetters').value.toLowerCase();
+  
+  // Tạo bảng chữ cái
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  const letterStatsDiv = document.getElementById('letterStats');
+  
+  let html = '<div style="display:flex; flex-wrap:wrap; gap:3px;">';
+  
+  for (let letter of alphabet) {
+    let boxClass = 'letter-box';
+    let title = `${letter.toUpperCase()}: ${letterFrequency[letter] || 0} lần`;
+    
+    // Kiểm tra vị trí
+    if (position === 'specific' && specificLetters.includes(letter)) {
+      boxClass += ' match';
+      title += ' (khớp với chữ cần tìm)';
+    } else if (position === 'first') {
+      // Chữ cái đầu tiên của các từ phổ biến
+      const firstLetterWords = categories.filter(cat => cat.charAt(0).toLowerCase() === letter);
+      if (firstLetterWords.length > 0) {
+        boxClass += ' first';
+        title += ` (bắt đầu của: ${firstLetterWords.join(', ')})`;
+      }
+    } else if (position === 'last') {
+      // Chữ cái cuối cùng của các từ phổ biến
+      const lastLetterWords = categories.filter(cat => cat.charAt(cat.length - 1).toLowerCase() === letter);
+      if (lastLetterWords.length > 0) {
+        boxClass += ' last';
+        title += ` (kết thúc của: ${lastLetterWords.join(', ')})`;
+      }
+    }
+    
+    const count = letterFrequency[letter] || 0;
+    html += `
+      <div style="text-align:center; margin:2px;">
+        <div class="${boxClass}" title="${title}">
+          ${letter.toUpperCase()}
+        </div>
+        <div style="font-size:9px;">${count}</div>
+      </div>
+    `;
+  }
+  
+  html += '</div>';
+  letterStatsDiv.innerHTML = html;
+}
+
+// Phân tích mẫu văn bản
+function analyzeTextPatterns() {
+  if (allShops.length === 0) {
+    alert('Chưa có dữ liệu để phân tích! Hãy phân tích CSV trước.');
+    return;
+  }
+  
+  // Hiển thị phần phân tích văn bản
+  document.getElementById('textAnalysisSection').style.display = 'block';
+  
+  // Trích xuất danh mục
+  extractCategories();
+  
+  // Cập nhật gợi ý
+  updateSuggestions();
+}
+
+// Áp dụng phân tích văn bản
+function applyTextAnalysis() {
+  const keyword = document.getElementById('searchKeyword').value.trim();
+  const position = document.getElementById('letterPosition').value;
+  const specificLetters = document.getElementById('specificLetters').value.toLowerCase();
+  const highlightMatches = document.getElementById('highlightMatches').checked;
+  
+  // Lọc shop dựa trên phân tích văn bản
+  filteredShops = allShops.filter(shop => {
+    const shopName = shop.name.toLowerCase();
+    let matches = false;
+    
+    // Kiểm tra từ khóa
+    if (keyword) {
+      const matchExact = document.getElementById('matchExact').checked;
+      const searchTerm = matchExact ? keyword : keyword.toLowerCase();
+      const nameToSearch = matchExact ? shop.name : shopName;
+      
+      if (nameToSearch.includes(searchTerm)) {
+        matches = true;
+      }
+    }
+    
+    // Kiểm tra danh mục đã chọn
+    if (selectedCategories.length > 0) {
+      const hasSelectedCategory = selectedCategories.some(category => 
+        shopName.includes(category.toLowerCase())
+      );
+      
+      if (hasSelectedCategory) {
+        matches = true;
+      } else if (selectedCategories.length > 0 && !keyword) {
+        // Nếu có danh mục được chọn nhưng không có từ khóa
+        matches = false;
+      }
+    }
+    
+    // Kiểm tra vị trí chữ cái
+    if (position === 'specific' && specificLetters) {
+      const hasSpecificLetter = Array.from(specificLetters).some(letter => 
+        shopName.includes(letter)
+      );
+      
+      if (hasSpecificLetter) {
+        matches = true;
+      }
+    }
+    
+    return matches;
+  });
+  
+  // Nếu không có điều kiện nào được áp dụng, hiển thị tất cả
+  if (!keyword && selectedCategories.length === 0 && 
+      (position !== 'specific' || !specificLetters)) {
+    filteredShops = [...allShops];
+  }
+  
+  isFiltered = true;
+  displayResultsWithHighlights();
+  updateStats();
+}
+
+// Reset phân tích văn bản
+function resetTextAnalysis() {
+  document.getElementById('searchKeyword').value = '';
+  document.getElementById('letterPosition').value = 'all';
+  document.getElementById('specificLetters').value = '';
+  document.getElementById('specificLetterGroup').style.display = 'none';
+  
+  // Bỏ chọn tất cả danh mục
+  document.querySelectorAll('.category-tag.selected').forEach(tag => {
+    tag.classList.remove('selected');
+  });
+  
+  selectedCategories = [];
+  updateSuggestions();
+  
+  // Reset về tất cả shop
+  filteredShops = [...allShops];
+  isFiltered = false;
+  displayResults();
+  updateStats();
+}
+
+// Hiển thị kết quả với highlight
+function displayResultsWithHighlights() {
+  const keyword = document.getElementById('searchKeyword').value.trim();
+  const matchExact = document.getElementById('matchExact').checked;
+  const highlight = document.getElementById('highlightMatches').checked;
+  
+  let html = `<h3>Kết quả phân tích văn bản (${filteredShops.length} shop thỏa mãn)</h3>`;
+  
+  if (keyword || selectedCategories.length > 0) {
+    html += `<div style="background:#d4edda; color:#155724; padding:10px; border-radius:8px; margin-bottom:15px;">
+              <i class="fas fa-font"></i> Đang áp dụng phân tích văn bản: `;
+    
+    if (keyword) {
+      html += `Từ khóa: <strong>"${escapeHtml(keyword)}"</strong> `;
+    }
+    
+    if (selectedCategories.length > 0) {
+      html += `Danh mục: <strong>${selectedCategories.join(', ')}</strong>`;
+    }
+    
+    html += `</div>`;
+  }
+  
+  if (filteredShops.length === 0) {
+    html += `<p style="color:#dc3545; background:#fff; padding:15px; border-radius:8px;">
+              <strong>Không tìm thấy shop nào khớp với tiêu chí tìm kiếm!</strong><br>
+              Hãy thử với từ khóa khác hoặc chọn danh mục khác.
+            </p>`;
+  } else {
+    // Hiển thị word cloud nếu được chọn
+    if (document.getElementById('showWordCloud').checked) {
+      const wordFreq = {};
+      filteredShops.forEach(shop => {
+        const words = shop.name.toLowerCase().split(/[^a-z]+/).filter(w => w.length > 2);
+        words.forEach(word => {
+          wordFreq[word] = (wordFreq[word] || 0) + 1;
+        });
+      });
+      
+      const topWords = Object.entries(wordFreq)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 20);
+      
+      html += `<div class="section" style="border-left-color:#9b59b6;">
+        <h4><i class="fas fa-cloud"></i> Đám mây từ khóa trong kết quả</h4>
+        <div class="word-cloud">`;
+      
+      topWords.forEach(([word, freq]) => {
+        const freqClass = `freq-${Math.min(freq, 5)}`;
+        html += `<span class="word-item ${freqClass}" title="${word}: ${freq} lần">${word}</span>`;
+      });
+      
+      html += `</div></div>`;
+    }
+    
+    html += `<div class="section"><h3>Shop phù hợp <span class="count">${filteredShops.length} shop</span></h3>`;
+    html += `<table><tr>
+      <th>Tên Shop</th>
+      <th>Hoa hồng</th>
+      <th>Lượt bán</th>
+      <th>Thời gian</th>
+      <th>Actions</th>
+    </tr>`;
+    
+    filteredShops.forEach(shop => {
+      const linkValid = shop.link && shop.link.includes('://');
+      const trackValid = shop.track && shop.track.includes('://');
+      
+      // Highlight từ khóa trong tên
+      let displayName = escapeHtml(shop.name);
+      if (highlight && keyword) {
+        const searchTerm = matchExact ? keyword : keyword.toLowerCase();
+        const nameToSearch = matchExact ? shop.name : shop.name.toLowerCase();
+        const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, matchExact ? 'g' : 'gi');
+        
+        if (nameToSearch.includes(searchTerm)) {
+          displayName = displayName.replace(regex, '<mark style="background:#ffeb3b;padding:2px 0;">$1</mark>');
+        }
+      }
+      
+      // Highlight danh mục
+      if (highlight && selectedCategories.length > 0) {
+        selectedCategories.forEach(category => {
+          const regex = new RegExp(`(${category})`, 'gi');
+          displayName = displayName.replace(regex, '<mark style="background:#a5d6a7;padding:2px 0;">$1</mark>');
+        });
+      }
+      
+      html += `<tr>
+        <td><strong>${displayName}</strong> ${shop.isSpecial ? '<span class="special-badge"><i class="fas fa-star"></i> Đặc biệt</span>' : ''}</td>
+        <td><strong style="color:${shop.isSpecial ? '#c41e3a' : '#007bff'}">${escapeHtml(shop.rateText || shop.rate + '%')}</strong></td>
+        <td><b style="color:#28a745">${shop.sold.toLocaleString()}</b></td>
+        <td><small>${escapeHtml(shop.time)}</small></td>
+        <td>
+          <div class="link-group">
+            <a href="javascript:void(0)" onclick="showLinkModal('${shop.link.replace(/'/g, "\\'")}', 'shop', '${shop.name.replace(/'/g, "\\'")}')" class="link-btn shopee" title="Xem link Shop">
+              <i class="fas fa-store"></i> Shop
+            </a>
+            <a href="javascript:void(0)" onclick="showLinkModal('${shop.track.replace(/'/g, "\\'")}', 'affiliate', '${shop.name.replace(/'/g, "\\'")}')" class="link-btn affiliate" title="Xem link Affiliate">
+              <i class="fas fa-link"></i> Aff
+            </a>
+            <a href="javascript:void(0)" onclick="openLink('${shop.link.replace(/'/g, "\\'")}', 'shop')" class="link-btn" title="Mở link Shop" ${!linkValid ? 'style="opacity:0.5;"' : ''}>
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+            <a href="javascript:void(0)" onclick="openLink('${shop.track.replace(/'/g, "\\'")}', 'affiliate')" class="link-btn" title="Mở link Affiliate" ${!trackValid ? 'style="opacity:0.5;"' : ''}>
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </td>
+      </tr>`;
+    });
+    
+    html += `</table></div>`;
+    
+    // Thống kê
+    const specialShops = filteredShops.filter(shop => shop.isSpecial);
+    const matchingCategories = {};
+    
+    filteredShops.forEach(shop => {
+      categories.forEach(category => {
+        if (shop.name.toLowerCase().includes(category.toLowerCase())) {
+          matchingCategories[category] = (matchingCategories[category] || 0) + 1;
+        }
+      });
+    });
+    
+    html += `<div class="section" style="border-left-color:#28a745;">
+      <h3><i class="fas fa-chart-bar"></i> Thống kê phân tích văn bản</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+          <h4 style="margin-top:0; color:#ee4d2d;">Tổng quan</h4>
+          <p><strong>Tổng shop phù hợp:</strong> ${filteredShops.length}</p>
+          <p><strong>Shop đặc biệt:</strong> ${specialShops.length}</p>
+          <p><strong>Tỷ lệ trung bình:</strong> ${(filteredShops.reduce((sum, s) => sum + s.rate, 0) / filteredShops.length).toFixed(1)}%</p>
+          <p><strong>Số bán trung bình:</strong> ${Math.round(filteredShops.reduce((sum, s) => sum + s.sold, 0) / filteredShops.length)}</p>
+        </div>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+          <h4 style="margin-top:0; color:#ee4d2d;">Phân bố danh mục</h4>
+          ${Object.entries(matchingCategories)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([cat, count]) => `<p><strong>${cat}:</strong> ${count} shop (${Math.round(count/filteredShops.length*100)}%)</p>`)
+            .join('')}
+        </div>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+          <h4 style="margin-top:0; color:#ee4d2d;">Gợi ý lựa chọn</h4>
+          <p>${getRecommendation()}</p>
+        </div>
+      </div>
+    </div>`;
+  }
+  
+  document.getElementById('result').innerHTML = html;
+}
+
+// Tạo gợi ý dựa trên phân tích
+function getRecommendation() {
+  if (filteredShops.length === 0) return "Không có dữ liệu để gợi ý.";
+  
+  const highRateShops = filteredShops.filter(s => s.rate >= 20);
+  const highSalesShops = filteredShops.filter(s => s.sold >= 50);
+  const specialShops = filteredShops.filter(s => s.isSpecial);
+  
+  let recommendations = [];
+  
+  if (specialShops.length > 0) {
+    recommendations.push(`<strong>${specialShops.length} shop có tỷ lệ đặc biệt</strong> (5%, 6%, 22%, 25%, 26%)`);
+  }
+  
+  if (highRateShops.length > 0) {
+    const bestRate = Math.max(...highRateShops.map(s => s.rate));
+    recommendations.push(`<strong>${highRateShops.length} shop có tỷ lệ ≥ 20%</strong> (cao nhất: ${bestRate}%)`);
+  }
+  
+  if (highSalesShops.length > 0) {
+    const bestSales = Math.max(...highSalesShops.map(s => s.sold));
+    recommendations.push(`<strong>${highSalesShops.length} shop có số bán ≥ 50</strong> (cao nhất: ${bestSales})`);
+  }
+  
+  if (selectedCategories.length > 0) {
+    recommendations.push(`Đã chọn <strong>${selectedCategories.length} danh mục</strong>: ${selectedCategories.join(', ')}`);
+  }
+  
+  return recommendations.join('<br>');
+}
+
+function analyze() {
+  const raw = document.getElementById('csvInput').value.trim();
+  if (!raw) { alert("Chưa có dữ liệu CSV!"); return; }
+  
+  const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  if (lines.length < 2) { alert("CSV không hợp lệ hoặc quá ít dòng!"); return; }
+  
+  const rows = lines.slice(1).map(line => {
+    const regex = /(".*?"|[^",]+)(?=\s*,|\s*$)/g;
+    const matches = line.match(regex) || [];
+    return matches.map(s => s.replace(/^"|"$/g, '').trim());
+  }).filter(r => r.length >= 5);
+  
+  allShops = rows.map(r => {
+    let rateStr = r[2] || "";
+    const numMatch = rateStr.match(/[\d.,]+/);
+    let rateNum = 0;
+    if (numMatch) {
+      let numStr = numMatch[0].replace(',', '.');
+      rateNum = parseFloat(numStr) || 0;
+    }
+    
+    const sold = r.length >= 6 ? parseInt(r[5].replace(/[^0-9]/g, '')) || 0 : 0;
+    
+    // Validate và fix links
+    const shopLink = validateAndFixLink(r[3]);
+    const affLink = validateAndFixLink(r[4]);
+    
+    return {
+      name: r[0],
+      time: (r[1] || "").replace(/[\r\n]/g, ' '),
+      rate: rateNum,
+      rateText: rateStr.trim(),
+      link: shopLink,
+      track: affLink,
+      sold: sold,
+      isSpecial: SPECIAL_RATES.includes(Math.round(rateNum)),
+      linkValid: shopLink.includes('://'),
+      trackValid: affLink.includes('://')
+    };
+  }).filter(x => x.rate > 0);
+  
+  // Hiển thị phần lọc
+  document.getElementById('filterSection').style.display = 'block';
+  
+  // Áp dụng bộ lọc mặc định (tất cả shop)
+  filteredShops = [...allShops];
+  
+  isFiltered = false;
+  
+  displayResults();
+  updateStats();
+  
+  // Trích xuất danh mục
+  extractCategories();
+}
+
+function applyCustomFilters() {
+  // 1. Lấy danh sách tỷ lệ phần trăm đã chọn
+  const selectedRateTags = Array.from(document.querySelectorAll('.rate-tag.active'))
+    .map(tag => parseFloat(tag.dataset.rate));
+  
+  // 2. Lấy tỷ lệ từ ô nhập tùy chỉnh
+  const customRatesInput = document.getElementById('customRates').value;
+  let customRates = [];
+  if (customRatesInput) {
+    customRates = customRatesInput.split(',')
+      .map(r => parseFloat(r.trim()))
+      .filter(r => !isNaN(r) && r > 0);
+  }
+  
+  // 3. Kết hợp tất cả tỷ lệ
+  let targetRates = [...selectedRateTags, ...customRates];
+  
+  // 4. Lấy khoảng tỷ lệ
+  const minRate = parseFloat(document.getElementById('minRate').value) || 0;
+  const maxRate = parseFloat(document.getElementById('maxRate').value) || 999999;
+  
+  // 5. Lấy khoảng số lượng bán
+  const minSales = parseFloat(document.getElementById('minSales').value) || 0;
+  const maxSales = parseFloat(document.getElementById('maxSales').value) || 999999;
+  
+  // 6. Lấy danh sách số lượng cụ thể
+  const specificSalesInput = document.getElementById('specificSales').value;
+  let specificSales = [];
+  if (specificSalesInput) {
+    specificSales = specificSalesInput.split('\n')
+      .map(s => parseFloat(s.trim()))
+      .filter(s => !isNaN(s) && s > 0);
+  }
+  
+  // 7. Lấy các tùy chọn khác
+  const onlySpecial = document.getElementById('onlySpecial').checked;
+  const groupByRate = document.getElementById('groupByRate').checked;
+  const sortBy = document.getElementById('sortBy').value;
+  
+  // 8. Lọc shop
+  filteredShops = allShops.filter(shop => {
+    const rate = shop.rate;
+    const sales = shop.sold;
+    
+    // Kiểm tra điều kiện tỷ lệ phần trăm
+    let rateCondition = false;
+    
+    if (targetRates.length > 0) {
+      // Kiểm tra xem tỷ lệ có khớp với bất kỳ tỷ lệ đã chọn nào không
+      rateCondition = targetRates.some(targetRate => 
+        Math.abs(rate - targetRate) < 0.5
+      );
+    } else {
+      // Nếu không chọn tỷ lệ cụ thể, kiểm tra khoảng tỷ lệ
+      rateCondition = (rate >= minRate && rate <= maxRate);
+    }
+    
+    // Nếu chỉ hiển thị tỷ lệ đặc biệt
+    if (onlySpecial && !shop.isSpecial) {
+      return false;
+    }
+    
+    // Kiểm tra điều kiện số lượng bán
+    let salesCondition = false;
+    
+    if (specificSales.length > 0) {
+      // Kiểm tra xem số bán có khớp với danh sách cụ thể không
+      salesCondition = specificSales.some(specific => 
+        Math.abs(sales - specific) < 0.5
+      );
+    } else {
+      // Kiểm tra khoảng số bán
+      salesCondition = (sales >= minSales && sales <= maxSales);
+    }
+    
+    // Shop phải thỏa mãn cả điều kiện tỷ lệ VÀ số bán
+    return rateCondition && salesCondition;
+  });
+  
+  // 9. Sắp xếp kết quả
+  sortShops(sortBy);
+  
+  isFiltered = true;
+  displayResults(groupByRate);
+  updateStats();
+}
+
+function sortShops(sortBy) {
+  switch(sortBy) {
+    case 'rate-desc':
+      filteredShops.sort((a, b) => b.rate - a.rate);
+      break;
+    case 'rate-asc':
+      filteredShops.sort((a, b) => a.rate - b.rate);
+      break;
+    case 'sales-desc':
+      filteredShops.sort((a, b) => b.sold - a.sold);
+      break;
+    case 'sales-asc':
+      filteredShops.sort((a, b) => a.sold - b.sold);
+      break;
+    case 'name':
+      filteredShops.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+  }
+}
+
+function resetCustomFilters() {
+  // Reset tất cả ô nhập về mặc định
+  document.getElementById('customRates').value = '';
+  document.getElementById('minRate').value = 5;
+  document.getElementById('maxRate').value = 106;
+  document.getElementById('salesTemplate').value = '5-106';
+  applySalesTemplate(); // Áp dụng template mặc định
+  document.getElementById('specificSales').value = '';
+  document.getElementById('onlySpecial').checked = true;
+  document.getElementById('groupByRate').checked = true;
+  document.getElementById('sortBy').value = 'rate-desc';
+  
+  // Reset các tag về mặc định
+  document.querySelectorAll('.rate-tag').forEach(tag => {
+    if (tag.classList.contains('special')) {
+      tag.classList.add('active');
+    } else {
+      tag.classList.remove('active');
+    }
+  });
+  
+  // Reset về bộ lọc mặc định
+  filteredShops = [...allShops];
+  
+  isFiltered = false;
+  displayResults();
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById('totalShops').textContent = allShops.length;
+  document.getElementById('filteredShops').textContent = filteredShops.length;
+  
+  const percent = allShops.length > 0 ? Math.round((filteredShops.length / allShops.length) * 100) : 0;
+  document.getElementById('filterPercent').textContent = `${percent}%`;
+}
+
+function displayResults(groupByRate = true) {
+  let html = `<h3>Kết quả phân tích (${filteredShops.length} shop thỏa mãn điều kiện)</h3>`;
+  
+  if (isFiltered) {
+    html += `<div style="background:#d4edda; color:#155724; padding:10px; border-radius:8px; margin-bottom:15px;">
+              <i class="fas fa-filter"></i> Đang áp dụng bộ lọc tùy chỉnh
+            </div>`;
+  } else {
+    html += `<div style="background:#fff3cd; color:#856404; padding:10px; border-radius:8px; margin-bottom:15px;">
+              <i class="fas fa-info-circle"></i> Hiển thị tất cả shop (chưa áp dụng bộ lọc)
+            </div>`;
+  }
+  
+  if (filteredShops.length === 0) {
+    html += `<p style="color:#dc3545; background:#fff; padding:15px; border-radius:8px;">
+              <strong>Không tìm thấy shop nào thỏa mãn bộ lọc!</strong><br>
+              ${isFiltered ? 'Hãy điều chỉnh giá trị trong bộ lọc hoặc reset về mặc định.' : 'Không có dữ liệu shop nào.'}
+            </p>`;
+  } else {
+    if (groupByRate && filteredShops.length > 0) {
+      // Nhóm shop theo tỷ lệ phần trăm
+      const groupedByRate = {};
+      filteredShops.forEach(shop => {
+        const rateKey = Math.round(shop.rate);
+        if (!groupedByRate[rateKey]) {
+          groupedByRate[rateKey] = [];
+        }
+        groupedByRate[rateKey].push(shop);
+      });
+      
+      // Sắp xếp các nhóm theo tỷ lệ giảm dần
+      const sortedRates = Object.keys(groupedByRate).sort((a, b) => b - a);
+      
+      // Hiển thị từng nhóm
+      sortedRates.forEach(rate => {
+        const shops = groupedByRate[rate];
+        const isSpecialGroup = SPECIAL_RATES.includes(parseInt(rate));
+        
+        html += `<div class="section" style="border-left-color:${isSpecialGroup ? '#9b59b6' : '#dc3545'};">`;
+        html += `<h3>Tỷ lệ ${rate}% <span class="count">${shops.length} shop</span>`;
+        if (isSpecialGroup) {
+          html += ` <span class="special-badge"><i class="fas fa-star"></i> Đặc biệt</span>`;
+        }
+        html += `</h3>`;
+        
+        html += `<table><tr>
+          <th>Tên Shop</th>
+          <th>Hoa hồng</th>
+          <th>Lượt bán</th>
+          <th>Thời gian</th>
+          <th>Actions</th>
+        </tr>`;
+        
+        shops.forEach(shop => {
+          const linkValid = shop.link && shop.link.includes('://');
+          const trackValid = shop.track && shop.track.includes('://');
+          
+          html += `<tr>
+            <td><strong>${escapeHtml(shop.name)}</strong></td>
+            <td><strong style="color:${shop.isSpecial ? '#c41e3a' : '#007bff'}">${escapeHtml(shop.rateText || shop.rate + '%')}</strong></td>
+            <td><b style="color:#28a745">${shop.sold.toLocaleString()}</b></td>
+            <td><small>${escapeHtml(shop.time)}</small></td>
+            <td>
+              <div class="link-group">
+                <a href="javascript:void(0)" onclick="showLinkModal('${shop.link.replace(/'/g, "\\'")}', 'shop', '${shop.name.replace(/'/g, "\\'")}')" class="link-btn shopee" title="Xem link Shop">
+                  <i class="fas fa-store"></i> Shop
+                </a>
+                <a href="javascript:void(0)" onclick="showLinkModal('${shop.track.replace(/'/g, "\\'")}', 'affiliate', '${shop.name.replace(/'/g, "\\'")}')" class="link-btn affiliate" title="Xem link Affiliate">
+                  <i class="fas fa-link"></i> Aff
+                </a>
+                <a href="javascript:void(0)" onclick="openLink('${shop.link.replace(/'/g, "\\'")}', 'shop')" class="link-btn" title="Mở link Shop" ${!linkValid ? 'style="opacity:0.5;"' : ''}>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="javascript:void(0)" onclick="openLink('${shop.track.replace(/'/g, "\\'")}', 'affiliate')" class="link-btn" title="Mở link Affiliate" ${!trackValid ? 'style="opacity:0.5;"' : ''}>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </td>
+          </tr>`;
+        });
+        
+        html += `</table></div>`;
+      });
+    } else {
+      // Không nhóm theo tỷ lệ - hiển thị tất cả trong một bảng
+      html += `<div class="section"><h3>Tất cả shop <span class="count">${filteredShops.length} shop</span></h3>`;
+      html += `<table><tr>
+        <th>Tên Shop</th>
+        <th>Hoa hồng</th>
+        <th>Lượt bán</th>
+        <th>Thời gian</th>
+        <th>Actions</th>
+      </tr>`;
+      
+      filteredShops.forEach(shop => {
+        const linkValid = shop.link && shop.link.includes('://');
+        const trackValid = shop.track && shop.track.includes('://');
+        
+        html += `<tr>
+          <td><strong>${escapeHtml(shop.name)}</strong> ${shop.isSpecial ? '<span class="special-badge"><i class="fas fa-star"></i> Đặc biệt</span>' : ''}</td>
+          <td><strong style="color:${shop.isSpecial ? '#c41e3a' : '#007bff'}">${escapeHtml(shop.rateText || shop.rate + '%')}</strong></td>
+          <td><b style="color:#28a745">${shop.sold.toLocaleString()}</b></td>
+          <td><small>${escapeHtml(shop.time)}</small></td>
+          <td>
+            <div class="link-group">
+              <a href="javascript:void(0)" onclick="showLinkModal('${shop.link.replace(/'/g, "\\'")}', 'shop', '${shop.name.replace(/'/g, "\\'")}')" class="link-btn shopee" title="Xem link Shop">
+                <i class="fas fa-store"></i> Shop
+              </a>
+              <a href="javascript:void(0)" onclick="showLinkModal('${shop.track.replace(/'/g, "\\'")}', 'affiliate', '${shop.name.replace(/'/g, "\\'")}')" class="link-btn affiliate" title="Xem link Affiliate">
+                <i class="fas fa-link"></i> Aff
+              </a>
+              <a href="javascript:void(0)" onclick="openLink('${shop.link.replace(/'/g, "\\'")}', 'shop')" class="link-btn" title="Mở link Shop" ${!linkValid ? 'style="opacity:0.5;"' : ''}>
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+              <a href="javascript:void(0)" onclick="openLink('${shop.track.replace(/'/g, "\\'")}', 'affiliate')" class="link-btn" title="Mở link Affiliate" ${!trackValid ? 'style="opacity:0.5;"' : ''}>
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          </td>
+        </tr>`;
+      });
+      
+      html += `</table></div>`;
+    }
+    
+    // Thống kê
+    const specialShops = filteredShops.filter(shop => shop.isSpecial);
+    const regularShops = filteredShops.filter(shop => !shop.isSpecial);
+    const validLinks = filteredShops.filter(shop => shop.linkValid && shop.trackValid).length;
+    
+    html += `<div class="section" style="border-left-color:#28a745;">
+      <h3><i class="fas fa-chart-bar"></i> Thống kê chi tiết</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+          <h4 style="margin-top:0; color:#ee4d2d;">Tổng quan</h4>
+          <p><strong>Tổng shop:</strong> ${filteredShops.length}</p>
+          <p><strong>Shop đặc biệt:</strong> ${specialShops.length}</p>
+          <p><strong>Shop thường:</strong> ${regularShops.length}</p>
+          <p><strong>Link hợp lệ:</strong> ${validLinks}/${filteredShops.length}</p>
+        </div>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+          <h4 style="margin-top:0; color:#ee4d2d;">Phân bố tỷ lệ</h4>
+          <p><strong>Tỷ lệ cao nhất:</strong> ${Math.max(...filteredShops.map(s => s.rate)).toFixed(1)}%</p>
+          <p><strong>Tỷ lệ thấp nhất:</strong> ${Math.min(...filteredShops.map(s => s.rate)).toFixed(1)}%</p>
+          <p><strong>Tỷ lệ trung bình:</strong> ${(filteredShops.reduce((sum, s) => sum + s.rate, 0) / filteredShops.length).toFixed(1)}%</p>
+        </div>
+        <div style="background: #f8f9fa; padding: 15px; border-radius:8px;">
+          <h4 style="margin-top:0; color:#ee4d2d;">Phân bố số bán</h4>
+          <p><strong>Số bán cao nhất:</strong> ${Math.max(...filteredShops.map(s => s.sold)).toLocaleString()}</p>
+          <p><strong>Số bán thấp nhất:</strong> ${Math.min(...filteredShops.map(s => s.sold)).toLocaleString()}</p>
+          <p><strong>Số bán trung bình:</strong> ${Math.round(filteredShops.reduce((sum, s) => sum + s.sold, 0) / filteredShops.length).toLocaleString()}</p>
+        </div>
+      </div>
+    </div>`;
+  }
+  
+  document.getElementById('result').innerHTML = html;
+}
+</script>
+</body>
+</html>

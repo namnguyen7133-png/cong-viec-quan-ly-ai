@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hệ Thống Affiliate Pro - Tự Động Nhảy Dòng</title>
+
+<style>
+    :root { --primary: #ee4d2d; --dark: #2c3e50; --bg: #f0f2f5; }
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); padding: 20px; padding-bottom: 120px; margin: 0; }
+    .container { max-width: 1200px; margin: auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    
+    h2 { text-align: center; color: var(--primary); margin-top: 0; }
+    
+    .guide-num { background: #000; color: #fff; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 13px; margin-right: 8px; }
+    .section-label { font-weight: bold; font-size: 16px; margin: 20px 0 10px; display: flex; align-items: center; }
+
+    .upload-area { border: 2px dashed #ddd; padding: 25px; border-radius: 12px; background: #fdfdfd; text-align: center; transition: 0.3s; }
+    .upload-area:hover { border-color: var(--primary); }
+    
+    textarea { width: 100%; height: 80px; margin-top: 15px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: monospace; box-sizing: border-box; }
+
+    .filter-group { display: flex; gap: 15px; background: #f8f9fa; padding: 20px; border-radius: 10px; align-items: center; flex-wrap: wrap; border: 1px solid #eee; }
+    input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; outline: none; width: 130px; }
+    input:focus { border-color: var(--primary); }
+
+    button { padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .btn-run { background: var(--primary); color: white; }
+    .btn-run:hover { opacity: 0.9; }
+    .btn-clear { background: #6c757d; color: white; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 25px; }
+    th { background: #f1f3f5; color: #495057; padding: 15px; text-align: left; font-size: 13px; border-bottom: 2px solid #dee2e6; position: sticky; top: 0; }
+    td { padding: 15px; border-bottom: 1px solid #eee; }
+    
+    .active-row { background-color: #fff9c4 !important; transition: 0.3s; box-shadow: inset 0 0 10px rgba(255,193,7,0.2); }
+    .stt-badge { font-weight: bold; color: var(--primary); }
+    
+    .status-tag { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-done { background: #d4edda; color: #155724; }
+
+    /* Thanh điều khiển copy cố định bên dưới */
+    .footer-control { position: fixed; bottom: 0; left: 0; right: 0; background: var(--dark); color: white; padding: 20px; display: flex; justify-content: center; align-items: center; gap: 30px; z-index: 1000; box-shadow: 0 -5px 15px rgba(0,0,0,0.2); }
+    .jump-box { display: flex; align-items: center; gap: 12px; }
+    .input-jump { width: 70px; height: 40px; font-size: 20px; text-align: center; font-weight: bold; border-radius: 6px; border: none; color: var(--primary); }
+    .btn-copy-next { background: #ffc107; color: #000; font-size: 18px; padding: 12px 35px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    .btn-copy-next:active { transform: scale(0.96); }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>PHÂN TÍCH & QUẢN LÝ AFFILIATE</h2>
+
+    <div class="section-label"><span class="guide-num">1</span> NẠP THƯ MỤC FILE CSV</div>
+    <div class="upload-area">
+        <input type="file" id="folderPicker" webkitdirectory directory multiple>
+        <textarea id="rawInput" placeholder="Dữ liệu thô sẽ hiển thị tại đây..."></textarea>
+    </div>
+
+    <div class="section-label"><span class="guide-num">2</span> BỘ LỌC THÔNG MINH</div>
+    <div class="filter-group">
+        <div>Ký tự cuối: <input type="text" id="endChar" placeholder="Ví dụ: a, m"></div>
+        <div>Độ dài tối đa: <input type="number" id="maxNameLen" placeholder="Ví dụ: 80"></div>
+        <button class="btn-run" onclick="startAnalysis()">CHẠY PHÂN TÍCH</button>
+        <button class="btn-clear" onclick="resetTable()">LÀM MỚI</button>
+        <button class="btn-clear" style="background:#dc3545" onclick="fullClear()">XÓA HẾT</button>
+    </div>
+
+    <div id="summary" style="margin-top:20px; font-weight:bold; color:var(--dark)"></div>
+    <div id="tableContent"></div>
+</div>
+
+<div class="footer-control" id="controlBar" style="display:none">
+    <div class="jump-box">
+        <span class="guide-num" style="background:#ffc107; color:#000">3</span>
+        DÒNG HIỆN TẠI: 
+        <input type="number" id="targetStt" class="input-jump" value="1" onchange="syncHighlight()">
+    </div>
+    <button class="btn-copy-next" onclick="doCopyAndJump()">COPY & NHẢY DÒNG TIẾP THEO ➔</button>
+</div>
+
+<script>
+let items = JSON.parse(localStorage.getItem("aff_data_v3")) || [];
+
+// Khởi động lại nếu có dữ liệu cũ
+if(items.length > 0) { render(); document.getElementById('controlBar').style.display = 'flex'; }
+
+// 1. Nạp tệp từ thư mục
+folderPicker.onchange = async (e) => {
+    let content = "";
+    for (let file of e.target.files) {
+        if (file.name.toLowerCase().endsWith(".csv")) {
+            content += await file.text() + "\n";
+        }
+    }
+    rawInput.value = content;
+};
+
+// 2. Phân tích dữ liệu (Sửa lỗi lọc & Bỏ dòng không link)
+function startAnalysis() {
+    const raw = rawInput.value.trim();
+    if(!raw) return alert("Vui lòng nạp dữ liệu CSV!");
+
+    const filterChars = endChar.value.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
+    const lenLimit = parseInt(maxNameLen.value);
+    
+    const lines = raw.split(/\r?\n/);
+    lines.forEach(line => {
+        if(line.includes("Mã sản phẩm") || !line.trim()) return;
+
+        // Split CSV chuẩn (xử lý dấu phẩy trong ngoặc kép)
+        const parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+        const name = (parts[1] || "").replace(/"/g, "").trim();
+        const link = (parts[7] || "").replace(/"/g, "").trim();
+
+        // ĐIỀU KIỆN 1: Bỏ dòng không có link
+        if(!link || link === "" || link === "Link sản phẩm") return;
+
+        // Lấy ký tự cuối (chỉ lấy chữ cái)
+        const cleanName = name.replace(/[^a-zA-Zà-ỹÀ-ỸđĐ]/g,"");
+        const lastLetter = cleanName.slice(-1).toLowerCase();
+
+        // ĐIỀU KIỆN 2: Lọc theo ký tự cuối
+        if(filterChars.length > 0 && !filterChars.includes(lastLetter)) return;
+
+        // ĐIỀU KIỆN 3: Lọc theo độ dài tên
+        if(!isNaN(lenLimit) && name.length > lenLimit) return;
+
+        // Thêm vào danh sách nếu chưa tồn tại
+        if(!items.some(i => i.name === name)) {
+            items.push({ name, link, lastLetter, status: 'pending' });
+        }
+    });
+
+    save(); render();
+    document.getElementById('controlBar').style.display = 'flex';
+}
+
+// 3. Hiển thị bảng dữ liệu
+function render() {
+    let html = `<table><tr><th width="50">STT</th><th width="100">Trạng thái</th><th>Tên sản phẩm</th><th>Link</th></tr>`;
+    items.forEach((item, i) => {
+        const isDone = item.status === 'done';
+        html += `<tr id="row_${i+1}" class="${isDone ? '' : ''}">
+            <td class="stt-badge">${i+1}</td>
+            <td><span class="status-tag ${isDone ? 'status-done' : 'status-pending'}">${isDone ? 'Xong' : 'Chờ'}</span></td>
+            <td style="${isDone ? 'text-decoration:line-through; color:#aaa' : 'font-weight:500'}">
+                <span style="color:var(--primary); font-weight:bold;">[${item.lastLetter.toUpperCase()}]</span> ${item.name}
+            </td>
+            <td><a href="${item.link}" target="_blank" style="font-size:11px">Link Affiliate</a></td>
+        </tr>`;
+    });
+    tableContent.innerHTML = html + "</table>";
+    summary.innerText = `Tìm thấy ${items.length} dòng hợp lệ (Có link).`;
+    syncHighlight();
+}
+
+// 4. Copy và Tự động nhảy dòng
+function doCopyAndJump() {
+    const input = document.getElementById('targetStt');
+    let currentPos = parseInt(input.value);
+    let idx = currentPos - 1;
+
+    if (idx >= items.length) return alert("Đã hoàn thành danh sách!");
+
+    // Thực hiện Copy
+    const dummy = document.createElement('textarea');
+    dummy.value = items[idx].name;
+    document.body.appendChild(dummy);
+    dummy.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummy);
+
+    // Cập nhật trạng thái và nhảy số
+    items[idx].status = 'done';
+    input.value = currentPos + 1;
+    
+    save();
+    render();
+}
+
+function syncHighlight() {
+    const stt = document.getElementById('targetStt').value;
+    document.querySelectorAll('tr').forEach(r => r.classList.remove('active-row'));
+    const target = document.getElementById(`row_${stt}`);
+    if(target) {
+        target.classList.add('active-row');
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+function save() { localStorage.setItem("aff_data_v3", JSON.stringify(items)); }
+function resetTable() { items = []; render(); document.getElementById('controlBar').style.display = 'none'; }
+function fullClear() { if(confirm("Xóa sạch toàn bộ lịch sử?")) { localStorage.clear(); location.reload(); } }
+</script>
+
+</body>
+</html>

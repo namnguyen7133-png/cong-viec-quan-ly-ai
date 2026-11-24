@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trợ Giảng – Freelancer & Kinh Doanh Nhỏ (Gemini)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root{
+  --bg:#0f172a; --card:#1e293b; --card2:#0f172a; --border:#334155;
+  --text:#f8fafc; --muted:#94a3b8; --green:#22c55e; --red:#ef4444;
+  --yellow:#eab308; --blue:#3b82f6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:19px;line-height:1.65;min-height:100vh}
+.container{max-width:920px;margin:0 auto;padding:20px 16px 70px}
+h1{font-size:clamp(1.7rem,4vw,2.3rem);font-weight:900;text-align:center;color:var(--yellow);margin-bottom:6px;text-shadow:1px 1px 3px rgba(0,0,0,.4)}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:22px;font-size:1.05rem}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px}
+.tab-btn{padding:11px 15px;font-size:.95rem;font-weight:700;border:2px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);cursor:pointer;transition:.2s}
+.tab-btn:hover{border-color:var(--blue)}
+.tab-btn.active{background:var(--blue);color:#fff;border-color:transparent}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:24px;margin-bottom:18px;box-shadow:0 8px 25px rgba(0,0,0,.25)}
+h2{font-size:1.4rem;font-weight:800;color:var(--yellow);margin-bottom:12px}
+h3{font-size:1.2rem;font-weight:700;color:var(--blue);margin:15px 0 8px}
+p{margin-bottom:10px}
+.fun{background:#1e293b;border-left:4px solid var(--yellow);padding:12px 14px;border-radius:0 10px 10px 0;margin:12px 0;color:#e2e8f0}
+.fun::before{content:"💡 "}
+.good-box{background:rgba(34,197,94,.15);border:1px solid var(--green);border-radius:12px;padding:12px 14px;margin:10px 0}
+.caution-box{background:rgba(234,179,8,.15);border:1px solid var(--yellow);border-radius:12px;padding:12px 14px;margin:10px 0}
+.bad-box{background:rgba(239,68,68,.15);border:1px solid var(--red);border-radius:12px;padding:12px 14px;margin:10px 0}
+.info-box{background:rgba(59,130,246,.15);border:1px solid var(--blue);border-radius:12px;padding:12px 14px;margin:10px 0}
+label{display:block;font-weight:600;margin-bottom:5px;color:var(--muted)}
+input[type=number]{width:100%;padding:13px 15px;font-size:1.25rem;font-weight:600;background:var(--card2);border:2px solid var(--border);border-radius:10px;color:var(--text);outline:none}
+input:focus{border-color:var(--blue)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;font-size:1.15rem;font-weight:700;border:none;border-radius:10px;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(59,130,246,.35)}
+.btn-secondary{background:#334155;color:var(--text);border:2px solid var(--border)}
+.btn-full{width:100%}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0}
+.result-box{background:var(--card2);border-radius:12px;padding:16px;margin-top:14px;font-size:1.1rem}
+.result-box .big{font-size:1.7rem;font-weight:800;color:var(--yellow);margin:6px 0}
+.step{font-family:ui-monospace,monospace;background:#0f172a;padding:12px 14px;border-radius:10px;margin:10px 0;font-size:1.05rem;line-height:1.7;border:1px dashed var(--border)}
+.level-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.level-btn{padding:9px 14px;border-radius:10px;border:2px solid var(--border);background:#334155;color:var(--text);font-weight:600;cursor:pointer}
+.level-btn.active{border-color:var(--yellow);background:rgba(234,179,8,.15);color:var(--yellow)}
+.qa-item{border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.qa-q{background:#334155;padding:14px 16px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.qa-a{display:none;padding:16px;background:var(--card)}
+.qa-a.open{display:block}
+.ans{margin:10px 0;padding:11px 13px;border-radius:10px}
+.ans.correct{background:rgba(34,197,94,.18);border-left:4px solid var(--green)}
+.ans.wrong{background:rgba(239,68,68,.15);border-left:4px solid var(--red)}
+.metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px;margin:14px 0}
+.metric{background:var(--card2);border-radius:12px;padding:13px;text-align:center;border:1px solid var(--border)}
+.metric .label{font-size:.9rem;color:var(--muted)}
+.metric .value{font-size:1.3rem;font-weight:800;margin-top:3px}
+.positive{color:var(--green)}.negative{color:var(--red)}.neutral{color:var(--yellow)}
+.exp-btn{font-size:.85rem;color:var(--blue);background:none;border:none;cursor:pointer;text-decoration:underline;margin-left:4px}
+.tooltip{display:none;background:#0f172a;border:1px solid var(--border);padding:11px;border-radius:10px;margin-top:6px;font-size:.95rem}
+.tooltip.show{display:block}
+.link-game{display:block;text-align:center;margin:18px 0;padding:16px;background:var(--blue);color:#fff;font-size:1.25rem;font-weight:800;border-radius:12px;text-decoration:none;box-shadow:0 4px 14px rgba(59,130,246,.35)}
+.link-game:hover{opacity:.93}
+.slider-row{margin:12px 0}
+input[type=range]{width:100%;height:8px;accent-color:var(--blue)}
+.small{font-size:.92rem;color:var(--muted)}
+@media(max-width:600px){h1{font-size:1.55rem}body{font-size:17px}.tab-btn{padding:9px 11px;font-size:.85rem}}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🎓 Trợ Giảng – Freelancer & Kinh Doanh Nhỏ</h1>
+  <p class="subtitle">Học trước → Hiểu số → Vào game 4 tình huống → Chọn vì hiểu, không vì đoán</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('hoc',this)">📚 Học từ đầu</button>
+    <button class="tab-btn" onclick="showTab('maytinh',this)">🧮 Máy tính</button>
+    <button class="tab-btn" onclick="showTab('vsao',this)">🎓 Vì sao đúng/sai?</button>
+    <button class="tab-btn" onclick="showTab('thu',this)">🧪 Thử nếu…</button>
+    <button class="tab-btn" onclick="showTab('bang',this)">📊 Bảng tổng hợp</button>
+    <button class="tab-btn" onclick="showTab('game',this)">🎮 Vào Game</button>
+  </div>
+
+  <!-- TAB HỌC -->
+  <div id="tab-hoc" class="panel active">
+    <div class="level-nav">
+      <button class="level-btn active" onclick="showLevel(1,this)">Cấp 1 – Điểm hòa vốn</button>
+      <button class="level-btn" onclick="showLevel(2,this)">Cấp 2 – Biên lợi nhuận</button>
+      <button class="level-btn" onclick="showLevel(3,this)">Cấp 3 – Biến động</button>
+      <button class="level-btn" onclick="showLevel(4,this)">Cấp 4 – Quỹ dự phòng</button>
+    </div>
+
+    <div id="level-1" class="level-content">
+      <div class="card">
+        <h2>Cấp 1 – Điểm hòa vốn (Break-even)</h2>
+        <h3>Nó là gì?</h3>
+        <p>Số sản phẩm tối thiểu bạn <strong>bắt buộc phải bán</strong> mỗi tháng để không bị lỗ (tức là doanh thu vừa đủ bù hết chi phí cố định).</p>
+        <div class="fun">Giống như điểm “thoát hiểm”. Dưới điểm này bạn đang trả tiền để… làm việc. Trên điểm này mới bắt đầu có lãi.</div>
+
+        <h3>Tại sao cần biết?</h3>
+        <p>Vì chi phí cố định (kho, phần mềm, mạng…) vẫn phải trả dù bạn bán được 0 hay 100 đơn. Biết điểm hòa vốn giúp bạn đặt mục tiêu bán hàng thực tế.</p>
+
+        <h3>Công thức</h3>
+        <p class="info-box">Điểm hòa vốn (số lượng) = Chi phí cố định ÷ Lợi nhuận gộp mỗi đơn vị</p>
+        <p>Lợi nhuận gộp mỗi đơn vị = Giá bán − Chi phí biến đổi (nhập hàng + đóng gói…)</p>
+
+        <h3>Thay số từ game</h3>
+        <div class="step">
+          Chi phí cố định = 10.000.000 ₫<br>
+          Giá bán = 500.000 ₫<br>
+          Chi phí biến đổi / SP = 300.000 ₫<br>
+          → Lãi gộp / SP = 500.000 − 300.000 = <strong>200.000 ₫</strong><br><br>
+          Điểm hòa vốn = 10.000.000 ÷ 200.000 = <strong>50 đơn vị</strong>
+        </div>
+
+        <h3>Ý nghĩa con số 50</h3>
+        <p>Bạn phải bán ít nhất 50 sản phẩm/tháng mới “hòa”. Bán 49 = vẫn lỗ. Bán 51 = bắt đầu có lãi nhỏ.</p>
+        <div class="caution-box">Nếu chi phí cố định tăng lên 12 triệu mà lãi gộp vẫn 200k → hòa vốn nhảy lên 60 đơn vị. Bạn phải bán nhiều hơn mới thoát hiểm.</div>
+
+        <div class="fun">Nhớ: Hòa vốn không phải mục tiêu cuối. Mục tiêu là bán <strong>nhiều hơn</strong> điểm hòa vốn càng nhiều càng tốt.</div>
+      </div>
+    </div>
+
+    <div id="level-2" class="level-content" style="display:none">
+      <div class="card">
+        <h2>Cấp 2 – Biên lợi nhuận ròng (Net Profit Margin)</h2>
+        <h3>Nó là gì?</h3>
+        <p>Cứ 100 đồng doanh thu, bạn giữ lại được bao nhiêu đồng lợi nhuận ròng (sau mọi chi phí).</p>
+
+        <h3>Công thức</h3>
+        <p class="info-box">Biên lợi nhuận ròng = (Lợi nhuận ròng ÷ Tổng doanh thu) × 100%</p>
+
+        <h3>Thay số từ game</h3>
+        <div class="step">
+          Doanh thu = 50.000.000 ₫<br>
+          Lợi nhuận ròng = 15.000.000 ₫<br>
+          Margin = 15.000.000 ÷ 50.000.000 × 100 = <strong>30%</strong>
+        </div>
+
+        <h3>Ý nghĩa 30%</h3>
+        <p>Cứ bán được 100 đồng, bạn giữ lại 30 đồng. Đây là mức khá healthy cho kinh doanh nhỏ.</p>
+        <div class="good-box">Margin ≥ 20–30% thường được xem là ổn. Margin 5–10% rất mỏng – một cú tăng chi phí nhỏ có thể xóa sạch lãi.</div>
+
+        <div class="fun">Doanh thu cao mà margin thấp giống người cao to nhưng xương yếu – nhìn oai nhưng dễ gãy khi gió thổi.</div>
+      </div>
+    </div>
+
+    <div id="level-3" class="level-content" style="display:none">
+      <div class="card">
+        <h2>Cấp 3 – Biến động thu nhập (Income Volatility)</h2>
+        <h3>Nó là gì?</h3>
+        <p>Mức độ thu nhập của bạn “nhảy múa” giữa các tháng. Tháng 60tr, tháng sau 10tr, tháng sau nữa 50tr → biến động mạnh.</p>
+
+        <h3>Tại sao quan trọng?</h3>
+        <p>Thu nhập càng bấp bênh → bạn càng cần quỹ dự phòng dày hơn để sống qua tháng “đói”.</p>
+        <div class="info-box">Chỉ số biến động thường đo bằng độ lệch chuẩn (standard deviation) của thu nhập các tháng. Game dùng khái niệm này để nhắc bạn đừng chủ quan.</div>
+
+        <div class="fun">Freelancer và chủ shop online sống như tàu lượn. Có tháng bay cao, có tháng muốn khóc. Quỹ dự phòng chính là dây an toàn.</div>
+      </div>
+    </div>
+
+    <div id="level-4" class="level-content" style="display:none">
+      <div class="card">
+        <h2>Cấp 4 – Quỹ dự phòng rủi ro</h2>
+        <h3>Nó là gì?</h3>
+        <p>Tiền bạn cố ý để dành, không tiêu, để dùng khi doanh thu chạm đáy hoặc chi phí bất ngờ tăng.</p>
+
+        <h3>Trong game</h3>
+        <p>Bạn quyết định trích 20% dòng tiền để lập quỹ thay vì “nướng hết vào hàng hiệu”.</p>
+        <div class="good-box">
+          <strong>Lợi ích cốt lõi:</strong><br>
+          Tránh nguy cơ “chết yểu” khi gặp tháng doanh thu thấp hoặc bão giá quảng cáo.
+        </div>
+
+        <h3>Người chơi cần nhớ</h3>
+        <ul style="padding-left:20px">
+          <li>Thu nhập biến động → quỹ càng quan trọng</li>
+          <li>Không có tỷ lệ “thánh” cố định. 20% chỉ là ví dụ trong tình huống này</li>
+          <li>Quỹ không sinh lời nhiều, nhưng mua được giấc ngủ ngon</li>
+        </ul>
+        <div class="fun">Quỹ dự phòng không làm bạn giàu nhanh. Nó ngăn bạn trở nên nghèo bất ngờ. Đôi khi đó mới là chiến thắng.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB MÁY TÍNH -->
+  <div id="tab-maytinh" class="panel">
+    <div class="card">
+      <h2>🧮 Máy tính Điểm hòa vốn</h2>
+      <p class="small">Số mặc định lấy từ câu 1 của game</p>
+      <div class="calc-grid">
+        <div><label>Chi phí cố định (tháng)</label><input type="number" id="be_fixed" value="10000000" step="500000"></div>
+        <div><label>Giá bán / sản phẩm</label><input type="number" id="be_price" value="500000" step="10000"></div>
+        <div><label>Chi phí biến đổi / SP</label><input type="number" id="be_var" value="300000" step="10000"></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="calcBreakEven()">🔄 Tính điểm hòa vốn</button>
+      <div class="result-box" id="be_result"><p>Nhấn nút để xem công thức + ý nghĩa.</p></div>
+    </div>
+
+    <div class="card">
+      <h2>🧮 Máy tính Biên lợi nhuận ròng</h2>
+      <div class="calc-grid">
+        <div><label>Doanh thu</label><input type="number" id="mg_rev" value="50000000" step="1000000"></div>
+        <div><label>Lợi nhuận ròng</label><input type="number" id="mg_profit" value="15000000" step="500000"></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="calcMargin()">🔄 Tính biên lợi nhuận</button>
+      <div class="result-box" id="mg_result"></div>
+    </div>
+  </div>
+
+  <!-- TAB VÌ SAO -->
+  <div id="tab-vsao" class="panel">
+    <div class="card">
+      <h2>🎓 Giải thích 4 tình huống trong Game</h2>
+      <p class="small">Mở từng câu để xem vì sao đúng/sai + phép tính + hậu quả.</p>
+
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">1. Điểm hòa vốn – Fixed 10tr, lãi gộp 200k/SP → bán bao nhiêu? <span>▼</span></div>
+        <div class="qa-a">
+          <div class="ans wrong"><strong>A. 30 đơn vị</strong> ❌<br>Quá thấp. 30 × 200k = 6tr &lt; 10tr fixed → vẫn lỗ 4tr.</div>
+          <div class="ans correct"><strong>B. 50 đơn vị</strong> ✅<br>10.000.000 ÷ 200.000 = 50. Chính xác điểm hòa vốn.</div>
+          <div class="ans wrong"><strong>C. 100 đơn vị</strong> ❌<br>Gấp đôi hòa vốn. Đây là mục tiêu lãi, không phải điểm hòa vốn.</div>
+          <div class="ans wrong"><strong>D. 20 đơn vị</strong> ❌<br>20 × 200k = 4tr → lỗ nặng 6tr.</div>
+          <div class="step">Công thức: ĐHV = 10.000.000 ÷ 200.000 = 50 SP</div>
+          <div class="fun">Chọn 30 hay 20 là đang tự lừa mình rằng “bán ít cũng ổn”. Thực tế cửa hàng sẽ âm tiền.</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">2. Doanh thu 50tr, lãi ròng 15tr → Biên lợi nhuận? <span>▼</span></div>
+        <div class="qa-a">
+          <div class="ans wrong"><strong>A. 20%</strong> ❌ – Thấp hơn thực tế.</div>
+          <div class="ans correct"><strong>B. 30%</strong> ✅<br>15.000.000 ÷ 50.000.000 × 100 = 30%.</div>
+          <div class="ans wrong"><strong>C. 40%</strong> ❌ – Cao hơn thực tế.</div>
+          <div class="ans wrong"><strong>D. 10%</strong> ❌ – Quá thấp.</div>
+          <div class="good-box">30% là mức khá healthy. Nghĩa là cứ 100đ doanh thu giữ lại 30đ sau mọi chi phí.</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">3. Thu nhập 60tr – 10tr – 50tr → chỉ số nào đo rủi ro? <span>▼</span></div>
+        <div class="qa-a">
+          <div class="ans correct"><strong>A. Chỉ số biến động thu nhập (Income Volatility qua độ lệch chuẩn)</strong> ✅<br>Đúng công cụ để đo mức độ “nhảy múa” của thu nhập.</div>
+          <div class="ans wrong"><strong>B. Chiều cao cân nặng</strong> ❌ – Không liên quan tài chính.</div>
+          <div class="ans wrong"><strong>C. Tốc độ gõ phím</strong> ❌</div>
+          <div class="ans wrong"><strong>D. Số ly trà sữa</strong> ❌ – Vui thôi, không phải chỉ số quản trị.</div>
+          <div class="fun">Thu nhập càng “tàu lượn” thì quỹ dự phòng càng phải dày. Đây là lý do câu 4 xuất hiện ngay sau.</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">4. Trích 20% dòng tiền lập quỹ dự phòng – giúp điều gì? <span>▼</span></div>
+        <div class="qa-a">
+          <div class="ans correct"><strong>A. Tránh nguy cơ ‘chết yểu’ khi gặp tháng doanh thu chạm đáy</strong> ✅<br>Đây là mục tiêu cốt lõi của quỹ dự phòng.</div>
+          <div class="ans wrong"><strong>B. Được miễn phí chạy ads</strong> ❌ – Không có chuyện đó.</div>
+          <div class="ans wrong"><strong>C. Tăng gấp đôi giá bán ngay</strong> ❌ – Không liên quan trực tiếp.</div>
+          <div class="ans wrong"><strong>D. Xóa sạch đối thủ</strong> ❌ – Ảo tưởng.</div>
+          <div class="good-box">Quỹ dự phòng = phao cứu sinh. Không làm bạn giàu nhanh, nhưng giúp bạn còn sống để chờ tháng tốt trở lại.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB THỬ NẾU -->
+  <div id="tab-thu" class="panel">
+    <div class="card">
+      <h2>🧪 Thí nghiệm – Kéo thanh xem thay đổi</h2>
+      <p class="small">Thay đổi chi phí cố định hoặc lãi gộp → điểm hòa vốn nhảy ngay.</p>
+      <div class="slider-row">
+        <label>Chi phí cố định: <span id="s_fixed_v">10.000.000</span> ₫</label>
+        <input type="range" id="s_fixed" min="2000000" max="30000000" step="500000" value="10000000" oninput="runExp()">
+      </div>
+      <div class="slider-row">
+        <label>Lãi gộp / sản phẩm: <span id="s_contrib_v">200.000</span> ₫</label>
+        <input type="range" id="s_contrib" min="50000" max="500000" step="10000" value="200000" oninput="runExp()">
+      </div>
+      <div class="slider-row">
+        <label>Doanh thu: <span id="s_rev_v">50.000.000</span> ₫</label>
+        <input type="range" id="s_rev" min="10000000" max="150000000" step="2000000" value="50000000" oninput="runExp()">
+      </div>
+      <div class="slider-row">
+        <label>Lợi nhuận ròng: <span id="s_profit_v">15.000.000</span> ₫</label>
+        <input type="range" id="s_profit" min="0" max="60000000" step="1000000" value="15000000" oninput="runExp()">
+      </div>
+      <div class="metric-row" id="exp_metrics"></div>
+      <div class="result-box" id="exp_explain"></div>
+      <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
+        <button class="btn btn-secondary" onclick="preset('easy')">😊 Dễ hòa vốn</button>
+        <button class="btn btn-secondary" onclick="preset('hard')">😰 Khó hòa vốn</button>
+        <button class="btn btn-secondary" onclick="preset('default')">🔄 Mặc định game</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB BẢNG -->
+  <div id="tab-bang" class="panel">
+    <div class="card">
+      <h2>📊 Bảng chỉ số – Hiểu từng con số</h2>
+      <div class="metric-row">
+        <div class="metric"><div class="label">Chi phí cố định <button class="exp-btn" onclick="toggleTip('t1')">?</button></div><div class="value" id="b_fixed">10.000.000</div><div class="tooltip" id="t1">Chi phí phải trả dù bán được 0 hay 100 đơn (kho, phần mềm, mạng…).</div></div>
+        <div class="metric"><div class="label">Lãi gộp / SP <button class="exp-btn" onclick="toggleTip('t2')">?</button></div><div class="value" id="b_contrib">200.000</div><div class="tooltip" id="t2">Giá bán − Chi phí biến đổi. Số tiền mỗi sản phẩm đóng góp để trả fixed cost.</div></div>
+        <div class="metric"><div class="label">Điểm hòa vốn <button class="exp-btn" onclick="toggleTip('t3')">?</button></div><div class="value" id="b_be">50 đơn vị</div><div class="tooltip" id="t3">Số sản phẩm tối thiểu cần bán để không lỗ. Fixed ÷ Lãi gộp.</div></div>
+        <div class="metric"><div class="label">Doanh thu <button class="exp-btn" onclick="toggleTip('t4')">?</button></div><div class="value" id="b_rev">50.000.000</div><div class="tooltip" id="t4">Tổng tiền ghi nhận từ bán hàng. Chưa chắc đã về tài khoản.</div></div>
+        <div class="metric"><div class="label">Lợi nhuận ròng <button class="exp-btn" onclick="toggleTip('t5')">?</button></div><div class="value" id="b_profit">15.000.000</div><div class="tooltip" id="t5">Tiền còn lại sau mọi chi phí. Đây mới là lãi thực.</div></div>
+        <div class="metric"><div class="label">Biên lợi nhuận <button class="exp-btn" onclick="toggleTip('t6')">?</button></div><div class="value" id="b_margin">30%</div><div class="tooltip" id="t6">(Lợi nhuận ròng ÷ Doanh thu) × 100%. Cứ 100đ doanh thu giữ lại bao nhiêu.</div></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="syncBang()">🔄 Đồng bộ từ Máy tính</button>
+    </div>
+  </div>
+
+  <!-- TAB GAME -->
+  <div id="tab-game" class="panel">
+    <div class="card" style="text-align:center">
+      <h2>🎮 Sẵn sàng vào 4 tình huống?</h2>
+      <p>Bạn đã hiểu điểm hòa vốn, biên lợi nhuận, biến động thu nhập và quỹ dự phòng chưa?</p>
+      <div class="fun">Game ngắn nhưng đủ để kiểm tra bạn có tính đúng và tư duy đúng không. Đừng đoán – hãy tính!</div>
+      <a class="link-game" href="kb2gemini.html" target="_blank">🚀 MỞ WEB GAME FREELANCER & KINH DOANH NHỎ</a>
+      <p class="small" style="margin-top:12px">Để cùng thư mục với file <code>kb2gemini.html</code> để link hoạt động.<br>Hoặc mở file game thủ công.</p>
+      <div class="info-box" style="text-align:left;margin-top:16px">
+        <strong>Gợi ý:</strong><br>
+        1. Học tab “Điểm hòa vốn” + “Biên lợi nhuận” trước.<br>
+        2. Dùng Máy tính thử vài bộ số.<br>
+        3. Vào game, tính rồi mới chọn.<br>
+        4. Sai thì quay lại tab “Vì sao đúng/sai?” đọc kỹ.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+function showLevel(n,btn){
+  document.querySelectorAll('.level-content').forEach(el=>el.style.display='none');
+  document.getElementById('level-'+n).style.display='block';
+  document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+function fmt(n){return new Intl.NumberFormat('vi-VN').format(Math.round(n))+' ₫';}
+function toggleQA(el){el.nextElementSibling.classList.toggle('open');}
+function toggleTip(id){document.getElementById(id).classList.toggle('show');}
+
+function calcBreakEven(){
+  const fixed=Number(document.getElementById('be_fixed').value)||0;
+  const price=Number(document.getElementById('be_price').value)||0;
+  const variable=Number(document.getElementById('be_var').value)||0;
+  const contrib=price-variable;
+  const be=contrib>0?Math.ceil(fixed/contrib):Infinity;
+
+  let meaning='';
+  if(contrib<=0) meaning='Lãi gộp ≤ 0. Không thể hòa vốn – mỗi sản phẩm bán ra càng lỗ thêm.';
+  else meaning=`Bạn cần bán ít nhất <strong>${be} sản phẩm</strong> mỗi tháng để không lỗ. Dưới mức này = đang âm tiền.`;
+
+  document.getElementById('be_result').innerHTML=`
+    <div class="step">
+      Giá bán:              ${fmt(price)}<br>
+      − Chi phí biến đổi:   ${fmt(variable)}<br>
+      = Lãi gộp / SP:       <strong>${fmt(contrib)}</strong><br><br>
+      Điểm hòa vốn = ${fmt(fixed)} ÷ ${fmt(contrib)} = <strong>${Number.isFinite(be)?be:'∞'} đơn vị</strong>
+    </div>
+    <p class="big">${Number.isFinite(be)?be+' đơn vị':'Không thể hòa vốn'}</p>
+    <div class="info-box">${meaning}</div>
+    <div class="fun">Thử tăng chi phí cố định lên 15 triệu xem điểm hòa vốn nhảy bao nhiêu. Bạn sẽ hiểu vì sao giữ fixed thấp rất quan trọng.</div>
+  `;
+}
+
+function calcMargin(){
+  const rev=Number(document.getElementById('mg_rev').value)||0;
+  const profit=Number(document.getElementById('mg_profit').value)||0;
+  const m=rev>0?(profit/rev*100):0;
+  let msg=m>=25?'Biên khá khỏe – kinh doanh đang tốt.':m>=15?'Biên ổn, cần giữ chi phí không tăng quá nhanh.':m>=5?'Biên mỏng – rủi ro cao nếu chi phí tăng.':'Biên quá thấp hoặc đang lỗ.';
+  document.getElementById('mg_result').innerHTML=`
+    <div class="step">Margin = ${fmt(profit)} ÷ ${fmt(rev)} × 100% = <strong>${m.toFixed(1)}%</strong></div>
+    <p class="big ${m>=20?'positive':m>=10?'neutral':'negative'}">${m.toFixed(1)}%</p>
+    <div class="info-box">${msg}</div>
+    <div class="fun">30% nghĩa là cứ bán 100đ bạn giữ 30đ. 5% nghĩa là chỉ giữ 5đ – gió thổi nhẹ là có thể lỗ.</div>
+  `;
+}
+
+function runExp(){
+  const fixed=Number(document.getElementById('s_fixed').value);
+  const contrib=Number(document.getElementById('s_contrib').value);
+  const rev=Number(document.getElementById('s_rev').value);
+  const profit=Number(document.getElementById('s_profit').value);
+
+  document.getElementById('s_fixed_v').textContent=fmt(fixed).replace(' ₫','');
+  document.getElementById('s_contrib_v').textContent=fmt(contrib).replace(' ₫','');
+  document.getElementById('s_rev_v').textContent=fmt(rev).replace(' ₫','');
+  document.getElementById('s_profit_v').textContent=fmt(profit).replace(' ₫','');
+
+  const be=contrib>0?Math.ceil(fixed/contrib):Infinity;
+  const margin=rev>0?(profit/rev*100):0;
+
+  document.getElementById('exp_metrics').innerHTML=`
+    <div class="metric"><div class="label">Điểm hòa vốn</div><div class="value">${Number.isFinite(be)?be+' SP':'∞'}</div></div>
+    <div class="metric"><div class="label">Biên lợi nhuận</div><div class="value ${margin>=20?'positive':margin>=10?'neutral':'negative'}">${margin.toFixed(1)}%</div></div>
+  `;
+
+  let exp='';
+  if(!Number.isFinite(be)) exp='Không thể hòa vốn vì lãi gộp ≤ 0.';
+  else if(be<=30) exp='Hòa vốn thấp – dễ đạt, áp lực bán hàng nhẹ.';
+  else if(be<=60) exp='Hòa vốn ở mức trung bình như trong game (50).';
+  else exp='Hòa vốn cao – bạn phải bán rất nhiều mới thoát lỗ. Cần giảm fixed hoặc tăng lãi gộp.';
+
+  if(margin<10) exp+=' Biên lợi nhuận đang mỏng, rủi ro cao.';
+  else if(margin>=25) exp+=' Biên khá khỏe.';
+
+  document.getElementById('exp_explain').innerHTML=`<div class="info-box">${exp}</div>
+    <div class="fun">Kéo “Chi phí cố định” lên cao trong khi lãi gộp giữ nguyên – điểm hòa vốn sẽ tăng vọt. Đó là lý do phải kiểm soát fixed cost.</div>`;
+}
+
+function preset(type){
+  if(type==='easy'){document.getElementById('s_fixed').value=5000000;document.getElementById('s_contrib').value=250000;document.getElementById('s_rev').value=60000000;document.getElementById('s_profit').value=20000000;}
+  else if(type==='hard'){document.getElementById('s_fixed').value=20000000;document.getElementById('s_contrib').value=100000;document.getElementById('s_rev').value=40000000;document.getElementById('s_profit').value=4000000;}
+  else{document.getElementById('s_fixed').value=10000000;document.getElementById('s_contrib').value=200000;document.getElementById('s_rev').value=50000000;document.getElementById('s_profit').value=15000000;}
+  runExp();
+}
+
+function syncBang(){
+  const fixed=Number(document.getElementById('be_fixed').value)||0;
+  const price=Number(document.getElementById('be_price').value)||0;
+  const variable=Number(document.getElementById('be_var').value)||0;
+  const contrib=price-variable;
+  const be=contrib>0?Math.ceil(fixed/contrib):Infinity;
+  const rev=Number(document.getElementById('mg_rev').value)||0;
+  const profit=Number(document.getElementById('mg_profit').value)||0;
+  const margin=rev>0?(profit/rev*100):0;
+
+  document.getElementById('b_fixed').textContent=fmt(fixed);
+  document.getElementById('b_contrib').textContent=fmt(contrib);
+  document.getElementById('b_be').textContent=Number.isFinite(be)?be+' đơn vị':'∞';
+  document.getElementById('b_rev').textContent=fmt(rev);
+  document.getElementById('b_profit').textContent=fmt(profit);
+  document.getElementById('b_margin').textContent=margin.toFixed(1)+'%';
+}
+
+// init
+runExp();
+calcBreakEven();
+calcMargin();
+</script>
+</body>
+</html>

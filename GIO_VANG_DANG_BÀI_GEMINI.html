@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Triệu Đơn Shopee - Đại Văn Hào AI</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
+        h1 { color: #ee4d2d; text-align: center; font-size: 24px; text-transform: uppercase; }
+        p.subtitle { text-align: center; color: #666; font-style: italic; margin-bottom: 30px; }
+        .step { margin-bottom: 20px; border-bottom: 1px dashed #eee; padding-bottom: 10px; }
+        .step:last-child { border: none; }
+        input[type="checkbox"] { transform: scale(1.5); margin-right: 15px; cursor: pointer; }
+        label { font-size: 18px; color: #333; cursor: pointer; font-weight: 500; }
+        .note { display: block; margin-left: 35px; color: #888; font-size: 14px; margin-top: 5px; }
+        .badge-bot { background: #00b894; color: white; padding: 2px 8px; border-radius: 5px; font-size: 12px; }
+        .badge-human { background: #0984e3; color: white; padding: 2px 8px; border-radius: 5px; font-size: 12px; }
+        .btn-reset { display: block; width: 100%; padding: 10px; background: #ee4d2d; color: white; border: none; border-radius: 5px; margin-top: 20px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚀 Xưởng Sản Xuất Affiliate Tự Động</h1>
+    <p class="subtitle">"Biến Link Shopee thành tiền hoa hồng qua truyện ngụ ngôn"</p>
+
+    <div class="step">
+        <input type="checkbox" id="step1">
+        <label for="step1">Hồi 1: Thu thập Link hàng loạt <span class="badge-human">Người làm</span></label>
+        <span class="note">Quét các sản phẩm Hot Trend trên Shopee, dán vào Google Sheets.</span>
+    </div>
+
+    <div class="step">
+        <input type="checkbox" id="step2">
+        <label for="step2">Hồi 2: Phù phép Custom Link <span class="badge-bot">Máy làm</span></label>
+        <span class="note">Hệ thống tự động chuyển link gốc sang Link rút gọn có gắn ID Affiliate.</span>
+    </div>
+
+    <div class="step">
+        <input type="checkbox" id="step3">
+        <label for="step3">Hồi 3: Đại văn hào Gemini sáng tác <span class="badge-bot">AI làm</span></label>
+        <span class="note">Gemini đọc thông tin sản phẩm và viết truyện ngụ ngôn lôi cuốn.</span>
+    </div>
+
+    <div class="step">
+        <input type="checkbox" id="step4">
+        <label for="step4">Hồi 4: Đẩy "hàng" lên GitHub <span class="badge-bot">Máy làm</span></label>
+        <span class="note">Dữ liệu (Ảnh + Truyện + Link) được đóng gói vào file CSV trên GitHub.</span>
+    </div>
+
+    <div class="step">
+        <input type="checkbox" id="step5">
+        <label for="step5">Hồi cuối: Công phá Giờ Vàng Facebook <span class="badge-bot">Máy làm</span></label>
+        <span class="note">Tự động đăng bài lên Facebook Fanpage vào các khung giờ: 11h30, 20h00.</span>
+    </div>
+
+    <button class="btn-reset" onclick="resetChecklist()">LÀM LẠI TỪ ĐẦU (MẺ HÀNG MỚI)</button>
+</div>
+
+<script>
+    function resetChecklist() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(cb => cb.checked = false);
+        alert("Sẵn sàng cho mẻ hàng mới! Chúc bạn nổ đơn rầm rầm!");
+    }
+</script>
+
+</body>
+</html>

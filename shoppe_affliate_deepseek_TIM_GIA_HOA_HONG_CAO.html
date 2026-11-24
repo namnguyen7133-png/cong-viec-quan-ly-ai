@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Affiliate - Nhập CSV Trực Tiếp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, #ee4d2d, #ff7337);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* CSV Input Section */
+        .input-section {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .input-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .input-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: #ee4d2d;
+        }
+
+        .input-title i {
+            font-size: 1.5rem;
+        }
+
+        .csv-textarea {
+            width: 100%;
+            height: 300px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .csv-textarea:focus {
+            outline: none;
+            border-color: #ee4d2d;
+            box-shadow: 0 0 0 3px rgba(238, 77, 45, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #ee4d2d, #ff7337);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(238, 77, 45, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid #ee4d2d;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ee4d2d;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            padding: 25px 30px;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #ee4d2d;
+            box-shadow: 0 0 0 3px rgba(238, 77, 45, 0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #ee4d2d;
+            color: white;
+            border-color: #ee4d2d;
+        }
+
+        /* Products Grid */
+        .products-section {
+            padding: 30px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: #ee4d2d;
+        }
+
+        .product-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+        }
+
+        .product-commission {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .product-commission.high { background: rgba(220, 53, 69, 0.8); }
+        .product-commission.medium { background: rgba(255, 193, 7, 0.8); }
+        .product-commission.low { background: rgba(40, 167, 69, 0.8); }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .product-time {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #ee4d2d;
+        }
+
+        .link-type {
+            font-weight: bold;
+            color: #ee4d2d;
+            min-width: 120px;
+        }
+
+        .link-url {
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            color: #555;
+        }
+
+        .copy-btn {
+            background: #e9ecef;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover {
+            background: #ee4d2d;
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .visit-btn {
+            flex: 1;
+            background: linear-gradient(90deg, #ee4d2d, #ff7337);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .visit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(238, 77, 45, 0.3);
+        }
+
+        .details-btn {
+            flex: 1;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            color: #555;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .details-btn:hover {
+            background: #e9ecef;
+            border-color: #ee4d2d;
+            color: #ee4d2d;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 30px;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ee4d2d;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 10px;
+            }
+
+            header {
+                padding: 30px 20px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-container {
+                flex-direction: column;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .link-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .link-type {
+                min-width: auto;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1><i class="fas fa-robot"></i> Hệ Thống Affiliate Shoppee</h1>
+            <p>Copy/Paste nội dung CSV trực tiếp vào đây - Không cần upload file</p>
+        </header>
+
+        <!-- CSV Input Section -->
+        <section class="input-section">
+            <div class="input-container">
+                <div class="input-title">
+                    <i class="fas fa-paste"></i>
+                    <h2>Bước 1: Dán nội dung CSV vào đây</h2>
+                </div>
+                
+                <textarea id="csvInput" class="csv-textarea" placeholder="Dán toàn bộ nội dung CSV của bạn vào đây...
+
+Ví dụ:
+Tên ưu đãi,Thời gian ưu đãi,Tỉ lệ hoa hồng,Link ưu đãi,Tracking link ngắn
+Shop ABC,bắt đầu: 2025-01-01...,Lên đến 10%,https://...,https://s.shopee.vn/...
+Shop XYZ,bắt đầu: 2025-02-01...,Lên đến 15%,https://...,https://s.shopee.vn/...
+
+Chú ý: Giữ nguyên cấu trúc CSV với 5 cột"></textarea>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" id="parseBtn">
+                        <i class="fas fa-cogs"></i> Phân tích CSV
+                    </button>
+                    <button class="btn btn-secondary" id="sampleBtn">
+                        <i class="fas fa-magic"></i> Dùng dữ liệu mẫu
+                    </button>
+                    <button class="btn btn-success" id="exportBtn">
+                        <i class="fas fa-download"></i> Xuất ra HTML
+                    </button>
+                    <button class="btn btn-warning" id="clearBtn">
+                        <i class="fas fa-trash-alt"></i> Xóa tất cả
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="totalProducts">0</div>
+                <div class="stat-label">Tổng sản phẩm</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeProducts">0</div>
+                <div class="stat-label">Ưu đãi đang hoạt động</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgCommission">0%</div>
+                <div class="stat-label">Hoa hồng trung bình</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="expiredSoon">0</div>
+                <div class="stat-label">Sắp hết hạn</div>
+            </div>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <div class="filter-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm tên shop..." onkeyup="filterProducts()">
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">Tất cả</button>
+                    <button class="filter-btn" data-filter="high">Hoa hồng cao (>10%)</button>
+                    <button class="filter-btn" data-filter="medium">Hoa hồng trung bình</button>
+                    <button class="filter-btn" data-filter="low">Hoa hồng thấp</button>
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn" data-sort="name">Sắp xếp A-Z</button>
+                    <button class="filter-btn" data-sort="commission">Hoa hồng cao nhất</button>
+                    <button class="filter-btn" data-sort="time">Thời gian mới nhất</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products-section">
+            <div id="productsContainer" class="products-grid">
+                <!-- Products will be loaded here dynamically -->
+                <div class="empty-state" id="emptyState">
+                    <i class="fas fa-inbox"></i>
+                    <h3>Chưa có dữ liệu</h3>
+                    <p>Hãy dán nội dung CSV của bạn vào ô trên và click "Phân tích CSV"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <h3>Hệ Thống Affiliate Shoppee</h3>
+                <p>Nhập CSV trực tiếp - Tự động tạo website affiliate chuyên nghiệp</p>
+                <div class="footer-links">
+                    <a href="#"><i class="fas fa-shield-alt"></i> Bảo mật</a>
+                    <a href="#"><i class="fas fa-question-circle"></i> Hướng dẫn</a>
+                    <a href="#"><i class="fas fa-envelope"></i> Liên hệ</a>
+                    <a href="#"><i class="fas fa-code"></i> Mã nguồn</a>
+                </div>
+                <div class="copyright">
+                    <p>© 2024 Hệ thống Affiliate. Dữ liệu được xử lý trực tiếp từ CSV.</p>
+                    <p>Không lưu trữ dữ liệu trên server - Mọi thứ xử lý trên trình duyệt</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Thành công!</span>
+    </div>
+
+    <script>
+        // ========== BIẾN TOÀN CỤC ==========
+        let products = [];
+        let currentFilter = 'all';
+        let currentSort = 'default';
+
+        // ========== HÀM XỬ LÝ CSV ==========
+        function parseCSVData() {
+            const csvText = document.getElementById('csvInput').value.trim();
+            
+            if (!csvText) {
+                showNotification('Vui lòng dán nội dung CSV vào ô trên!', 'error');
+                return;
+            }
+            
+            try {
+                products = [];
+                const lines = csvText.split('\n');
+                
+                if (lines.length < 2) {
+                    showNotification('CSV không có dữ liệu!', 'error');
+                    return;
+                }
+                
+                // Parse từng dòng, bỏ qua dòng header
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    
+                    // Parse CSV line đơn giản
+                    const values = parseSimpleCSVLine(line);
+                    
+                    if (values.length >= 5) {
+                        const product = {
+                            name: values[0].trim(),
+                            time: values[1].trim(),
+                            commission: values[2].trim(),
+                            link: values[3].trim(),
+                            trackingLink: values[4].trim(),
+                            category: detectCategory(values[0])
+                        };
+                        
+                        products.push(product);
+                    }
+                }
+                
+                if (products.length === 0) {
+                    showNotification('Không tìm thấy dữ liệu hợp lệ trong CSV!', 'error');
+                    return;
+                }
+                
+                // Cập nhật UI
+                updateStats();
+                displayProducts();
+                
+                showNotification(`Đã phân tích thành công ${products.length} sản phẩm!`);
+                
+            } catch (error) {
+                console.error('Lỗi parse CSV:', error);
+                showNotification('Lỗi khi phân tích CSV! Kiểm tra định dạng.', 'error');
+            }
+        }
+
+        // Hàm parse CSV đơn giản - xử lý trường hợp có dấu phẩy trong giá trị
+        function parseSimpleCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            result.push(current); // Thêm giá trị cuối cùng
+            
+            // Loại bỏ dấu ngoặc kép ở đầu và cuối
+            return result.map(val => {
+                val = val.trim();
+                if (val.startsWith('"') && val.endsWith('"')) {
+                    val = val.substring(1, val.length - 1);
+                }
+                return val;
+            });
+        }
+
+        // Phát hiện danh mục
+        function detectCategory(name) {
+            const nameLower = name.toLowerCase();
+            
+            if (nameLower.includes('mỹ phẩm') || nameLower.includes('son') || nameLower.includes('beauty') || nameLower.includes('makeup') || nameLower.includes('skincare')) {
+                return 'beauty';
+            } else if (nameLower.includes('đồ chơi') || nameLower.includes('trẻ em') || nameLower.includes('kid') || nameLower.includes('toy') || nameLower.includes('bé')) {
+                return 'kids';
+            } else if (nameLower.includes('thời trang') || nameLower.includes('áo') || nameLower.includes('quần') || nameLower.includes('fashion') || nameLower.includes('clothes') || nameLower.includes('giày') || nameLower.includes('túi')) {
+                return 'fashion';
+            } else if (nameLower.includes('điện tử') || nameLower.includes('laptop') || nameLower.includes('tech') || nameLower.includes('phone') || nameLower.includes('công nghệ')) {
+                return 'electronics';
+            } else if (nameLower.includes('nhà') || nameLower.includes('home') || nameLower.includes('decor') || nameLower.includes('nội thất') || nameLower.includes('gia dụng')) {
+                return 'home';
+            } else if (nameLower.includes('ăn') || nameLower.includes('thực phẩm') || nameLower.includes('food') || nameLower.includes('đồ uống') || nameLower.includes('bánh') || nameLower.includes('kẹo')) {
+                return 'food';
+            } else if (nameLower.includes('sách') || nameLower.includes('book') || nameLower.includes('văn phòng phẩm')) {
+                return 'books';
+            } else {
+                return 'other';
+            }
+        }
+
+        // ========== HIỂN THỊ SẢN PHẨM ==========
+        function displayProducts() {
+            const container = document.getElementById('productsContainer');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (!products || products.length === 0) {
+                emptyState.style.display = 'block';
+                container.innerHTML = '<div class="empty-state" id="emptyState"><i class="fas fa-inbox"></i><h3>Chưa có dữ liệu</h3><p>Hãy dán nội dung CSV của bạn vào ô trên và click "Phân tích CSV"</p></div>';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            // Lọc sản phẩm
+            let filteredProducts = [...products];
+            
+            if (currentFilter === 'high') {
+                filteredProducts = filteredProducts.filter(p => {
+                    const commission = extractCommission(p.commission);
+                    return commission > 10;
+                });
+            } else if (currentFilter === 'medium') {
+                filteredProducts = filteredProducts.filter(p => {
+                    const commission = extractCommission(p.commission);
+                    return commission >= 5 && commission <= 10;
+                });
+            } else if (currentFilter === 'low') {
+                filteredProducts = filteredProducts.filter(p => {
+                    const commission = extractCommission(p.commission);
+                    return commission < 5;
+                });
+            }
+            
+            // Sắp xếp
+            if (currentSort === 'name') {
+                filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (currentSort === 'commission') {
+                filteredProducts.sort((a, b) => {
+                    const commissionA = extractCommission(a.commission);
+                    const commissionB = extractCommission(b.commission);
+                    return commissionB - commissionA;
+                });
+            } else if (currentSort === 'time') {
+                filteredProducts.sort((a, b) => {
+                    const dateA = extractDate(a.time);
+                    const dateB = extractDate(b.time);
+                    return dateB - dateA;
+                });
+            }
+            
+            // Tạo HTML
+            let html = '';
+            
+            filteredProducts.forEach((product, index) => {
+                const commissionValue = extractCommission(product.commission);
+                const commissionClass = commissionValue > 10 ? 'high' : commissionValue >= 5 ? 'medium' : 'low';
+                const categoryIcon = getCategoryIcon(product.category);
+                
+                // Xử lý time để hiển thị tốt hơn
+                const timeDisplay = product.time.replace(/"/g, '').replace(/\n/g, ' | ');
+                
+                html += `
+                    <div class="product-card">
+                        <div class="product-header">
+                            <div class="product-commission ${commissionClass}">
+                                ${product.commission}
+                            </div>
+                            <h3 class="product-title">${categoryIcon} ${product.name}</h3>
+                            <div class="product-time">
+                                <i class="far fa-clock"></i> ${truncateText(timeDisplay, 50)}
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-links">
+                                <div class="link-item">
+                                    <span class="link-type">Link gốc:</span>
+                                    <span class="link-url">${truncateText(product.link, 40)}</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('${escapeText(product.link)}')">
+                                        <i class="far fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <div class="link-item">
+                                    <span class="link-type">Tracking link:</span>
+                                    <span class="link-url">${product.trackingLink}</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('${escapeText(product.trackingLink)}')">
+                                        <i class="far fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <a href="${product.trackingLink}" target="_blank" class="visit-btn">
+                                    <i class="fas fa-external-link-alt"></i> Truy cập shop
+                                </a>
+                                <button class="details-btn" onclick="showProductDetails(${index})">
+                                    <i class="fas fa-info-circle"></i> Chi tiết
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Trích xuất số hoa hồng
+        function extractCommission(text) {
+            if (!text) return 0;
+            const match = text.match(/\d+/);
+            return match ? parseInt(match[0]) : 0;
+        }
+
+        // Trích xuất ngày
+        function extractDate(timeString) {
+            if (!timeString) return new Date(0);
+            const match = timeString.match(/\d{4}-\d{2}-\d{2}/);
+            return match ? new Date(match[0]) : new Date(0);
+        }
+
+        // Cắt ngắn text
+        function truncateText(text, maxLength) {
+            if (!text) return '';
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
+        // Escape text cho JavaScript
+        function escapeText(text) {
+            if (!text) return '';
+            return text.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n');
+        }
+
+        // Icon theo danh mục
+        function getCategoryIcon(category) {
+            const icons = {
+                'beauty': '💄',
+                'kids': '🧸',
+                'fashion': '👕',
+                'electronics': '📱',
+                'home': '🏠',
+                'food': '🍔',
+                'books': '📚',
+                'other': '🛍️'
+            };
+            return icons[category] || icons['other'];
+        }
+
+        // ========== CẬP NHẬT THỐNG KÊ ==========
+        function updateStats() {
+            if (!products || products.length === 0) {
+                document.getElementById('totalProducts').textContent = '0';
+                document.getElementById('activeProducts').textContent = '0';
+                document.getElementById('avgCommission').textContent = '0%';
+                document.getElementById('expiredSoon').textContent = '0';
+                return;
+            }
+            
+            document.getElementById('totalProducts').textContent = products.length;
+            
+            // Đếm sản phẩm đang hoạt động
+            const activeProducts = products.filter(p => {
+                const timeText = p.time.toLowerCase();
+                return !timeText.includes('hết hạn') && !timeText.includes('đã kết thúc');
+            }).length;
+            document.getElementById('activeProducts').textContent = activeProducts;
+            
+            // Tính hoa hồng trung bình
+            let totalCommission = 0;
+            let count = 0;
+            
+            products.forEach(p => {
+                const commission = extractCommission(p.commission);
+                if (!isNaN(commission)) {
+                    totalCommission += commission;
+                    count++;
+                }
+            });
+            
+            const avgCommission = count > 0 ? Math.round(totalCommission / count) : 0;
+            document.getElementById('avgCommission').textContent = avgCommission + '%';
+            
+            // Đếm sản phẩm sắp hết hạn
+            const now = new Date();
+            const expiredSoon = products.filter(p => {
+                const date = extractDate(p.time);
+                const diffTime = date - now;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays > 0 && diffDays <= 30;
+            }).length;
+            document.getElementById('expiredSoon').textContent = expiredSoon;
+        }
+
+        // ========== LỌC VÀ TÌM KIẾM ==========
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            const productCards = document.querySelectorAll('.product-card');
+            let visibleCount = 0;
+            
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').textContent.toLowerCase();
+                const time = card.querySelector('.product-time').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || time.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function filterByCommission(type) {
+            currentFilter = type;
+            
+            // Cập nhật nút active
+            document.querySelectorAll('[data-filter]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayProducts();
+        }
+
+        function sortProducts(type) {
+            currentSort = type;
+            
+            // Cập nhật nút active
+            document.querySelectorAll('[data-sort]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayProducts();
+        }
+
+        // ========== CÁC CHỨC NĂNG KHÁC ==========
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Đã copy link vào clipboard!');
+            }).catch(err => {
+                console.error('Copy error:', err);
+                showNotification('Lỗi khi copy!', 'error');
+            });
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.className = 'notification ' + (type === 'error' ? 'error' : '');
+            notification.style.display = 'flex';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function showProductDetails(index) {
+            const product = products[index];
+            
+            // Tạo modal đơn giản
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 1001;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 15px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="color: #ee4d2d;">Chi tiết sản phẩm</h3>
+                        <button id="closeModal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">×</button>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>Tên shop:</strong> ${product.name}
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>Thời gian ưu đãi:</strong><br>
+                        <pre style="background: #f8f9fa; padding: 10px; border-radius: 5px; white-space: pre-wrap;">${product.time}</pre>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>Tỉ lệ hoa hồng:</strong> ${product.commission}
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>Link gốc:</strong><br>
+                        <a href="${product.link}" target="_blank" style="word-break: break-all; color: #007bff; display: block; margin-top: 5px;">${product.link}</a>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <strong>Tracking link:</strong><br>
+                        <a href="${product.trackingLink}" target="_blank" style="word-break: break-all; color: #007bff; display: block; margin-top: 5px;">${product.trackingLink}</a>
+                    </div>
+                    
+                    <button onclick="copyToClipboard('${escapeText(product.trackingLink)}')" style="background: #ee4d2d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <i class="fas fa-copy"></i> Copy Tracking Link
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Thêm sự kiện đóng modal
+            modal.querySelector('#closeModal').onclick = function() {
+                document.body.removeChild(modal);
+            };
+            
+            // Đóng khi click ra ngoài
+            modal.onclick = function(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            };
+        }
+
+        // ========== DỮ LIỆU MẪU ==========
+        function loadSampleData() {
+            // Dữ liệu mẫu từ CSV của bạn
+            const sampleCSV = `Tên ưu đãi,Thời gian ưu đãi,Tỉ lệ hoa hồng,Link ưu đãi,Tracking link ngắn
+bernardord.vn,"bắt đầu: 2025-10-24
+kết thúc: 2025-12-31",Lên đến 5%,https://shopee.vn/shop/1618797178,https://s.shopee.vn/8KhudhR1AS
+Heci Việt Nam,"bắt đầu: 2025-09-10
+kết thúc: Không giới hạn",Lên đến 12%,https://shopee.vn/shop/302645457,https://s.shopee.vn/8V1Kq0QNpV
+jewelrybox.vn,"bắt đầu: 2025-09-13
+kết thúc: Không giới hạn",Lên đến 2%,https://shopee.vn/shop/141612435,https://s.shopee.vn/8054F5SHqQ
+fuzoufy.vn,"bắt đầu: 2025-10-31
+kết thúc: Không giới hạn",Lên đến 5%,https://shopee.vn/shop/1618787980,https://s.shopee.vn/8AOUROReVT
+MT candle garden,"bắt đầu: 2023-10-17
+kết thúc: Không giới hạn",Lên đến 2%,https://shopee.vn/shop/12796742,https://s.shopee.vn/AKSz1NJP6u
+Pucca's Choice,"bắt đầu: 2025-04-07
+kết thúc: Không giới hạn",Lên đến 5%,https://shopee.vn/shop/21651358,https://s.shopee.vn/AUmPDgIllx
+likeitlikeitvw.vn,"bắt đầu: 2025-03-27
+kết thúc: Không giới hạn",Lên đến 2%,https://shopee.vn/shop/706209441,https://s.shopee.vn/9zq8clKfms
+Tiệm nhà Nana,"bắt đầu: 2023-12-01
+kết thúc: Không giới hạn",Lên đến 10%,https://shopee.vn/shop/699929014,https://s.shopee.vn/AA9Yp4K2Rv
+nhruichilight.vn,"bắt đầu: 2023-10-16
+kết thúc: Không giới hạn",Lên đến 7%,https://shopee.vn/shop/695667018,https://s.shopee.vn/9fDIE9LwSq
+humbertoyx.vn,"bắt đầu: 2025-10-24
+kết thúc: 2025-12-31",Lên đến 5%,https://shopee.vn/shop/1618798483,https://s.shopee.vn/9pWiQSLJ7t`;
+            
+            document.getElementById('csvInput').value = sampleCSV;
+            parseCSVData();
+            showNotification('Đã tải dữ liệu mẫu thành công!');
+        }
+
+        // ========== XUẤT HTML ==========
+        function exportToHTML() {
+            if (!products || products.length === 0) {
+                showNotification('Không có dữ liệu để xuất!', 'error');
+                return;
+            }
+            
+            let htmlContent = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Affiliate Shoppee</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            background: linear-gradient(90deg, #ee4d2d, #ff7337);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #222;
+        }
+        .product-commission {
+            color: #ee4d2d;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+        .product-time {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            white-space: pre-line;
+        }
+        .btn {
+            display: block;
+            background: #ee4d2d;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #d73211;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Trang Affiliate Shoppee</h1>
+            <p>Tổng cộng ${products.length} shop ưu đãi - Cập nhật ${new Date().toLocaleDateString('vi-VN')}</p>
+        </header>
+        
+        <div class="products-grid">`;
+            
+            products.forEach(product => {
+                const commissionValue = extractCommission(product.commission);
+                const commissionColor = commissionValue > 10 ? '#dc3545' : commissionValue >= 5 ? '#ffc107' : '#28a745';
+                
+                htmlContent += `
+            <div class="product-card">
+                <div class="product-name">${product.name}</div>
+                <div class="product-time">${product.time}</div>
+                <div class="product-commission" style="color: ${commissionColor};">${product.commission}</div>
+                <a href="${product.trackingLink}" target="_blank" class="btn">🛒 Truy cập shop ngay</a>
+            </div>`;
+            });
+            
+            htmlContent += `
+        </div>
+        
+        <footer>
+            <p>© 2024 Trang Affiliate Shoppee</p>
+            <p>Tự động tạo từ hệ thống Affiliate - Tất cả link là affiliate link</p>
+            <p><small>Dữ liệu được cập nhật tự động từ CSV Shoppee</small></p>
+        </footer>
+    </div>
+</body>
+</html>`;
+            
+            // Tạo file download
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'shoppee-affiliate-website.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Đã xuất file HTML thành công!');
+        }
+
+        // ========== XÓA DỮ LIỆU ==========
+        function clearAllData() {
+            products = [];
+            document.getElementById('csvInput').value = '';
+            document.getElementById('searchInput').value = '';
+            
+            // Reset filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('[data-filter="all"]').classList.add('active');
+            
+            currentFilter = 'all';
+            currentSort = 'default';
+            
+            updateStats();
+            displayProducts();
+            showNotification('Đã xóa tất cả dữ liệu');
+        }
+
+        // ========== KHỞI TẠO SỰ KIỆN ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gán sự kiện cho các nút
+            document.getElementById('parseBtn').addEventListener('click', parseCSVData);
+            document.getElementById('sampleBtn').addEventListener('click', loadSampleData);
+            document.getElementById('exportBtn').addEventListener('click', exportToHTML);
+            document.getElementById('clearBtn').addEventListener('click', clearAllData);
+            
+            // Gán sự kiện cho filter buttons
+            document.querySelectorAll('[data-filter]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterByCommission(this.getAttribute('data-filter'));
+                });
+            });
+            
+            // Gán sự kiện cho sort buttons
+            document.querySelectorAll('[data-sort]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sortProducts(this.getAttribute('data-sort'));
+                });
+            });
+            
+            // Tự động load dữ liệu mẫu khi khởi động
+            loadSampleData();
+            
+            // Tự động phân tích khi nhấn Ctrl+Enter trong textarea
+            document.getElementById('csvInput').addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    parseCSVData();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

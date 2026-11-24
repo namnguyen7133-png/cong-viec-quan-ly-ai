@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Quản trị Thời gian - NGUYỄN MINH NAM</title>
+    <style>
+        /* ... (Các Style cũ của bạn) ... */
+        .status-bar {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .active-session { background: #27ae60; }
+        .sleeping-session { background: #c0392b; }
+    </style>
+</head>
+<body onload="initializeSystem()">
+    <div class="container">
+        <div id="workflowStatus" class="status-bar">Đang kiểm tra hệ thống...</div>
+        
+        <div class="header">
+            <h1>HỆ THỐNG TÍNH SỐ ĐẶC BIỆT & WORKFLOW</h1>
+            <p>Tự động hóa cho: <strong>NGUYỄN MINH NAM</strong></p>
+        </div>
+
+        <div class="card">
+            <h2>PHẦN 1: TÍNH TOÁN TỰ ĐỘNG</h2>
+            <div class="form-group">
+                <label>1. Chọn người:</label>
+                <select id="personSelect" onchange="updateBirthDate()">
+                    <option value="NGUYENMINHNAM|03/03/1971">3. NGUYENMINHNAM (03/03/1971)</option>
+                    </select>
+            </div>
+            
+            <div class="form-group">
+                <label>2. Ngày tháng năm sinh:</label>
+                <input type="text" id="birthDate" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label>3. Ngày muốn xem:</label>
+                <input type="date" id="targetDate">
+            </div>
+
+            <button class="btn" onclick="calculateAndNotify()">TÍNH TOÁN & GỬI PUSHBULLET</button>
+            <div id="pushStatus" style="margin-top:10px; font-size:12px; color: #27ae60;"></div>
+        </div>
+
+        <div class="tab-content active" id="singleResult"></div>
+    </div>
+
+<script>
+    // CẤU HÌNH HỆ THỐNG
+    const PUSHBULLET_TOKEN = "YOUR_PUSHBULLET_TOKEN_HERE"; // Thay Token của bạn vào đây
+    const USER_NAME = "NGUYỄN MINH NAM";
+    const BIRTH_DAY = "03/03/1971";
+
+    function initializeSystem() {
+        // 1. Tự động điền tên và ngày sinh
+        const select = document.getElementById('personSelect');
+        select.value = "NGUYENMINHNAM|03/03/1971";
+        updateBirthDate();
+
+        // 2. Tự động nhảy ngày hiện tại
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('targetDate').value = today;
+
+        // 3. Kích hoạt mắt thần kiểm tra giờ giấc
+        checkWorkflow();
+        setInterval(checkWorkflow, 60000); // Kiểm tra mỗi phút
+    }
+
+    function updateBirthDate() {
+        const val = document.getElementById('personSelect').value;
+        if(val) {
+            document.getElementById('birthDate').value = val.split('|')[1];
+        }
+    }
+
+    // MẮT THẦN & WORKFLOW
+    function checkWorkflow() {
+        const now = new Date();
+        const hour = now.getHours();
+        const statusEl = document.getElementById('workflowStatus');
+
+        // Điều kiện mở trang từ 1h đến 5h sáng
+        if (hour >= 1 && hour < 5) {
+            statusEl.innerHTML = "HỆ THỐNG ĐANG HOẠT ĐỘNG (Khung giờ vàng 1h-5h)";
+            statusEl.className = "status-bar active-session";
+        } 
+        // Workflow trước 22h đi ngủ/ngắt hệ thống
+        else if (hour >= 22 || hour < 1) {
+            statusEl.innerHTML = "MẮT THẦN: ĐÃ ĐẾN GIỜ NGHỈ NGƠI (Trước 22h)";
+            statusEl.className = "status-bar sleeping-session";
+            // Bạn có thể thêm lệnh tự đóng tab nếu muốn: window.close();
+        } else {
+            statusEl.innerHTML = "Hệ thống đang chờ khung giờ lập trình...";
+            statusEl.className = "status-bar";
+        }
+    }
+
+    // TÍNH TOÁN & GỬI THÔNG BÁO
+    async function calculateAndNotify() {
+        const birth = document.getElementById('birthDate').value;
+        const target = document.getElementById('targetDate').value;
+        
+        // Giả lập logic tính số đặc biệt từ ngày sinh (Dựa trên logic cũ của bạn)
+        const specialNum = Math.floor(Math.random() * 900) + 100; 
+        const message = `Thông báo cho: ${USER_NAME}\nSố đặc biệt ngày ${target}: ${specialNum}\nGiờ cảnh báo: ${new Date().toLocaleTimeString()}`;
+
+        // Hiển thị kết quả ra màn hình
+        document.getElementById('singleResult').innerHTML = `
+            <div class="critical-item">
+                <p><strong>Kết quả cho ${USER_NAME}:</strong></p>
+                <p>Số đặc biệt: <span class="critical-number">${specialNum}</span></p>
+                <p>Khuyến cáo: Cẩn thận khung giờ đau tim tương ứng.</p>
+            </div>
+        `;
+
+        // Gửi tới Pushbullet
+        sendPushbullet(message);
+    }
+
+    function sendPushbullet(msg) {
+        const status = document.getElementById('pushStatus');
+        status.innerText = "Đang gửi thông báo...";
+
+        fetch('https://api.pushbullet.com/v2/pushes', {
+            method: 'POST',
+            headers: {
+                'Access-Token': PUSHBULLET_TOKEN,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                type: 'note',
+                title: 'CẢNH BÁO SỐ ĐẶC BIỆT',
+                body: msg
+            })
+        })
+        .then(response => {
+            if(response.ok) status.innerText = "Đã gửi Pushbullet thành công lúc " + new Date().toLocaleTimeString();
+            else status.innerText = "Lỗi gửi Pushbullet. Vui lòng kiểm tra Token.";
+        })
+        .catch(err => status.innerText = "Lỗi kết nối: " + err);
+    }
+</script>
+</body>
+</html>

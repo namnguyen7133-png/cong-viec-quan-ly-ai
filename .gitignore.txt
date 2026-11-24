@@ -1,0 +1,2 @@
+tong_hop_vtt_transcript.html
+*.html_large

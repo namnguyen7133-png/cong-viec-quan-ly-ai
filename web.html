@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhÃ¢n TÃ­ch Affiliate Shopee â€“ Äa Tá»‡p & Sáº¯p Xáº¿p Chá»¯ Cuá»‘i</title>
+
+<style>
+body { font-family: Arial, sans-serif; background: #f4f6f8; padding: 20px; }
+.container { max-width: 1250px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+h2 { text-align: center; color: #ee4d2d; }
+textarea { width: 100%; height: 160px; padding: 12px; border-radius: 8px; border: 2px solid #ddd; font-family: monospace; }
+.controls { display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0; align-items: center; }
+input { padding: 10px; border-radius: 8px; border: 2px solid #ddd; }
+button { padding: 12px 18px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.btn-main { background: #ee4d2d; color: #fff; }
+.btn-main:hover { background: #d73211; }
+.btn-reset { background: #6c757d; color: #fff; }
+
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th { background: #ee4d2d; color: #fff; padding: 12px; font-size: 13px; text-align: left; }
+td { border-bottom: 1px solid #eee; padding: 12px; font-size: 14px; vertical-align: top; }
+.stt { font-weight: bold; color: #ee4d2d; width: 40px; }
+.last-char-box { font-weight: bold; color: #007bff; background: #e7f3ff; padding: 2px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid #b3d7ff; }
+.link-btn { display: inline-block; margin: 4px 6px 0 0; padding: 5px 10px; background: #007bff; color: #fff; text-decoration: none; border-radius: 5px; font-size: 12px; }
+.link-btn.aff { background: #28a745; }
+.stats { font-size: 11px; background: #f1f3f5; padding: 6px; border-radius: 6px; margin-top: 6px; color: #666; }
+#summary { margin-top: 15px; font-weight: bold; color: #333; }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h2>PhÃ¢n TÃ­ch Affiliate Shopee (ThÃ´ng minh & Sáº¯p xáº¿p)</h2>
+
+    <div class="controls">
+        <label>Chá»n cÃ¡c tá»‡p CSV: </label>
+        <input type="file" id="csvFile" accept=".csv" multiple>
+    </div>
+
+    <textarea id="inputText" placeholder="Dá»¯ liá»‡u CSV sáº½ náº¡p táº¡i Ä‘Ã¢y..."></textarea>
+
+    <div class="controls">
+        <input type="text" id="targetChars" placeholder="Lá»c chá»¯ cÃ¡i cuá»‘i (VD: m,c,e)">
+        <input type="number" id="targetCount" placeholder="Sá»‘ kÃ½ tá»± Â±10%">
+        <button class="btn-main" onclick="analyze()">PHÃ‚N TÃCH & Sáº®P Xáº¾P</button>
+        <button class="btn-reset" onclick="resetAll()">LÃ€M Má»šI</button>
+    </div>
+
+    <div id="summary"></div>
+    <div id="result"></div>
+</div>
+
+<script>
+const inputText = document.getElementById("inputText");
+const targetChars = document.getElementById("targetChars");
+const targetCount = document.getElementById("targetCount");
+const summary = document.getElementById("summary");
+const result = document.getElementById("result");
+
+document.getElementById("csvFile").addEventListener("change", async function () {
+    const files = Array.from(this.files);
+    if (!files.length) return;
+    let allContent = inputText.value;
+    for (const file of files) {
+        const text = await file.text();
+        allContent += (allContent ? "\n" : "") + text;
+    }
+    inputText.value = allContent;
+    summary.innerHTML = `ðŸ“‚ ÄÃ£ náº¡p ${files.length} tá»‡p.`;
+});
+
+function resetAll() {
+    inputText.value = ""; targetChars.value = ""; targetCount.value = "";
+    summary.innerHTML = ""; result.innerHTML = "";
+    document.getElementById("csvFile").value = "";
+}
+
+// âœ… HÃ€M Láº¤Y CHá»® CÃI CUá»I THÃ”NG MINH
+function getLastCharOfLine(line) {
+    if (!line) return "";
+
+    let targetText = "";
+
+    // 1. Thá»­ láº¥y ná»™i dung trong ngoáº·c kÃ©p "" (thÆ°á»ng lÃ  tÃªn sáº£n pháº©m trong CSV)
+    const matchQuote = line.match(/"([^"]+)"/);
+    if (matchQuote && matchQuote[1]) {
+        targetText = matchQuote[1].trim();
+    } else {
+        // 2. Náº¿u khÃ´ng cÃ³ ngoáº·c kÃ©p, loáº¡i bá» link vÃ  láº¥y cá»¥m vÄƒn báº£n
+        targetText = line.replace(/https?:\/\/[^\s,]+/g, "").replace(/,/g, " ").trim();
+    }
+
+    // Láº¥y tá»« cuá»‘i cÃ¹ng cá»§a cá»¥m vÄƒn báº£n Ä‘Ã£ chá»n
+    const words = targetText.split(/\s+/);
+    const lastWord = words[words.length - 1] || "";
+    
+    // Chá»‰ giá»¯ láº¡i chá»¯ cÃ¡i, loáº¡i bá» dáº¥u cÃ¢u dÃ­nh kÃ¨m tá»«
+    const cleanWord = lastWord.replace(/[^a-zA-ZÃ -á»¹Ã€-á»¸Ä‘Ä]/g, "");
+    
+    return cleanWord.slice(-1).toLowerCase();
+}
+
+function analyze() {
+    const raw = inputText.value.trim();
+    if (!raw) { alert("ChÆ°a cÃ³ dá»¯ liá»‡u!"); return; }
+
+    const targets = targetChars.value
+        .split(',')
+        .map(s => s.trim().toLowerCase())
+        .filter(Boolean);
+
+    const targetLen = parseFloat(targetCount.value);
+    const lines = raw.split(/\r?\n/);
+    let filteredData = [];
+
+    lines.forEach(line => {
+        const clean = line.trim();
+        if (!clean || clean.startsWith("MÃ£ sáº£n pháº©m") || clean.startsWith("Affiliate")) return;
+
+        // TÃ­nh Ä‘á»™ dÃ i Ä‘á»ƒ lá»c (náº¿u cÃ³ nháº­p sá»‘ kÃ½ tá»±)
+        const charCount = clean.length;
+        if (!isNaN(targetLen)) {
+            const min = targetLen * 0.9;
+            const max = targetLen * 1.1;
+            if (charCount < min || charCount > max) return;
+        }
+
+        const lastChar = getLastCharOfLine(clean);
+
+        // Lá»c theo danh sÃ¡ch chá»¯ cÃ¡i ngÆ°á»i dÃ¹ng nháº­p
+        if (targets.length > 0 && !targets.includes(lastChar)) return;
+
+        filteredData.push({
+            original: clean,
+            lastChar: lastChar,
+            charCount: charCount
+        });
+    });
+
+    // âœ… Sáº®P Xáº¾P THEO THá»¨ Tá»° TIáº¾NG VIá»†T (A, Ä‚, Ã‚, B, C...)
+    filteredData.sort((a, b) => a.lastChar.localeCompare(b.lastChar, 'vi'));
+
+    let count = 0;
+    let html = `<table><thead><tr><th>STT</th><th>Ná»™i dung (PhÃ¢n tÃ­ch theo chá»¯ cuá»‘i)</th><th>Link</th></tr></thead><tbody>`;
+
+    filteredData.forEach(item => {
+        const clean = item.original;
+        const productLinks = clean.match(/https:\/\/shopee\.vn\/product\/[^\s,"]+/g) || [];
+        const affLinks = clean.match(/https:\/\/s\.shopee\.vn\/[^\s,"]+/g) || [];
+
+        count++;
+        html += `
+        <tr>
+            <td class="stt">${count}</td>
+            <td>
+                <span class="last-char-box">${item.lastChar.toUpperCase() || '?'}</span> ${clean}
+                <div class="stats">KÃ½ tá»±: ${item.charCount} | Link SP: ${productLinks.length} | Link AFF: ${affLinks.length}</div>
+            </td>
+            <td>
+                ${productLinks.map(l => `<a href="${l}" target="_blank" class="link-btn">SP</a>`).join("")}
+                ${affLinks.map(l => `<a href="${l}" target="_blank" class="link-btn aff">AFF</a>`).join("")}
+            </td>
+        </tr>`;
+    });
+
+    html += "</tbody></table>";
+    summary.innerHTML = count ? `âœ… TÃ¬m tháº¥y <b>${count}</b> dÃ²ng.` : "âŒ KhÃ´ng tÃ¬m tháº¥y dÃ²ng nÃ o.";
+    result.innerHTML = count ? html : "";
+}
+</script>
+</body>
+</html>

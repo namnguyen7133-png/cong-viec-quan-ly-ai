@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Affiliate Game Simulator</title>
+<style>
+body { font-family: Arial; padding: 20px; background:#f5f5f5; }
+h1 { text-align: center; }
+#gameArea { margin-top: 20px; }
+.card { background:#fff; padding:12px; margin:8px 0; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+button { padding:6px 12px; margin:4px; }
+</style>
+</head>
+<body>
+<h1>Affiliate Game Simulator (Shopee)</h1>
+<p>Bắt đầu bằng cách tải CSV Shopee Affiliate. Chọn sản phẩm, quảng bá và xem thu nhập ảo theo hoa hồng.</p>
+<input type="file" id="csvFile" accept=".csv" />
+<button onclick="loadCSV()">Tải CSV</button>
+<div id="gameArea"></div>
+<div id="incomeArea"><h3>Thu nhập ảo: ₫<span id="income">0</span></h3></div>
+
+<script>
+let products = [];
+let selectedProducts = [];
+let totalIncome = 0;
+
+function parsePrice(v){ return Number(v.replace(/[^0-9]/g, '')); }
+function parseSales(v){ return Number(v.replace(/[^0-9]/g, '')); }
+
+function loadCSV(){
+  const file = document.getElementById('csvFile').files[0];
+  if(!file){ alert('Chưa chọn file CSV'); return; }
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const lines = e.target.result.split('\n');
+    products = [];
+    for(let i=1;i<lines.length;i++){
+      const row = lines[i].split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/);
+      if(row.length<9) continue;
+      const p = {
+        id: row[0],
+        name: row[1].replace(/"/g,''),
+        price: parsePrice(row[2]),
+        sales: parseSales(row[3]),
+        shop: row[4],
+        rate: parsePrice(row[5])/100,
+        commission: parsePrice(row[6]),
+        link: row[7],
+        aff: row[8]
+      };
+      products.push(p);
+    }
+    showProductList(products);
+  };
+  reader.readAsText(file);
+}
+
+function showProductList(list){
+  const area = document.getElementById('gameArea');
+  area.innerHTML = '<h2>Danh sách sản phẩm</h2>';
+  list.forEach((p,i)=>{
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `<b>${p.name}</b><br>Giá: ₫${p.price.toLocaleString()} | Hoa hồng: ₫${p.commission.toLocaleString()} (${(p.rate*100).toFixed(1)}%)<br>`;
+    const btn = document.createElement('button');
+    btn.textContent = 'Chọn làm affiliate';
+    btn.onclick = ()=>{ selectProduct(i); btn.disabled = true; };
+    div.appendChild(btn);
+    area.appendChild(div);
+  });
+}
+
+function selectProduct(index){
+  selectedProducts.push(products[index]);
+  alert('Đã chọn sản phẩm: '+products[index].name);
+}
+
+function simulateIncome(){
+  totalIncome = 0;
+  selectedProducts.forEach(p=>{
+    // Thu nhập ảo = hoa hồng * ngẫu nhiên số bán 10~100
+    const sold = Math.floor(Math.random()*90)+10;
+    totalIncome += p.commission * sold;
+  });
+  document.getElementById('income').textContent = totalIncome.toLocaleString();
+}
+
+// Thêm nút simulate
+const btnSim = document.createElement('button');
+btnSim.textContent = 'Tính thu nhập ảo từ sản phẩm đã chọn';
+btnSim.onclick = simulateIncome;
+document.body.appendChild(btnSim);
+</script>
+</body>
+</html>
